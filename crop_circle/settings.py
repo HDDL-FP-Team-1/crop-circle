@@ -47,9 +47,12 @@ INSTALLED_APPS = [
     # Third-party
     'debug_toolbar',
     'django_extensions',
+    'mapbox_location_field',
+    'registration',
 
     # Project-specific
     'users',
+    'core',
 ]
 
 MIDDLEWARE = [
@@ -142,3 +145,5 @@ INTERNAL_IPS = [
 import django_heroku
 django_heroku.settings(locals())
 del DATABASES['default']['OPTIONS']['sslmode']
+
+MAPBOX_KEY = "pk.eyJ1IjoiZ2lsbGllMTAyMiIsImEiOiJja2N3Y2d1dmMwY25nMnlwZGpsbjB4d2x1In0.-UlFUte6SfOm9E7ArCc56Q"
