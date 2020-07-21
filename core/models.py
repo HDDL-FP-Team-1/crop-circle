@@ -43,14 +43,9 @@ class Offsite(models.Model):
     location = LocationField()
     address = AddressAutoHiddenField()
     
-
-
 class Customer(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='customers')
     avatar = models.ImageField(default='default.jpg', upload_to='images')
-
-    
-
 
 class Recipe(models.Model):
     pass
