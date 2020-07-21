@@ -30,6 +30,9 @@ class Farm(models.Model):
     location = LocationField()
     address = AddressAutoHiddenField()
     website = models.CharField(max_length=255, null=True, blank=True)
+    image = models.ImageField(default='default.jpg', upload_to='images')
+    last_updated = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    tags = models.ManyToManyField(to=Tag, related_name='farms')
     
 class Crop(models.Model):
     pass
@@ -48,7 +51,7 @@ class Customer(models.Model):
     avatar = models.ImageField(default='default.jpg', upload_to='images')
 
 class Recipe(models.Model):
-    pass
+    tags = models.ManyToManyField(to=Tag, related_name='recipes')
 
 class Ingredient(models.Model):
     pass
