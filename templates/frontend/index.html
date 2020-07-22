@@ -3,17 +3,38 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Django React Webpack</title>
-  <script type="text/javascript" src="Header.js"></script>
+  <title>Crop Circle</title>
 </head>
+
 <body>
-  <div id="react-app"></div>
+  
   <!-- Webpack rendered JS -->
-  {% render_bundle 'main' 'js' %}
-  <nav>
-      <ul>
-          <li><a href="accounts/login">Login</a></li>
-      </ul>
-  </nav>
+  
+
+
+  <div class="">
+    <h1>Crop Circle</h1>
+    {% if user.is_authenticated %}
+        <div>
+            hello, {{ user.username }}!
+            <a class="" href="{% url 'homepage' %}">Home | </a>
+            <a class="" href="{% url 'profile' %}">Profile</a>
+            <a class="" href="{% url 'auth_logout' %}"> Logout | </a>
+        </div>
+    {% else %}
+        <div>
+          <nav>
+            <ul>
+              <li><a href="accounts/login">Login</a></li>
+            </ul>
+          </nav>
+        </div>
+    {% endif %}
+</div>
+<div id="react-app"></div>
+{% render_bundle 'main' 'js' %}
+ 
+  {{ farmstand_data|json_script:"farmstand-data" }}
+  <script></script>
 </body>
 </html>
