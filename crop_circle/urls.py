@@ -20,8 +20,8 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', TemplateView.as_view(template_name='frontend/base.html')),
-    # path('login', views.login, name='login')
+    path('', TemplateView.as_view(template_name='frontend/index.html')),
+    path('accounts/', include('registration.backends.simple.urls')),
 ]
 
 if settings.DEBUG:
