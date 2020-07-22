@@ -1,4 +1,5 @@
 from django.db import models
+from ordered_model.models import OrderedModel
 from users.models import User
 from mapbox_location_field.models import LocationField, AddressAutoHiddenField
 
@@ -35,10 +36,8 @@ class Farm(models.Model):
     tags = models.ManyToManyField(to=Tag, related_name='farms')
     
 class Crop(models.Model):
-    pass
-    # farm = models.ForeignKey(to=Farm)
-    # item_name = models.TextField
-    
+    farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='crops', null=True)
+    # integrate API on the front-end in order to build database entries of crops
 
 class Offsite(models.Model):
     farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='offsites')
@@ -51,13 +50,30 @@ class Customer(models.Model):
     avatar = models.ImageField(default='default.jpg', upload_to='images')
 
 class Recipe(models.Model):
+    author = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='recipes', null=True)
+    title = models.CharField(max_length=255, null=True)
+    prep_time = models.PositiveIntegerField(null=True, blank=True)
+    cook_time = models.PositiveIntegerField(null=True, blank=True)
     tags = models.ManyToManyField(to=Tag, related_name='recipes')
 
-class Ingredient(models.Model):
-    pass
+    #add tag funtions
+    #add function for total cook time
 
+class Ingredient(models.Model):
+    recipe = models.ForeignKey(to=Recipe, on_delete=models.CASCADE, related_name='ingredient', null=True)
+    amount = models.CharField(max_length=20, null=True)
+    item = models.CharField(max_length=255, null=True)
+    
+    def __str__(self):
+        return f"{self.amount} {self.item}"
+        
 class RecipeStep(models.Model):
-    pass
+    recipe = models.ForeignKey(to=Recipe, on_delete=models.CASCADE, related_name='steps', null=True)
+    text = models.TextField(null=True)
+    # order_with_respect_to = "recipe"
+
+    def __str__(self):
+        return f"{self.order} {self.text}"
 
 
 # Tag functions

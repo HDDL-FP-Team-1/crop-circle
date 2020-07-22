@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'mapbox_location_field',
     'registration',
+    'ordered_model',
 
     # Project-specific
     'users',
