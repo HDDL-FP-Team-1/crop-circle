@@ -13,7 +13,7 @@ from mapbox_location_field.models import LocationField, AddressAutoHiddenField
 #     (6, _("Saturday")),
 #     (7, _("Sunday")),
 #     ]
-#     offsite = models.ForeignKey(to=Offsite, null=True, blank=True)
+#     OffSite = models.ForeignKey(to=OffSite, null=True, blank=True)
 #     farm = models.ForeignKey(to=Farm, null=True, blank=True)
 #     weekday = models.IntegerField(choices=WEEKDAYS, unique=True)
 #     from_hour = models.TimeField()
@@ -37,11 +37,12 @@ class Farm(models.Model):
     
 class Crop(models.Model):
     farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='crops', null=True)
+    item = models.CharField(max_length=255, null=True, blank=True)
     # integrate API on the front-end in order to build database entries of crops
 
-class Offsite(models.Model):
-    farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='offsites')
-    crop = models.ForeignKey(to=Crop, on_delete=models.CASCADE, related_name='offsites')
+class OffSite(models.Model):
+    farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='OffSites')
+    crop = models.ForeignKey(to=Crop, on_delete=models.CASCADE, related_name='OffSites')
     location = LocationField()
     address = AddressAutoHiddenField()
     
