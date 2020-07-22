@@ -1,0 +1,51 @@
+{% load render_bundle from webpack_loader %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Crop Circle</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">  
+  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+</head>
+
+<body>
+  
+  <!-- Webpack rendered JS -->
+  
+
+
+  <header class="">
+    <h1>Crop Circle</h1>
+    {% if user.is_authenticated %}
+        <nav>
+            <li><a class="" href="{% url 'home' %}">Home</a><br></li>
+            <li><a class="" href="{% url 'farmerprofile' %}">Profile</a><br></li>
+            <li><a class="" href="{% url 'auth_logout' %}"> Logout</a></li>
+        </nav>
+        hello, {{ user.username }}!
+    {% else %}
+        <div>
+          <nav>
+            <ul>
+              <li><a href="{% url 'auth_login' %}">Login</a></li>
+            </ul>
+          </nav>
+        </div>
+    {% endif %}
+    <hr>
+</header>
+<div id="react-app"></div>
+{% render_bundle 'main' 'js' %}
+ 
+  {{ farmstand_data|json_script:"farmstand-data" }}
+
+<div class=''>
+    {% block content %}
+    {% endblock %}
+</div>
+
+  <script></script>
+</body>
+</html>
