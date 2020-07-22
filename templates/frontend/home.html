@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+    <h2>Welcome to Crop Circle</h2>
+    <h4>where food meets community</h4>
+        <p>Please <a href="{% url 'auth_login' %}">login</a> or <a href="{% url 'registration_register' %}">Create a New Account</a></p>
+    </h4>
+</div>
+{% endblock %}

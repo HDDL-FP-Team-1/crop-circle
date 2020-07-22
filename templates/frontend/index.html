@@ -4,10 +4,16 @@
 <head>
   <meta charset="UTF-8">
   <title>Django React Webpack</title>
+  <script type="text/javascript" src="Header.js"></script>
 </head>
 <body>
   <div id="react-app"></div>
   <!-- Webpack rendered JS -->
   {% render_bundle 'main' 'js' %}
+  <nav>
+      <ul>
+          <li><a href="accounts/login">Login</a></li>
+      </ul>
+  </nav>
 </body>
 </html>
