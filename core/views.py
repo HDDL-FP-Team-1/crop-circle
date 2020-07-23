@@ -28,13 +28,13 @@ class FarmDetailView(DetailView):
 class FarmUpdateView(UpdateView):
     model = Farm
     fields = [
+    #quality check url
         'user',
         'name',
         'image',
         'location',
         'website',
     ]
-    #quality check url
     success_url ="/<farm_pk>/"
 
 class FarmDeleteView(DeleteView):
@@ -46,7 +46,12 @@ class CropCreateView(CreateView):
     fields = ['item']
 
 class CropListView(ListView):
-    pass
+    model = Crop
+    paginate_by = 25
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
 
 class CropUpdateView(UpdateView):
     pass
