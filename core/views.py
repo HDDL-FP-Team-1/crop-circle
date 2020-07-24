@@ -9,9 +9,9 @@ def home(request):
 
 def farmer_profile(request):
     if request.user.is_authenticated:
-        return redirect(to='farmerprofile')
+        # return redirect(to='frontend/farmerprofile')
     
-    return render(request, "frontend/farmerprofile.html")
+        return render(request, "frontend/farmerprofile.html")
 
 def logout(request):
     pass 

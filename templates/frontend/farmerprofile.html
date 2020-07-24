@@ -4,10 +4,13 @@
 
 {% block content %}
 
-<div>
-    <h2>Welcome, Farmer Frank</h2>
-    <h4>your profile</h4>
-       
-    </h4>
-</div>
+{% if user.is_authenticated %}
+  You are logged in as {{ user }}.
+  <a href="/accounts/logout/">Click here to log out.</a>
+{% else %}
+  You are not logged in.
+  <a href="/accounts/login/">Click here to log in.</a>
+{% endif %}
+
+
 {% endblock %}

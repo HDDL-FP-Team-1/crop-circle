@@ -28,7 +28,7 @@ urlpatterns = [
     # path('accounts/', include('django.contrib.auth.urls')),
     path('farmerprofile/', crop_views.farmer_profile, name='farmerprofile'),
     path('logout/', crop_views.logout, name='logout'),
-    # path('accounts/login/',crop_views.login,name='login')
+    path('accounts/login/', crop_views.login, name='login')
 ]
 
 if settings.DEBUG:
