@@ -25,9 +25,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', crop_views.home, name="home"),
     path('accounts/', include('registration.backends.simple.urls')),
-    path('accounts/', include('django.contrib.auth.urls')),
+    # path('accounts/', include('django.contrib.auth.urls')),
     path('farmerprofile/', crop_views.farmer_profile, name='farmerprofile'),
-    path('logout/', crop_views.logout, name='logout')
+    path('logout/', crop_views.logout, name='logout'),
+    # path('accounts/login/',crop_views.login,name='login')
 ]
 
 if settings.DEBUG:

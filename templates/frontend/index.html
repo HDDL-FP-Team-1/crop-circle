@@ -1,4 +1,8 @@
+{% extends "base.html" %}
 {% load render_bundle from webpack_loader %}
+{% load static %}
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,29 +16,34 @@
   
 
 
-  <div class="">
+  <header class="">
     <h1>Crop Circle</h1>
     {% if user.is_authenticated %}
-        <div>
-            hello, {{ user.username }}!
-            <!-- <a class="" href="{% url 'homepage' %}">Home | </a>
-            <a class="" href="{% url 'profile' %}">Profile</a>
-            <a class="" href="{% url 'auth_logout' %}"> Logout | </a> -->
-        </div>
+        <nav>
+            <li><a class="" href="{% url 'home' %}">Home</a><br></li>
+            <li><a class="" href="{% url 'farmerprofile' %}">Profile</a><br></li>
+            <li><a class="" href="{% url 'auth_logout' %}"> Logout</a></li>
+        </nav>
+
+      <!-- TODO 
+      Make sure login has a form to fill and and make sure logout has a redirect and message that "user is logged out"             -->
+
+        hello, {{ user.username }}!
     {% else %}
         <div>
           <nav>
             <ul>
-              <li><a href="accounts/login">Login</a></li>
+              <li><a href="{% url 'auth_login' %}">Login</a></li>
             </ul>
           </nav>
         </div>
     {% endif %}
-</div>
+    <hr>
+</header>
 <div id="react-app"></div>
+<div id="farm-card"></div>
 {% render_bundle 'main' 'js' %}
  
   {{ farmstand_data|json_script:"farmstand-data" }}
-  <script></script>
 </body>
 </html>

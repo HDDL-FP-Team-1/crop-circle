@@ -20,10 +20,14 @@
     <h1>Crop Circle</h1>
     {% if user.is_authenticated %}
         <nav>
-            <li><a class="" href="{% url 'home' %}">Home</a><br></li>
-            <li><a class="" href="{% url 'farmerprofile' %}">Profile</a><br></li>
-            <li><a class="" href="{% url 'auth_logout' %}"> Logout</a></li>
+            <span><li><a class="" href="{% url 'home' %}">Home</a><br></li></span>
+            <span><li><a class="" href="{% url 'farmerprofile' %}">Profile</a><br></li></span>
+            <span><li><a class="" href="{% url 'auth_logout' %}"> Logout</a></li></span>
         </nav>
+
+      <!-- TODO 
+      Make sure login has a form to fill and and make sure logout has a redirect and message that "user is logged out"             -->
+
         hello, {{ user.username }}!
     {% else %}
         <div>
@@ -40,6 +44,7 @@
 {% render_bundle 'main' 'js' %}
  
   {{ farmstand_data|json_script:"farmstand-data" }}
+  
 
 <div class=''>
     {% block content %}
@@ -48,4 +53,7 @@
 
   <script></script>
 </body>
+<footer>
+  Crop Circle LLC &#169; All rights reserved
+</footer>
 </html>
