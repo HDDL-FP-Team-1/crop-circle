@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>crop list</h2>
+
+<div>
+<a href="{% url 'crop_create' %}">add a crop</a>
+</div>
+<!-- <form action="{% url 'crop_create' %}" method="POST"> -->
+  {% csrf_token %}
+  
+  {% for crop in crop_list %}
+    <p>{{crop.item}}</p>
+    <p><a href="{% url 'crop_update' pk=crop.pk %}">update this crop</a></p>
+    <p><a href="{% url 'crop_delete' pk=crop.pk %}">remove this crop</a></p>
+
+  {% endfor %}
+{% endblock %}

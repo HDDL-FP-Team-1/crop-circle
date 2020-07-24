@@ -26,7 +26,7 @@ class Tag(models.Model):
         return self.tag
 
 class Farm(models.Model):
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='farmers')
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='farmers', null=True)
     name = models.CharField(max_length=255)
     location = LocationField()
     address = AddressAutoHiddenField()
@@ -42,7 +42,7 @@ class Crop(models.Model):
 
 class OffSite(models.Model):
     farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='OffSites')
-    crop = models.ForeignKey(to=Crop, on_delete=models.CASCADE, related_name='OffSites')
+    crop = models.ManyToManyField(to=Crop, related_name='offsite_crops')
     location = LocationField()
     address = AddressAutoHiddenField()
     
@@ -55,7 +55,7 @@ class Recipe(models.Model):
     title = models.CharField(max_length=255, null=True)
     prep_time = models.PositiveIntegerField(null=True, blank=True)
     cook_time = models.PositiveIntegerField(null=True, blank=True)
-    tags = models.ManyToManyField(to=Tag, related_name='recipes')
+    tags = models.ManyToManyField(to=Tag, related_name='recipes', null=True, blank=True)
 
     #add tag funtions
     #add function for total cook time
@@ -73,8 +73,8 @@ class RecipeStep(models.Model):
     text = models.TextField(null=True)
     # order_with_respect_to = "recipe"
 
-    def __str__(self):
-        return f"{self.order} {self.text}"
+    # def __str__(self):
+    #     return f"{self.order} {self.text}"
 
 
 # Tag functions
