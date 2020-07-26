@@ -3,21 +3,6 @@ from ordered_model.models import OrderedModel
 from users.models import User
 from mapbox_location_field.models import LocationField, AddressAutoHiddenField
 
-# class OpeningHours(models.Model):
-#     WEEKDAYS = [
-#     (1, _("Monday")),
-#     (2, _("Tuesday")),
-#     (3, _("Wednesday")),
-#     (4, _("Thursday")),
-#     (5, _("Friday")),
-#     (6, _("Saturday")),
-#     (7, _("Sunday")),
-#     ]
-#     OffSite = models.ForeignKey(to=OffSite, null=True, blank=True)
-#     farm = models.ForeignKey(to=Farm, null=True, blank=True)
-#     weekday = models.IntegerField(choices=WEEKDAYS, unique=True)
-#     from_hour = models.TimeField()
-#     to_hour = models.TimeField()
 
 class Tag(models.Model):
     tag = models.CharField(max_length=150, unique=True)
@@ -34,7 +19,7 @@ class Farm(models.Model):
     image = models.ImageField(default='default.jpg', upload_to='images')
     last_updated = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     tags = models.ManyToManyField(to=Tag, related_name='farms')
-    
+
 class Crop(models.Model):
     farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='crops', null=True)
     item = models.CharField(max_length=255, null=True, blank=True)
@@ -46,6 +31,28 @@ class OffSite(models.Model):
     location = LocationField()
     address = AddressAutoHiddenField()
     
+WEEKDAYS = (
+  (1, "Monday"),
+  (2, "Tuesday"),
+  (3, "Wednesday"),
+  (4, "Thursday"),
+  (5, "Friday"),
+  (6, "Saturday"),
+  (7, "Sunday"),
+)
+
+class OpenHours(models.Model):
+    farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='farm_hours', null=True, blank=True)
+    offsite = models.ForeignKey(to=OffSite, on_delete=models.CASCADE, related_name='offsite_hours', null=True, blank=True)
+    weekday = models.IntegerField(choices=WEEKDAYS)
+    from_hour = models.TimeField()
+    to_hour = models.TimeField()
+
+    class Meta:
+        ordering = ('weekday', 'from_hour')
+        unique_together = ('weekday', 'from_hour', 'to_hour')
+
+
 class Customer(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='customers')
     avatar = models.ImageField(default='default.jpg', upload_to='images')
