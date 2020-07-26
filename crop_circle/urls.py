@@ -18,7 +18,7 @@ from django.conf import settings
 from django.urls import include, path
 from django.views.generic import TemplateView
 from core import views as core_views
-from core.views import FarmCreateView, FarmDeleteView, FarmDetailView, FarmUpdateView, OffSiteCreateView, OffSiteDeleteView, OffSiteDetailView, OffSiteUpdateView, CropCreateView, CropDetailView, CropDeleteView, CropListView, CropUpdateView, CustomerCreateView, CustomerDeleteView, CustomerDetailView, CustomerUpdateView, RecipeCreateView, RecipeDeleteView, RecipeDetailView, RecipeUpdateView, SearchListView, RecipeListView, IngredientCreateView, IngredientUpdateView, RecipeStepCreateView, RecipeStepUpdateView, RecipeStepDeleteView, IngredientDeleteView
+from core.views import FarmCreateView, FarmDeleteView, FarmDetailView, FarmUpdateView, OffSiteCreateView, OffSiteDeleteView, OffSiteDetailView, OffSiteUpdateView, CropCreateView, CropDetailView, CropDeleteView, CropListView, CropUpdateView, CustomerCreateView, CustomerDeleteView, CustomerDetailView, CustomerUpdateView, RecipeCreateView, RecipeDeleteView, RecipeDetailView, RecipeUpdateView, RecipeListView, IngredientCreateView, IngredientUpdateView, RecipeStepCreateView, RecipeStepUpdateView, RecipeStepDeleteView, IngredientDeleteView
 
 
 urlpatterns = [
@@ -55,7 +55,7 @@ urlpatterns = [
     path('recipe/<pk>/add_recipestep/', RecipeStepCreateView.as_view(), name='add_recipestep'),
     path('recipe/<pk>/update_recipestep/', RecipeStepUpdateView.as_view(), name='recipestep_update'),
     path('recipe/<pk>/delete_recipestep/', RecipeStepDeleteView.as_view(), name='recipestep_delete'),
-    path('search/', SearchListView.as_view(), name='search'),
+    path('search/', core_views.search_farms, name='search'),
 ]
 
 if settings.DEBUG:
