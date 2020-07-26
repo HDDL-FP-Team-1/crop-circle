@@ -12,11 +12,6 @@ class Tag(models.Model):
     def __str__(self):
         return self.tag
 
-class Crop(models.Model):
-    item = models.CharField(max_length=255, null=True, blank=True)
-
-    def __str__(self):
-        return self.item
     # integrate API on the front-end in order to build database entries of crops
 
 WEEKDAYS = (
@@ -44,7 +39,7 @@ class OpenHours(models.Model):
 class Farm(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='farmers', null=True, blank=True)
     name = models.CharField(max_length=255)
-    crop = models.ManyToManyField(to=Crop, related_name='farm_crops')
+    # crop = models.ManyToManyField(to=Crop, related_name='farm_crops')
     location = LocationField(null=True)
     address = AddressAutoHiddenField(null=True)
     website = models.CharField(max_length=255, null=True, blank=True)
@@ -58,11 +53,18 @@ class Farm(models.Model):
 
 class OffSite(models.Model):
     farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='OffSites')
-    crop = models.ManyToManyField(to=Crop, related_name='offsite_crops')
+    # crop = models.ManyToManyField(to=Crop, related_name='offsite_crops')
     location = LocationField()
     address = AddressAutoHiddenField()
     hours = models.ManyToManyField(to=OpenHours, related_name="offsite_hours")
     
+class Crop(models.Model):
+    farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='crops', null=True, blank=True)
+    offsite = models.ForeignKey(to=OffSite, on_delete=models.CASCADE, related_name='offsite_crops', null=True, blank=True)
+    item = models.CharField(max_length=255, null=True, blank=True)
+
+    def __str__(self):
+        return self.item
 
 
 class Customer(models.Model):
@@ -112,7 +114,7 @@ class FarmQuerySet(models.QuerySet):
 def search(search_term):
     farms = Farm.objects.all()
     return farms \
-        .annotate(search=SearchVector("name", "crop", "OffSites", "tags__tag")) \
+        .annotate(search=SearchVector("name", "crops__item", "OffSites", "tags__tag")) \
         .filter(search=search_term) \
         .distinct('pk')
 
