@@ -53,6 +53,8 @@ class Farm(models.Model):
     last_updated = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     tags = models.ManyToManyField(to=Tag, related_name='farms')
 
+    def __str__(self):
+        return self.name
 
 class OffSite(models.Model):
     farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='OffSites')
