@@ -24,24 +24,14 @@ from core.views import FarmCreateView, FarmDeleteView, FarmDetailView, FarmUpdat
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-<<<<<<< HEAD
-    path('accounts/', include('registration.backends.simple.urls')),
-    path('accounts/', include('django.contrib.auth.urls')),
-    # path('', core_views.home, name="home"),
-=======
     # path('', core_views.home, name="home"),
     path('accounts/', include('registration.backends.simple.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
->>>>>>> 61194e88fc65e30772e76934bf7e50bf70f3b35d
     # path('farmerprofile/', core_views.farmer_profile, name='farmerprofile'),
     # path('logout/', core_views.logout, name='logout'),
     # path('accounts/login/', core_views.login, name='login'),
     # path('accounts/homepage/', core_views.homepage, name='homepage'),
-<<<<<<< HEAD
-    # path('produce/', core_views.produce, name='produce'),
-=======
     # path('produce/', crop_views.produce, name='produce'),
->>>>>>> 61194e88fc65e30772e76934bf7e50bf70f3b35d
     path('accounts/', include('registration.backends.simple.urls')),
     path('', TemplateView.as_view(template_name='frontend/index.html')),
     path('', core_views.home_page, name='home'),
