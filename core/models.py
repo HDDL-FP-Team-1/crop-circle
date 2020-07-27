@@ -1,23 +1,10 @@
 from django.db import models
+from django.db.models import Q
+from django.contrib.postgres.search import SearchVector
 from ordered_model.models import OrderedModel
 from users.models import User
 from mapbox_location_field.models import LocationField, AddressAutoHiddenField
 
-# class OpeningHours(models.Model):
-#     WEEKDAYS = [
-#     (1, _("Monday")),
-#     (2, _("Tuesday")),
-#     (3, _("Wednesday")),
-#     (4, _("Thursday")),
-#     (5, _("Friday")),
-#     (6, _("Saturday")),
-#     (7, _("Sunday")),
-#     ]
-#     offsite = models.ForeignKey(to=Offsite, null=True, blank=True)
-#     farm = models.ForeignKey(to=Farm, null=True, blank=True)
-#     weekday = models.IntegerField(choices=WEEKDAYS, unique=True)
-#     from_hour = models.TimeField()
-#     to_hour = models.TimeField()
 
 class Tag(models.Model):
     tag = models.CharField(max_length=150, unique=True)
@@ -25,26 +12,61 @@ class Tag(models.Model):
     def __str__(self):
         return self.tag
 
+    # integrate API on the front-end in order to build database entries of crops
+
+WEEKDAYS = (
+  (1, "Monday"),
+  (2, "Tuesday"),
+  (3, "Wednesday"),
+  (4, "Thursday"),
+  (5, "Friday"),
+  (6, "Saturday"),
+  (7, "Sunday"),
+)
+
+class OpenHours(models.Model):
+    weekday = models.IntegerField(choices=WEEKDAYS)
+    from_hour = models.TimeField()
+    to_hour = models.TimeField()
+
+    class Meta:
+        ordering = ('weekday', 'from_hour')
+        unique_together = ('weekday', 'from_hour', 'to_hour')
+
+    def __str__(self):
+        return f'{self.get_weekday_display()} : {self.from_hour} - {self.to_hour}'
+
 class Farm(models.Model):
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='farmers')
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='farmers', null=True, blank=True)
     name = models.CharField(max_length=255)
-    location = LocationField()
-    address = AddressAutoHiddenField()
+    # crop = models.ManyToManyField(to=Crop, related_name='farm_crops')
+    location = LocationField(null=True)
+    address = AddressAutoHiddenField(null=True)
     website = models.CharField(max_length=255, null=True, blank=True)
+    hours = models.ManyToManyField(to=OpenHours, related_name="hours")
     image = models.ImageField(default='default.jpg', upload_to='images')
     last_updated = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     tags = models.ManyToManyField(to=Tag, related_name='farms')
-    
-class Crop(models.Model):
-    farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='crops', null=True)
-    # integrate API on the front-end in order to build database entries of crops
 
-class Offsite(models.Model):
-    farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='offsites')
-    crop = models.ForeignKey(to=Crop, on_delete=models.CASCADE, related_name='offsites')
+    def __str__(self):
+        return self.name
+
+class OffSite(models.Model):
+    farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='OffSites')
+    # crop = models.ManyToManyField(to=Crop, related_name='offsite_crops')
     location = LocationField()
     address = AddressAutoHiddenField()
+    hours = models.ManyToManyField(to=OpenHours, related_name="offsite_hours")
     
+class Crop(models.Model):
+    farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='crops', null=True, blank=True)
+    offsite = models.ForeignKey(to=OffSite, on_delete=models.CASCADE, related_name='offsite_crops', null=True, blank=True)
+    item = models.CharField(max_length=255, null=True, blank=True)
+
+    def __str__(self):
+        return self.item
+
+
 class Customer(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='customers')
     avatar = models.ImageField(default='default.jpg', upload_to='images')
@@ -72,9 +94,20 @@ class RecipeStep(models.Model):
     text = models.TextField(null=True)
     # order_with_respect_to = "recipe"
 
-    def __str__(self):
-        return f"{self.order} {self.text}"
+    # def __str__(self):
+    #     return f"{self.order} {self.text}"
 
+class FarmQuerySet(models.QuerySet):
+    def get_farms(self):
+        farms = Farm.objects.all()
+        return farms
+
+def search(search_term):
+    farms = Farm.objects.all()
+    return farms \
+        .annotate(search=SearchVector("name", "crops__item", "OffSites", "tags__tag")) \
+        .filter(search=search_term) \
+        .distinct('pk')
 
 # Tag functions
     # def get_tag_names(self):
