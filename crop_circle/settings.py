@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'mapbox_location_field',
     'registration',
     'ordered_model',
+    'storages',
 
     # Project-specific
     'users',
@@ -87,15 +88,15 @@ TEMPLATES = [
 ]
 
 WEBPACK_LOADER = {
-  'DEFAULT': {
-      'CACHE': not DEBUG,
-      'BUNDLE_DIR_NAME': 'webpack_bundles/', # must end with slash
-      'STATS_FILE': (BASE_DIR / 'webpack-stats.json'),
-      'POLL_INTERVAL': 0.1,
-      'TIMEOUT': None,
-      'IGNORE': [r'.+\.hot-update.js', r'.+\.map'],
-      'LOADER_CLASS': 'webpack_loader.loader.WebpackLoader',
-  }
+    'DEFAULT': {
+        'CACHE': not DEBUG,
+        'BUNDLE_DIR_NAME': 'webpack_bundles/', # must end with slash
+        'STATS_FILE': (BASE_DIR / 'webpack-stats.json'),
+        'POLL_INTERVAL': 0.1,
+        'TIMEOUT': None,
+        'IGNORE': [r'.+\.hot-update.js', r'.+\.map'],
+        'LOADER_CLASS': 'webpack_loader.loader.WebpackLoader',
+    }
 }
 
 WSGI_APPLICATION = 'crop_circle.wsgi.application'
@@ -141,7 +142,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
+    os.path.join(BASE_DIR, 'static/'),
 ]
 
 # Custom user model
@@ -156,10 +157,20 @@ INTERNAL_IPS = [
     # ...
 ]
 
+#heroku database information
+
 import django_heroku
 django_heroku.settings(locals())
 del DATABASES['default']['OPTIONS']['sslmode']
 
-MAPBOX_KEY = "pk.eyJ1IjoiZ2lsbGllMTAyMiIsImEiOiJja2N3Y2d1dmMwY25nMnlwZGpsbjB4d2x1In0.-UlFUte6SfOm9E7ArCc56Q"
+#mapbox 
 
-LOGIN_REDIRECT_URL = '/'
+MAPBOX_KEY = env('MAPBOX_KEY')
+
+#aws service
+AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+DEFAULT_FILE_STORAGE = env('DEFAULT_FILE_STORAGE')
+AWS_STORAGE_BUCKET_NAME = 'cropcirclehddl'
+AWS_S3_REGION_NAME = 'us-east-1'
+AWS_DEFAULT_ACL = None
