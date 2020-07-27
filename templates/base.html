@@ -51,11 +51,12 @@
   </ul>
 <nav>
   <div class="green darken-1 nav-wrapper">
-    <a href="{% url 'homepage' %}" class="brand-logo">Crop Circle  <i class="material-icons">all_inclusive</i> </a>
+    <a href="{% url 'home' %}" class="brand-logo">Crop Circle  <i class="material-icons">all_inclusive</i> </a>
     <ul class="right hide-on-med-and-down">
       <li><a href="sass.html"><i class="material-icons">search</i></a></li>
-      <li><a href="{% url 'homepage' %}"><i class="material-icons">home</i></a></li>
-      <li><a href="{% url 'farmerprofile' %}"><i class="material-icons">person</i></a></li>
+      <li><a href="{% url 'home' %}"><i class="material-icons">home</i></a></li>
+      <!-- Change pk to reflect the database \/ -->
+      <li><a href="{% url 'farm_detail' pk=1 %}"><i class="material-icons">person</i></a></li>
       {% if user.is_authenticated %}
       <li><a href="{% url 'auth_logout' %}">Logout</a></li>
       {% else %}
