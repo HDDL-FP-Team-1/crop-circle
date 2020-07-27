@@ -40,13 +40,13 @@ class Farm(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='farmers', null=True, blank=True)
     name = models.CharField(max_length=255)
     # crop = models.ManyToManyField(to=Crop, related_name='farm_crops')
-    location = LocationField(null=True)
+    location = LocationField(null=True, blank=True)
     address = AddressAutoHiddenField(null=True)
     website = models.CharField(max_length=255, null=True, blank=True)
     hours = models.ManyToManyField(to=OpenHours, related_name="hours")
     image = models.ImageField(default='default.jpg', upload_to='images')
     last_updated = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    tags = models.ManyToManyField(to=Tag, related_name='farms')
+    tags = models.ManyToManyField(to=Tag, related_name='farms', blank=True)
 
     def __str__(self):
         return self.name
