@@ -102,15 +102,6 @@ class FarmQuerySet(models.QuerySet):
         farms = Farm.objects.all()
         return farms
 
-    # def search(self, search_term):
-    #     farms = self.annotate(
-    #         search=SearchVector(
-    #             "name", "OffSites", "tags__tag"
-    #         )
-    #     )
-    #     farms = farms.filter(search=search_term).distinct("pk")
-    #     return farms
-
 def search(search_term):
     farms = Farm.objects.all()
     return farms \
