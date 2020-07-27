@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load render_bundle from webpack_loader %}
+{% load static %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Crop Circle</title>
+  <!-- <link rel="stylesheet" href="{{STATIC_URL}}static/styles.css" type="text/css" media="screen" > -->
+  <link rel="stylesheet" href="bundle.css">
+</head>
+
+<body>
+  
+  <!-- Webpack rendered JS -->
+  
+  <header class="header">
+    <h1>Crop Circle</h1>
+    {% if user.is_authenticated %}
+
+      <!-- TODO 
+      Make sure login has a form to fill and and make sure logout has a redirect and message that "user is logged out"             -->
+
+        hello, {{ user.username }}!
+    {% else %}
+        <div>
+          <nav>
+            <ul>
+              <li><a href="{% url 'auth_login' %}">Login</a></li>
+            </ul>
+          </nav>
+        </div>
+    {% endif %}
+    <hr>
+</header>
+
+</body>
+</html>

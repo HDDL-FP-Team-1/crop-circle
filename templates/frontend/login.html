@@ -1,0 +1,68 @@
+<!-- {% load render_bundle from webpack_loader %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Django React Webpack</title>
+  <meta name='viewport' content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" media="screen" href="main.css">
+  <script src="main.js"></script>
+</head>
+<body>
+  <form action='login' method='post'>
+      {% csrf_token %}
+      <input type='text' name='username' placeholder="username"><br>
+      <input type='password' name='password' placeholder="password"><br>
+      <input type='submit'>
+  </form>
+  
+  <div>
+      <!-- {% message in messages %}
+      <h3>{{message}}</h3>
+      {% endfor %} -->
+  <!-- </div> -->
+  
+    <!-- <div id="react-app"></div>
+  <!-- Webpack rendered JS -->
+  <!-- {% render_bundle 'main' 'js' %} --> -->
+<!-- </body>
+</html> --> -->
+
+{% extends "frontend/base.html" %}
+
+{% block content %}
+
+  {% if form.errors %}
+    <p>Your username and password didn't match. Please try again.</p>
+  {% endif %}
+  
+  {% if next %}
+    {% if user.is_authenticated %}
+      <p>Your account doesn't have access to this page. To proceed,
+      please login with an account that has access.</p>
+    {% else %}
+      <p>Please login to see this page.</p>
+    {% endif %}
+  {% endif %}
+  
+  <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <table>
+      <tr>
+        <td>{{ form.username.label_tag }}</td>
+        <td>{{ form.username }}</td>
+      </tr>
+      <tr>
+        <td>{{ form.password.label_tag }}</td>
+        <td>{{ form.password }}</td>
+      </tr>
+    </table>
+    <input type="submit" value="login" />
+    <input type="hidden" name="next" value="{{ next }}" />
+  </form>
+  
+  {# Assumes you setup the password_reset view in your URLconf #}
+  <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+  
+{% endblock %}

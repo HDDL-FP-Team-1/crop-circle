@@ -123,3 +123,5 @@ dmypy.json
 .vscode/
 .env
 ./node_modules
+./webpack-bundles
+./webpack-stats.json

@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.urls import include, path
 from django.views.generic import TemplateView
@@ -23,6 +24,14 @@ from core.views import FarmCreateView, FarmDeleteView, FarmDetailView, FarmUpdat
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', crop_views.home, name="home"),
+    path('accounts/', include('registration.backends.simple.urls')),
+    # path('accounts/', include('django.contrib.auth.urls')),
+    path('farmerprofile/', crop_views.farmer_profile, name='farmerprofile'),
+    path('logout/', crop_views.logout, name='logout'),
+    path('accounts/login/', crop_views.login, name='login'),
+    path('accounts/homepage/', crop_views.homepage, name='homepage'),
+    # path('produce/', crop_views.produce, name='produce'),
     path('accounts/', include('registration.backends.simple.urls')),
     path('', TemplateView.as_view(template_name='frontend/index.html')),
     path('', core_views.home_page, name='home'),
