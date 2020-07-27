@@ -8,22 +8,17 @@
 <head>
   <meta charset="UTF-8">
   <title>Crop Circle</title>
+  <!-- <link rel="stylesheet" href="{{STATIC_URL}}static/styles.css" type="text/css" media="screen" > -->
+  <link rel="stylesheet" href="bundle.css">
 </head>
 
 <body>
   
   <!-- Webpack rendered JS -->
   
-
-
-  <header class="">
+  <header class="header">
     <h1>Crop Circle</h1>
     {% if user.is_authenticated %}
-        <nav>
-            <li><a class="" href="{% url 'home' %}">Home</a><br></li>
-            <li><a class="" href="{% url 'farmerprofile' %}">Profile</a><br></li>
-            <li><a class="" href="{% url 'auth_logout' %}"> Logout</a></li>
-        </nav>
 
       <!-- TODO 
       Make sure login has a form to fill and and make sure logout has a redirect and message that "user is logged out"             -->
@@ -40,10 +35,6 @@
     {% endif %}
     <hr>
 </header>
-<div id="react-app"></div>
-<div id="farm-card"></div>
-{% render_bundle 'main' 'js' %}
- 
-  {{ farmstand_data|json_script:"farmstand-data" }}
+
 </body>
 </html>

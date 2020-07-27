@@ -161,3 +161,5 @@ django_heroku.settings(locals())
 del DATABASES['default']['OPTIONS']['sslmode']
 
 MAPBOX_KEY = "pk.eyJ1IjoiZ2lsbGllMTAyMiIsImEiOiJja2N3Y2d1dmMwY25nMnlwZGpsbjB4d2x1In0.-UlFUte6SfOm9E7ArCc56Q"
+
+LOGIN_REDIRECT_URL = '/'

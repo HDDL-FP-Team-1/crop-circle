@@ -1,16 +1,112 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% load render_bundle from webpack_loader %}
 
 {% block content %}
+<body>
 
-{% if user.is_authenticated %}
+<div class="header, grid-container">
+  <div class="grid-item, text">
+  <h4>Welcome to your farmer-profile, {{ user.username }}!  </h4>
+
+    </div>
+
+    <div class="row">
+        <div class="col s12 m2">
+          <div class="card ">
+            <span class="card-title">Add a photo</span>
+            <div class="card-content">
+                <a class="btn-floating btn-large waves-effect waves-light red pulse"><i class="material-icons">add</i></a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+  <div class='row'>
+    <div class="col s12 m6">
+        <div class="card">
+            <span class="card-title">Your farmstand location</span>
+            <div id='map' style='width: 400px; height: 300px;'></div>
+            <script>
+            mapboxgl.accessToken = 'pk.eyJ1IjoiaGRkbCIsImEiOiJja2NtMGY1ZDgwcTZ5MnN0OGY3ajJjbW4yIn0.qHA8T449zRKiEj4SS9jnuQ';
+            var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11'
+            });
+            </script> 
+        </div>
+    </div>
+</div>  
+
+  <!-- Switch -->
+  <h4>Open for public visitation</h4>
+  <div class="switch">
+    <label>
+      No
+      <input type="checkbox">
+      <span class="lever"></span>
+      Yes
+    </label>
+  </div>
+ 
+
+<div class="grid-container"> 
+ <form>
+  <div id="list1" class="dropdown-check-list" tabindex="100">
+    <span class="anchor">Select your fruits</span>
+    <ul class="items">
+        <li><input type="checkbox" />Apple </li>
+        <li><input type="checkbox" />Orange</li>
+        <li><input type="checkbox" />Grapes </li>
+        <li><input type="checkbox" />Berry </li>
+        <li><input type="checkbox" />Mango </li>
+        <li><input type="checkbox" />Banana </li>
+        <li><input type="checkbox" />Tomato</li>
+    </ul>
+    <button type=submit>update your Fruit selection</button>
+</div>
+</form>
+
+<div class="grid-container"> 
+  <form>
+   <div id="list1" class="dropdown-check-list" tabindex="100">
+     <span class="anchor">Select your vegetables</span>
+     <ul class="items">
+         <li><input type="checkbox" />Carrots </li>
+         <li><input type="checkbox" />Brocolli</li>
+         <li><input type="checkbox" />Green Beans </li>
+         <li><input type="checkbox" />Bamboo </li>
+         <li><input type="checkbox" />Dinonuggets </li>
+         <li><input type="checkbox" />Eggplant </li>
+         <li><input type="checkbox" />Avocados</li>
+     </ul>
+     <button type=submit>update your Veggie selection</button>
+ </div>
+ </form>
+
+ 
+
+</body>
+  
+<!-- {% if user.is_authenticated %}
   You are logged in as {{ user }}.
   <a href="/accounts/logout/">Click here to log out.</a>
+
+  <div>
+    <div id="react-app"></div>
+    <div id="farm-card"></div>
+    {% render_bundle 'main' 'js' %}
+     
+      {{ farmstand_data|json_script:"farmstand-data" }}
+  </div>
+
 {% else %}
   You are not logged in.
   <a href="/accounts/login/">Click here to log in.</a>
-{% endif %}
+{% endif %} -->
 
 
 {% endblock %}

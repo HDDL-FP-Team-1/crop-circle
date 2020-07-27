@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-class App extends React.Component {
+class FarmCard extends React.Component {
   render () {
     return (
       <div>
@@ -10,4 +10,4 @@ class App extends React.Component {
     )
   }
 }
-ReactDOM.render(<App />, document.getElementById('farm-card'))
+ReactDOM.render(<FarmCard />, document.getElementById('farm-card'))

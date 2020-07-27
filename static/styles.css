@@ -1,0 +1,27 @@
+/* 
+
+  .my-card-content {
+      padding: 16px;
+  }
+  .my-card {
+    height: 350px;
+    width: 350px;
+  }
+
+
+.header {
+    left: 40%;
+    position: absolute;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+}
+ */
+
+
+ .farm-title {
+     text-decoration: none;
+     color: antiquewhite;
+ }

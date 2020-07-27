@@ -18,3 +18,7 @@ def logout(request):
 
 def login(request):
     return render (request, "accounts/login.html")
+
+def homepage(request):
+    if request.user.is_authenticated:
+        return render(request, "frontend/home.html")
