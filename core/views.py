@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.urls import reverse_lazy
-from .models import Tag, Farm, Crop, OffSite, Customer, Recipe, Ingredient, RecipeStep
+from .models import Tag, Farm, Crop, OffSite, Customer, Recipe, Ingredient, RecipeStep, FarmQuerySet, search
 from django.views.generic import View, TemplateView, CreateView, DeleteView, UpdateView, ListView, DetailView
 
 
@@ -232,5 +232,19 @@ class RecipeStepDeleteView(DeleteView):
     model = RecipeStep
     success_url = reverse_lazy('recipe_detail')
 
-class SearchListView(ListView):
-    pass
+# class SearchListView(ListView):
+#     pass
+
+
+
+def search_farms(request):
+    query = request.GET.get("q")
+
+    if query is not None:
+        farms = search(query)
+    else:
+        farms = None
+
+    return render(
+        request, "frontend/search.html", {"farms": farms, "query": query or ""}
+    )
