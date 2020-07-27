@@ -24,7 +24,7 @@ from core.views import FarmCreateView, FarmDeleteView, FarmDetailView, FarmUpdat
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', core_views.home, name="home"),
+    path('', core_views.home_page, name="home"),
     path('accounts/', include('registration.backends.simple.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     # path('farmerprofile/', core_views.farmer_profile, name='farmerprofile'),

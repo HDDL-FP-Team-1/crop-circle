@@ -6,7 +6,7 @@ from django.views.generic import View, TemplateView, CreateView, DeleteView, Upd
 
 
 def home_page(request):
-    return render(request, "home.html")
+    return render(request, "frontend/home.html")
 
 class FarmCreateView(CreateView):
     model = Farm
