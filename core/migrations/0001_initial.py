@@ -58,13 +58,13 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Offsite',
+            name='OffSite',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('location', mapbox_location_field.models.LocationField(map_attrs={})),
                 ('address', mapbox_location_field.models.AddressAutoHiddenField(map_id='map')),
-                ('crop', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='offsites', to='core.Crop')),
-                ('farm', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='offsites', to='core.Farm')),
+                ('crop', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='OffSites', to='core.Crop')),
+                ('farm', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='OffSites', to='core.Farm')),
             ],
         ),
         migrations.CreateModel(
