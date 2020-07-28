@@ -2,17 +2,22 @@
 
 {% block content %}
 
-<div class='row'>
+<div class='row' id='ma'>
     <div class="col s12 m6">
         <div class="card">
-            <p>Farmstands near you!:</p>
-            <div id='map' style='width: 400px; height: 300px;'></div>
+            <p class='card-title'>Farmstands near you!</p>
+            <div id='map' style='width: 300px; height: 300px;'></div>
             <script>
             mapboxgl.accessToken = 'pk.eyJ1IjoiaGRkbCIsImEiOiJja2NtMGY1ZDgwcTZ5MnN0OGY3ajJjbW4yIn0.qHA8T449zRKiEj4SS9jnuQ';
             var map = new mapboxgl.Map({
             container: 'map',
-            style: 'mapbox://styles/mapbox/streets-v11'
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [-78.9013, 35.9958],           
+            zoom: 11
             });
+            var marker = new mapboxgl.Marker()
+              .setLngLat([-78.9013, 35.9958])
+              .addTo(map);
             </script> 
         </div>
     </div>

@@ -123,5 +123,8 @@ dmypy.json
 .vscode/
 .env
 ./node_modules
+
+
+# Make sure pathways are correct
 ./webpack-bundles
 ./webpack-stats.json

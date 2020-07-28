@@ -1,4 +1,4 @@
-
+/* 
 
   .my-card-content {
       padding: 16px;
@@ -28,4 +28,51 @@
 
  body {
    background-color: green;
+ } */
+
+ #map {
+  width: 800px;
+  height: 500px;
  }
+
+ .slider .btn {
+    margin-top: 20px;
+    border-radius: 2rem;
+  }
+  
+  .section-search input {
+    padding: 5px !important;
+    font-size: 18px !important;
+    width: 90% !important;
+    border: #f4f4f4 3px solid !important;
+  }
+  
+  .section-follow .fa-4x {
+    margin: 5px 10px;
+  }
+  
+  .section-contact h5 {
+    margin-bottom: 30px;
+  }
+  
+  .input-field {
+    border-radius: 2rem;
+  }
+  
+
+  .search-text {
+      font-weight: 100;
+  }
+
+  .slider-text {
+      text-shadow: 2px 4px rgb(53, 53, 53);
+      color: antiquewhite;
+  }
+
+  .image {
+      filter:brightness(70%) ;
+  }
+
+  #autocomplete-input {
+      border-radius: 1rem;
+  }
