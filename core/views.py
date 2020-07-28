@@ -12,12 +12,19 @@ class FarmCreateView(CreateView):
     model = Farm
     template_name = 'frontend/farm.html'
     fields = [
-        'user',
         'name',
         'website',
-        'location',
+        'latitude',
+        'longitude',
+        'address',
         'image',
     ]
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.user = self.request.user
+        obj.save()
+        return redirect(self.get_success_url)
+    
 
     success_url = reverse_lazy('farm')
 
