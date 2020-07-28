@@ -41,12 +41,16 @@ class FarmDetailView(DetailView):
 
 class FarmUpdateView(UpdateView):
     model = Farm
+    template_name = 'frontend/farm_update.html'
     fields = [
-    #quality check url
         'name',
-        'image',
-        'location',
         'website',
+        'street_address',
+        'street_address_line_2',
+        'city',
+        'state',
+        'zip_code',
+        'image',
     ]
 
 class FarmDeleteView(DeleteView):
