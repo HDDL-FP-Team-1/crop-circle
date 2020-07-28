@@ -71,7 +71,7 @@ class Customer(models.Model):
     avatar = models.ImageField(default='default.jpg', upload_to='images')
 
 class Recipe(models.Model):
-    author = models.ForeignKey(to='users.User, on_delete=models.CASCADE, related_name='recipes', null=True)
+    author = models.ForeignKey(to='users.User', on_delete=models.CASCADE, related_name='recipes', null=True)
     title = models.CharField(max_length=255, null=True)
     prep_time = models.PositiveIntegerField(null=True, blank=True)
     cook_time = models.PositiveIntegerField(null=True, blank=True)
