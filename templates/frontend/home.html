@@ -8,23 +8,23 @@
       <img class="image" src="https://images.unsplash.com/photo-1472653525502-fc569e405a74?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80" alt="">
       <div class="caption center-align">
         <h2 class="slider-text">Look for local farms</h2>
-        <h5 class="light grey-text text-lighten-3 hide-on-small-only">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam non illo earum cumque id est!</h5>
+        <h5 class="light grey-text text-lighten-3 hide-on-small-only">Search your local area to find farms and produce stands near you!</h5>
         <a href="#" class="green darken-1 btn btn-large">Learn More</a>
       </div>
     </li>
     <li>
       <img class="image" src="https://images.unsplash.com/photo-1486328228599-85db4443971f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80" alt="">
       <div class="caption left-align">
-        <h2 class="slider-text">Search for produce that is grown locally!</h2>
-        <h5 class="light grey-text text-lighten-3 hide-on-small-only">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam non illo earum cumque id est!</h5>
+        <h2 class="slider-text">Search for produce that is grown locally</h2>
+        <h5 class="light grey-text text-lighten-3 hide-on-small-only">Minimize your carbon-footprint by selecting items that are grown or harvested nearby!</h5>
         <a href="#" class="green darken-1 btn btn-large">Learn More</a>
       </div>
     </li>
     <li>
       <img class="image" src="https://images.unsplash.com/photo-1565522734001-f00e62ec8424?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80" alt="">
       <div class="caption right-align">
-        <h2 class="slider-text">Build up your community</h2>
-        <h5 class="light grey-text text-lighten-3 hide-on-small-only">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam non illo earum cumque id est!</h5>
+        <h2 class="slider-text">Connect with your community</h2>
+        <h5 class="light grey-text text-lighten-3 hide-on-small-only">Gain the ability to connect with local farms to see what is available during particular seasons!</h5>
         <a href="#" class="green darken-1 btn btn-large">Learn More</a>
       </div>
     </li>
@@ -81,12 +81,9 @@
         <span class="green-text">Nearby</span> Farms</h4>
       <div class="col s12 m8">
         <div class="card">
-          <div class="card-image">
            <div class='row' id='ma'>
             <div class="col s12 m6">
-                <div class="card">
-                    <p class='card-title'>Farmstands near you!</p>
-                    <div id='map' style='width: 300px; height: 300px;'></div>
+                    <div id='map' style='width: 450px; height: 280px;'></div>
                     <script>
                     mapboxgl.accessToken = 'pk.eyJ1IjoiaGRkbCIsImEiOiJja2NtMGY1ZDgwcTZ5MnN0OGY3ajJjbW4yIn0.qHA8T449zRKiEj4SS9jnuQ';
                     var map = new mapboxgl.Map({
@@ -95,14 +92,18 @@
                     center: [-78.9013, 35.9958],           
                     zoom: 11
                     });
+                    map.addControl(
+                      new MapboxGeocoder({
+                      accessToken: mapboxgl.accessToken,
+                      mapboxgl: mapboxgl
+                      })
+                      );
                     var marker = new mapboxgl.Marker()
                       .setLngLat([-78.9013, 35.9958])
                       .addTo(map);
                     </script> 
-                </div>
             </div>
         </div> 
-          </div>
         </div>
       </div>
       <div class="col s12 m4">
@@ -113,9 +114,9 @@
             <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">favorite</i></a>
           </div>
           <div class="card-content">
-            <p>(icon) Location:</p>
-            <p>(icon) Hours: </p>
-            <p>(icon) Website: </p>
+            <p><i class="material-icons">location_on</i>Location</p>
+            <p><i class="material-icons">access_time</i> Hours</p>
+            <p><i class="material-icons">public</i> www.website.com</p>
           </div>
         </div>
       </div>
@@ -228,21 +229,6 @@
   </div>
 </section>
 
-    
-    <div class="row">
-        <div class="col s12 m6">
-          <div class="card">
-            <div class="card-image">
-              <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80">
-              <span class="card-title"><a class="waves-effect waves-light btn-large">Farmville Farms</a></span>
-              <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">favorite</i></a>
-            </div>
-            <div class="card-content">
-              <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <section class="section section-follow green darken-2 white-text center">
         <div class="container">
