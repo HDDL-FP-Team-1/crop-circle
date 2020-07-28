@@ -53,21 +53,21 @@
         <div class="card-panel">
           <i class="material-icons large blue-text">room</i>
           <h4>Search Local</h4>
-          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, velit.</p>
+          <p>Love a fruit or veggie during a particular time of year? Simply use search <i class="material-icons">search</i> to see whats available nearby!</p>
         </div>
       </div>
       <div class="col s12 m4">
         <div class="card-panel">
           <i class="material-icons large blue-text darken-2">store</i>
           <h4>Buy Local</h4>
-          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, velit.</p>
+          <p><br>Get the freshest produce in the surrounding area!<br><br></p>
         </div>
       </div>
       <div class="col s12 m4">
         <div class="card-panel">
           <i class="material-icons large blue-text">insert_emoticon</i>
           <h4>Support Local</h4>
-          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, velit.</p>
+          <p><br>Support local businesses and surrounding farmers to help build a stronger community.<br></p>
         </div>
       </div>
     </div>
@@ -83,7 +83,8 @@
         <div class="card">
            <div class='row' id='ma'>
             <div class="col s12 m6">
-                    <div id='map' style='width: 450px; height: 280px;'></div>
+                    <div class='sidebar pad2'>Listing</div>
+                    <div id='map' class='map pad2' style='width: 300px; height: 280px;'>Map</div>
                     <script>
                     mapboxgl.accessToken = 'pk.eyJ1IjoiaGRkbCIsImEiOiJja2NtMGY1ZDgwcTZ5MnN0OGY3ajJjbW4yIn0.qHA8T449zRKiEj4SS9jnuQ';
                     var map = new mapboxgl.Map({
@@ -101,11 +102,40 @@
                     var marker = new mapboxgl.Marker()
                       .setLngLat([-78.9013, 35.9958])
                       .addTo(map);
+                      map.addControl(
+                    new mapboxgl.GeolocateControl({
+                      positionOptions: {
+                      enableHighAccuracy: true
+                      },
+                      trackUserLocation: true
+                      })
+                      );
+                      stores.features.forEach(function(store, i){
+                      store.properties.id = i;
+                    });
+                    map.on('load', function (e) {
+                      /* Add the data to your map as a layer */
+                      map.addLayer({
+                        "id": "locations",
+                        "type": "symbol",
+                        /* Add a GeoJSON source containing place coordinates and information. */
+                        "source": {
+                          "type": "geojson",
+                          "data": stores
+                        },
+                        "layout": {
+                          "icon-image": "restaurant-15",
+                          "icon-allow-overlap": true,
+                        }
+                      });
+                    });
                     </script> 
             </div>
         </div> 
         </div>
       </div>
+
+
       <div class="col s12 m4">
         <div class="card">
           <div class="card-image">
@@ -191,8 +221,7 @@
         <div class="card-panel green darken-2 white-text center">
           <i class="material-icons medium">email</i>
           <h5>Contact Us</h5>
-          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus sed praesentium delectus. Sit, mollitia
-            quo. Veniam repellat voluptas ipsum doloremque?</p>
+          <p>Have a question for us? Fill out the form to let us know how we can better serve your community!</p>
         </div>
         <ul class="collection with-header">
           <li class="collection-header">
