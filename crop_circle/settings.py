@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'ordered_model',
     'storages',
 
+
     # Project-specific
     'users',
     'core',
