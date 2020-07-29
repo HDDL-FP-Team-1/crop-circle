@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% load render_bundle from webpack_loader %}
+{% block content %}
+<h2>Crop List</h2>
+{% for crop in crops.all %}
+{{crop.item}}
+{% endfor %}
+{% endblock %}

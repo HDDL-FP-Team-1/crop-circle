@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% load render_bundle from webpack_loader %}
+{% block content %}
+<h1>Search farms</h1>
+
+<form action="{% url 'search' %}" method="GET">
+  <input type="search" name="q" placeholder="Search all farms" class="pa2 w-100" value="{{ query }}">
+  <p>
+    <button type="submit">Search</button>
+  </p>
+</form>
+
+{% if farms is not None %}
+<ul>
+  {% for farm in farms %}
+    <li><a href="{% url 'farm_detail' farm_pk=farm.pk %}">{{ farm.name }}</a></li>
+  {% empty %}
+    <li>There are no farms that match that query.</li>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

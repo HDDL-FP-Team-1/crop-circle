@@ -1,12 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from django.urls import reverse_lazy
 from .forms import FarmRegistrationForm
 from .models import Tag, Farm, Crop, OffSite, Customer, Recipe, Ingredient, RecipeStep, FarmQuerySet, search
-from django.views.generic import View, TemplateView, CreateView, DeleteView, UpdateView, ListView, DetailView
-from .forms import FarmForm, CropForm
+from .forms import FarmForm, CropForm, CustomerForm
 
 
 def home_page(request):
@@ -49,7 +46,7 @@ def farm_delete(request, farm_pk):
     return render(request, 'frontend/farm_delete.html', {'farm': farm})
 
 def crop_create(request, farm_pk):
-    farm = get_object_or_404(Farm.objects.all(), pk=farm_pk)
+    farm = get_object_or_404(request.user.farms, pk=farm_pk)
     if request.method == 'POST':
         form = CropForm(data=request.POST)
         if form.is_valid():
@@ -61,200 +58,47 @@ def crop_create(request, farm_pk):
         form = CropForm()
     return render(request, 'frontend/crop_create.html', {'form': form, 'farm': farm})
     
-class CropCreateView(CreateView):
-    model = Crop
-    template_name = 'frontend/crop.html'
-    fields = ['item']
-
-    success_url = reverse_lazy('crop_list')
-
-class CropDetailView(DetailView):
-    model = Crop
-    template_name = 'frontend/crop_detail.html'
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
-class CropListView(ListView):
-    model = Crop
-    template_name = 'frontend/crop_list.html'
-    paginate_by = 25
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
-class CropUpdateView(UpdateView):
-    model = Crop
-    template_name = 'frontend/crop_update.html'
-    fields = [
-        'item'
-    ]
-    success_url = reverse_lazy('crop_list')
-
-class CropDeleteView(DeleteView):
-    model = Crop
-    template_name = 'frontend/crop_delete.html'
-    success_url = reverse_lazy('crop_list')
-
-class OffSiteCreateView(CreateView):
-    model = OffSite
-    fields = [
-        # 'location',
-        'crops'
-    ]
-    success_url = reverse_lazy('farm')
-
-class OffSiteDetailView(DetailView):
-    model = OffSite
-    template_name = 'frontend/offsite_detail.html'
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
-class OffSiteUpdateView(UpdateView):
-    model = OffSite
-    template_name = 'frontend/offsite_update.html'
-    fields = [
-        # 'location',
-        'crops'
-    ]
-
-class OffSiteDeleteView(DeleteView):
-    model = OffSite
-    success_url = reverse_lazy('farm_detail')
-
-class CustomerCreateView(CreateView):
-    model = Customer
-    fields = ['user', 'avatar']
-    success_url = reverse_lazy('home')
-
-class CustomerDetailView(DetailView):
-    model = Customer
-    template_name = 'frontend/customer_detail.html'
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
-class CustomerUpdateView(UpdateView):
+def crop_detail(request, crop_pk):
+    crop = get_object_or_404(Crop.objects.all(), pk=crop_pk)
+    return render(request, 'frontend/crop_detail.html', {'crop': crop})
     
-    model = Customer
-    fields = ['user', 
-        'avatar'
-    ]
-    success_url = reverse_lazy('customer_detail')
 
-class CustomerDeleteView(DeleteView):
-    
-    model = Customer
-    success_url = reverse_lazy('home')
+def crop_list(request):
+    crops = Crop.objects.all()
+    return render(request, 'frontend/crop_list.html', {'crops': crops})
 
-class RecipeCreateView(CreateView):
-    
-    model = Recipe
-    template_name = 'frontend/recipe_create.html'
-    
-    fields = [
-        'title',
-        'prep_time',
-        'cook_time',
-    ]
+def crop_update(request, crop_pk):
+    crop = get_object_or_404(Crop.objects.all(), pk=crop_pk)
+    if request.method == 'POST':
+        form = CropForm(data=request.POST, instance=crop)
+        if form.is_valid():
+            crop = form.save()
+            return redirect(to='crop_detail', crop_pk=crop.pk)
+    else:
+        form = CropForm(instance=crop)
 
-    success_url = reverse_lazy('recipe_detail')
+    return render(request, 'frontend/crop_update.html', {'form': form, 'crop': crop})
 
-class RecipeDetailView(DetailView):
-    
-    model = Recipe
-    template_name = 'frontend/recipe_detail.html'
+def crop_delete(request, crop_pk):
+    crop = get_object_or_404(Crop.objects.all(), pk=crop_pk)
+    farm = crop.farm
+    if request.method == 'POST':
+        crop.delete()
+        return redirect(to='farm_detail', farm_pk=farm.pk)
+    return render(request, 'frontend/crop_delete.html', {'crop': crop})
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
+def customer_create(request):
+    if request.method == "POST":
+        form = CustomerForm(data=request.POST)
+        if form.is_valid():
+            customer = form.save(commit=False)
+            customer.user = request.user
+            form.save()
+            return redirect(to='home')
+    else:
+        form = CustomerForm()
 
-class RecipeListView(ListView):
-    
-    model = Recipe
-    template_name = 'frontend/recipe_list.html'
-    paginate_by = 20
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
-class RecipeUpdateView(UpdateView):
-    
-    model = Recipe
-    template_name = 'frontend/recipe_update.html'
-    
-    fields = [
-        'title',
-        'prep_time',
-        'cook_time',
-    ]
-    
-    success_url = reverse_lazy('recipe_list')
-
-class RecipeDeleteView(DeleteView):
-    
-    model = Recipe
-    success_url = reverse_lazy('recipe_list')
-
-class IngredientCreateView(CreateView):
-    
-    model = Ingredient
-    template_name = 'frontend/ingredient_create.html'
-    
-    fields = [
-        'item',
-        'amount',
-    ]
-
-    success_url = reverse_lazy('recipe_detail')
-
-class IngredientUpdateView(UpdateView):
-    
-    model = Ingredient
-    template_name = 'frontend/ingredient_update.html'
-    
-    fields = [
-        'item',
-        'amount',
-    ]
-
-class IngredientDeleteView(DeleteView):
-    
-    model = Ingredient
-    success_url = reverse_lazy('recipe_detail')
-
-class RecipeStepCreateView(CreateView):
-    
-    model = RecipeStep
-    template_name = 'frontend/add_recipestep.html'
-    
-    fields = [
-        'text',
-    ]
-
-    success_url = reverse_lazy('recipe_detail')
-
-class RecipeStepUpdateView(UpdateView):
-    
-    model = RecipeStep
-    template_name = 'frontend/recipestep_update.html'
-    
-    fields = [
-        'text',
-    ]
-
-class RecipeStepDeleteView(DeleteView):
-    
-    model = RecipeStep
-    success_url = reverse_lazy('recipe_detail')
-
-# class SearchListView(ListView):
-#     pass
-
-
+    return render(request, 'frontend/farm.html', {'form': form})
 
 def search_farms(request):
     query = request.GET.get("q")
@@ -278,3 +122,7 @@ def farm_registration(request):
     else:
         farmer_form = FarmRegistrationForm(instance=request.user)
     return render(request, 'farmer_detail.html', {'farmer_form': farmer_form})
+
+
+
+
