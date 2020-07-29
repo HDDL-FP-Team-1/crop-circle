@@ -19,7 +19,7 @@ from django.conf import settings
 from django.urls import include, path
 from django.views.generic import TemplateView
 from core import views as core_views
-from core.views import FarmCreateView, FarmDeleteView, FarmDetailView, FarmUpdateView, OffSiteCreateView, OffSiteDeleteView, OffSiteDetailView, OffSiteUpdateView, CropCreateView, CropDetailView, CropDeleteView, CropListView, CropUpdateView, CustomerCreateView, CustomerDeleteView, CustomerDetailView, CustomerUpdateView, RecipeCreateView, RecipeDeleteView, RecipeDetailView, RecipeUpdateView, RecipeListView, IngredientCreateView, IngredientUpdateView, RecipeStepCreateView, RecipeStepUpdateView, RecipeStepDeleteView, IngredientDeleteView
+from core.views import OffSiteCreateView, OffSiteDeleteView, OffSiteDetailView, OffSiteUpdateView, CropCreateView, CropDetailView, CropDeleteView, CropListView, CropUpdateView, CustomerCreateView, CustomerDeleteView, CustomerDetailView, CustomerUpdateView, RecipeCreateView, RecipeDeleteView, RecipeDetailView, RecipeUpdateView, RecipeListView, IngredientCreateView, IngredientUpdateView, RecipeStepCreateView, RecipeStepUpdateView, RecipeStepDeleteView, IngredientDeleteView
 
 
 urlpatterns = [
@@ -35,15 +35,15 @@ urlpatterns = [
     path('accounts/', include('registration.backends.simple.urls')),
     path('', TemplateView.as_view(template_name='frontend/index.html')),
     path('', core_views.home_page, name='home'),
-    path('farm/add/', FarmCreateView.as_view(), name='farm_create'),
-    path('farm/<pk>/', FarmDetailView.as_view(), name='farm_detail'),
-    path('farm/<pk>/update/', FarmUpdateView.as_view(), name='farm_update'),
-    path('farm/<pk>/delete/', FarmDeleteView.as_view(), name='farm_delete'),
+    path('farm/add/', core_views.farm_create, name='farm_create'),
+    path('farm/<int:farm_pk>/', core_views.farm_detail, name='farm_detail'),
+    path('farm/<int:farm_pk>/update/', core_views.farm_update, name='farm_update'),
+    path('farm/<int:farm_pk>/delete/', core_views.farm_delete, name='farm_delete'),
     path('offsite/add/', OffSiteCreateView.as_view(), name='offsite_create'),
     path('offsite/<pk>/', OffSiteDetailView.as_view(), name='offsite'),
     path('offsite/<pk>/update/', OffSiteUpdateView.as_view(), name='offsite_update'),
     path('offsite/<pk>/delete/', OffSiteDeleteView.as_view(), name='offsite_delete'),
-    path('crop/add/', CropCreateView.as_view(), name='crop_create'),
+    path('farm/<int:farm_pk>/crop/add/', core_views.crop_create, name='crop_create'),
     path('crop/<pk>/detail/', CropDetailView.as_view(), name='crop_info'),
     path('crop/list/', CropListView.as_view(), name='crop_list'),
     path('crop/<pk>/update/', CropUpdateView.as_view(), name='crop_update'),

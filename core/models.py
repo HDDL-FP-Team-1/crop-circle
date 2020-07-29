@@ -2,8 +2,8 @@ from django.db import models
 from django.db.models import Q
 from django.contrib.postgres.search import SearchVector
 from ordered_model.models import OrderedModel
-from users.models import User
 from mapbox_location_field.models import LocationField, AddressAutoHiddenField
+from users.models import User
 
 
 class Tag(models.Model):
@@ -37,11 +37,17 @@ class OpenHours(models.Model):
         return f'{self.get_weekday_display()} : {self.from_hour} - {self.to_hour}'
 
 class Farm(models.Model):
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='farmers', null=True, blank=True)
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='farms', null=True, blank=True)
     name = models.CharField(max_length=255)
     # crop = models.ManyToManyField(to=Crop, related_name='farm_crops')
-    location = LocationField(null=True, blank=True)
-    address = AddressAutoHiddenField(null=True)
+    # location = LocationField(map_attrs={"center": [0,0], "marker_color": "blue", "track_location_button": True, "geocoder": True}, null=True, blank=True, default='')    
+    street_address = models.CharField(verbose_name='Street Address', max_length=255, null=True, blank=True)
+    street_address_line_2 = models.CharField(verbose_name='Street Address Line 2', max_length=255, null=True, blank=True)
+    city = models.CharField(verbose_name='City', max_length=255, null=True, blank=True)
+    state = models.CharField(verbose_name='State', max_length=255, null=True, blank=True)
+    zip_code = models.CharField(verbose_name='Zip', max_length=255, null=True, blank=True)
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
     website = models.CharField(max_length=255, null=True, blank=True)
     hours = models.ManyToManyField(to=OpenHours, related_name="hours")
     image = models.ImageField(default='default.jpg', upload_to='images')
@@ -52,15 +58,23 @@ class Farm(models.Model):
         return self.name
 
 class OffSite(models.Model):
-    farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='OffSites')
-    # crop = models.ManyToManyField(to=Crop, related_name='offsite_crops')
-    location = LocationField()
-    address = AddressAutoHiddenField()
-    hours = models.ManyToManyField(to=OpenHours, related_name="offsite_hours")
-    
+    pass
+#     farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='OffSites')
+#     # crop = models.ManyToManyField(to=Crop, related_name='offsite_crops')
+#     location = LocationField(map_attrs={"center": [0,0], "marker_color": "blue", "track_location_button": True, "geocoder": True}, null=True, blank=True, default='')    
+#     address = models.CharField(max_length=255, null=True, blank=True)
+#     hours = models.ManyToManyField(to=OpenHours, related_name="offsite_hours")
+
+# class Place(models.Model):
+#     farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='crops', null=True, blank=True)
+#     offsite = models.ForeignKey(to=OffSite, on_delete=models.CASCADE, related_name='offsite_crops', null=True, blank=True)
+#     location = LocationField(
+#         map_attrs={"style": "mapbox://styles/mightysharky/cjwgnjzr004bu1dnpw8kzxa72", "center": (17.031645, 51.106715)})
+#     created_at = models.DateTimeField(auto_now_add=True)
+
 class Crop(models.Model):
-    farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='crops', null=True, blank=True)
-    offsite = models.ForeignKey(to=OffSite, on_delete=models.CASCADE, related_name='offsite_crops', null=True, blank=True)
+    farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='locations', null=True, blank=True)
+    # offsite = models.ForeignKey(to=OffSite, on_delete=models.CASCADE, related_name='offsite_locations', null=True, blank=True)
     item = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
@@ -68,11 +82,11 @@ class Crop(models.Model):
 
 
 class Customer(models.Model):
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='customers')
+    customer = models.ForeignKey(to='users.User', on_delete=models.CASCADE, related_name='customers', null=True)
     avatar = models.ImageField(default='default.jpg', upload_to='images')
 
 class Recipe(models.Model):
-    author = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='recipes', null=True)
+    author = models.ForeignKey(to='users.User', on_delete=models.CASCADE, related_name='recipes', null=True)
     title = models.CharField(max_length=255, null=True)
     prep_time = models.PositiveIntegerField(null=True, blank=True)
     cook_time = models.PositiveIntegerField(null=True, blank=True)

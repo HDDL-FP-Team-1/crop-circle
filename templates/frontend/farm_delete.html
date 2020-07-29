@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% load render_bundle from webpack_loader %}
+{% block content %}
+<form action="{% url 'farm_delete' farm_pk=farm.pk %}" method="POST">
+  {% csrf_token %}
+  <p>Are you sure you want to delete this farm?</p>
+
+  <div>
+    <button type="submit">Delete</button>
+    <a href="{% url 'farm_detail' farm_pk=farm.pk %}">Cancel</a>
+  </div>
+</form>
+{% endblock %}
