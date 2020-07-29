@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'ordered_model',
     'storages',
 
+
     # Project-specific
     'users',
     'core',
@@ -175,4 +176,8 @@ AWS_STORAGE_BUCKET_NAME = 'cropcirclehddl'
 AWS_S3_REGION_NAME = 'us-east-1'
 AWS_DEFAULT_ACL = None
 
-
+REGISTRATION_FORM = 'core.forms.FarmRegistrationForm'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_AUTO_LOGIN = True

@@ -21,6 +21,7 @@ django-webpack-loader = "^0.7.0"
 django-ordered-model = "^3.4.1"
 boto3 = "^1.14.28"
 django-storages = "^1.9.1"
+geocoder = "^1.38.1"
 
 [tool.poetry.dev-dependencies]
 pylint = "^2.5.3"

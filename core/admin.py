@@ -8,4 +8,6 @@ admin.site.register(Recipe)
 admin.site.register(Ingredient)
 admin.site.register(RecipeStep)
 admin.site.register(OpenHours)
+# admin.site.register(Place)
+
 
