@@ -2,7 +2,6 @@ from django.db import models
 from django.db.models import Q
 from django.contrib.postgres.search import SearchVector
 from ordered_model.models import OrderedModel
-from users.models import User
 from mapbox_location_field.models import LocationField, AddressAutoHiddenField
 
 
@@ -37,7 +36,7 @@ class OpenHours(models.Model):
         return f'{self.get_weekday_display()} : {self.from_hour} - {self.to_hour}'
 
 class Farm(models.Model):
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='farms', null=True, blank=True)
+    user = models.ForeignKey(to='users.User', on_delete=models.CASCADE, related_name='farms', null=True, blank=True)
     name = models.CharField(max_length=255)
     # crop = models.ManyToManyField(to=Crop, related_name='farm_crops')
     # location = LocationField(map_attrs={"center": [0,0], "marker_color": "blue", "track_location_button": True, "geocoder": True}, null=True, blank=True, default='')    
@@ -82,11 +81,11 @@ class Crop(models.Model):
 
 
 class Customer(models.Model):
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='customers')
+    customer = models.ForeignKey(to='users.User', on_delete=models.CASCADE, related_name='customers', null=True)
     avatar = models.ImageField(default='default.jpg', upload_to='images')
 
 class Recipe(models.Model):
-    author = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='recipes', null=True)
+    author = models.ForeignKey(to='users.User', on_delete=models.CASCADE, related_name='recipes', null=True)
     title = models.CharField(max_length=255, null=True)
     prep_time = models.PositiveIntegerField(null=True, blank=True)
     cook_time = models.PositiveIntegerField(null=True, blank=True)
