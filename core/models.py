@@ -37,7 +37,7 @@ class OpenHours(models.Model):
         return f'{self.get_weekday_display()} : {self.from_hour} - {self.to_hour}'
 
 class Farm(models.Model):
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='farmers', null=True, blank=True)
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='farms', null=True, blank=True)
     name = models.CharField(max_length=255)
     # crop = models.ManyToManyField(to=Crop, related_name='farm_crops')
     # location = LocationField(map_attrs={"center": [0,0], "marker_color": "blue", "track_location_button": True, "geocoder": True}, null=True, blank=True, default='')    
