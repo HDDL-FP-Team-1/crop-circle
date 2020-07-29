@@ -10,7 +10,7 @@ from .forms import FarmForm, CropForm
 
 
 def home_page(request):
-    return render(request, "home.html")
+    return render(request, "frontend/home.html")
 
 def farm_create(request):
     if request.method == "POST":
@@ -56,6 +56,7 @@ def crop_create(request, farm_pk):
             crop = form.save(commit=False)
             crop.farm = farm
             crop.save()
+           
             return redirect(to='farm_detail', farm_pk=farm.pk)
     else:
         form = CropForm()
