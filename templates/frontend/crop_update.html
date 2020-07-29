@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% load render_bundle from webpack_loader %}
+
+{% block content %}
+
+<form action="{% url 'crop_update' crop_pk=crop.pk %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div>
+    <button type="submit" class="">submit</button>
+    </div>
+  </form>
+
+
+{% endblock %}

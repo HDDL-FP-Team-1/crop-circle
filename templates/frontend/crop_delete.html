@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% load render_bundle from webpack_loader %}
+{% block content %}
+<form action="{% url 'crop_delete' crop_pk=crop.pk %}" method="POST">
+  {% csrf_token %}
+  <p>Are you sure you want to delete this crop?</p>
+
+  <div>
+    <button type="submit">Delete</button>
+    <a href="{% url 'crop_detail' crop_pk=crop.pk %}">Cancel</a>
+  </div>
+</form>
+{% endblock %}

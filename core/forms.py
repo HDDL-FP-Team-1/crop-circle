@@ -25,7 +25,14 @@ class CropForm(forms.ModelForm):
         fields = [
             'item'
         ]
-        
+
+class CustomerForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = [
+            'avatar',
+        ]
+
 class FarmRegistrationForm(UserCreationForm):
 
     email = forms.EmailField(required=True)
