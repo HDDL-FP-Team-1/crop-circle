@@ -8,74 +8,213 @@
 
 <div class="grid-container">
   <div class="grid-item text">
-  <h4>Welcome to your farmer-profile, {{ user.username }}!  </h4>
+  <h4>Welcome back to your profile, {{ user.username }}!  </h4>
+</div>
 
-    </div>
-
-
-
-    <div class='row' id='map'>
-      <div class="col s12 m6">
+    <div class="container">
+      <br class="row">
+        <h4 class="center">
+          <span class="green-text">Your </span>Farmstands</h4>
+        <div class="col s12 m8">
           <div class="card">
-              <span class="card-title">Your farmstand location</span>
-              <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
-              <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
-              <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
-              <div id="map"></div>
-              <script>
-                mapboxgl.accessToken = 'pk.eyJ1IjoiaGRkbCIsImEiOiJja2NtMGY1ZDgwcTZ5MnN0OGY3ajJjbW4yIn0.qHA8T449zRKiEj4SS9jnuQ';
-              var map = new mapboxgl.Map({
-              container: 'map',
-              style: 'mapbox://styles/mapbox/streets-v11',
-              center: [-78.90, 36.08],
-              zoom: 13
-              });
-              map.addControl(
-              new MapboxGeocoder({
-              accessToken: mapboxgl.accessToken,
-              mapboxgl: mapboxgl
-              })
-              );
-              </script>
-          </div>
-      </div>
-  </div>   
+             <div class='row' id='ma'>
+              <div class="col s12 m6">
+                      <div id='map' class='map' style='width: 700px; height: 280px;'>Map</div>
+                      <script>
+                      mapboxgl.accessToken = 'pk.eyJ1IjoiaGRkbCIsImEiOiJja2NtMGY1ZDgwcTZ5MnN0OGY3ajJjbW4yIn0.qHA8T449zRKiEj4SS9jnuQ';
+                      var map = new mapboxgl.Map({
+                      container: 'map',
+                      style: 'mapbox://styles/mapbox/streets-v11',
+                      center: [-78.9013, 35.9958],           
+                      zoom: 11
+                      });
+                      map.addControl(
+                        new MapboxGeocoder({
+                        accessToken: mapboxgl.accessToken,
+                        mapboxgl: mapboxgl
+                        })
+                        );
+                      var marker = new mapboxgl.Marker()
+                        .setLngLat([-78.9013, 35.9958])
+                        .addTo(map);
+                        map.addControl(
+                      new mapboxgl.GeolocateControl({
+                        positionOptions: {
+                        enableHighAccuracy: true
+                        },
+                        trackUserLocation: true
+                        })
+                        );
+                      //   stores.features.forEach(function(store, i){
+                      //   store.properties.id = i;
+                      // });
+                      map.on('load', function() {
+              // Add an image to use as a custom marker
+                        map.loadImage(
+                        'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
+                        function(error, image) {
+                        if (error) throw error;
+                        map.addImage('custom-marker', image);
+                        // Add a GeoJSON source with 3 points.
+                        map.addSource('points', {
+                        'type': 'geojson',
+                        'data': {
+                        'type': 'FeatureCollection',
+                        'features': [
+                        {
+                        'type': 'Feature',
+                        'properties': {},
+                        'geometry': {
+                        'type': 'Point',
+                        'coordinates': [
+                        -78.936425,
+                        36.006699
+                        ]
+                        }
+                        },
+                        {
+                        'type': 'Feature',
+                        'properties': {},
+                        'geometry': {
+                        'type': 'Point',
+                        'coordinates': [
+                        -78.924280,
+                        36.010483
+                        ]
+                        }
+                        },
+                        {
+                        'type': 'Feature',
+                        'properties': {},
+                        'geometry': {
+                        'type': 'Point',
+                        'coordinates': [
+                        -78.888325,
+                        35.990519
+                        ]
+                        }
+                        },
+                        {
+                        'type': 'Feature',
+                        'properties': {},
+                        'geometry': {
+                        'type': 'Point',
+                        'coordinates': [
+                        -78.918481,
+                        35.979732
+                        ]
+                        }
+                        },
+                        {
+                        'type': 'Feature',
+                        'properties': {},
+                        'geometry': {
+                        'type': 'Point',
+                        'coordinates': [
+                        -78.918481,
+                        35.979732
+                        ]
+                        }
+                        },
+                        {
+                        'type': 'Feature',
+                        'properties': {},
+                        'geometry': {
+                        'type': 'Point',
+                        'coordinates': [
+                        -78.922824,
+                        35.975140
+                        ]
+                        }
+                        },
+                        {
+                        'type': 'Feature',
+                        'properties': {},
+                        'geometry': {
+                        'type': 'Point',
+                        'coordinates': [
+                        -78.922824,
+                        35.975140
+                        ]
+                        }
+                        },
+                        ]
+                        }
+                        });
+                        
+                        // Add a symbol layer
+                        map.addLayer({
+                        'id': 'symbols',
+                        'type': 'symbol',
+                        'source': 'points',
+                        'layout': {
+                        'icon-image': 'custom-marker'
+                        }
+                        });
+                        }
+                        );
+                        
+                        // Center the map on the coordinates of any clicked symbol from the 'symbols' layer.
+                        map.on('click', 'symbols', function(e) {
+                        map.flyTo({
+                        center: e.features[0].geometry.coordinates
+                        });
+                        });
+                        
+                        // Change the cursor to a pointer when the it enters a feature in the 'symbols' layer.
+                        map.on('mouseenter', 'symbols', function() {
+                        map.getCanvas().style.cursor = 'pointer';
+                        });
+                        
+                        // Change it back to a pointer when it leaves.
+                        map.on('mouseleave', 'symbols', function() {
+                        map.getCanvas().style.cursor = '';
+                        });
+                        });
+                        </script> 
+                      </div>
+                    </div> 
+                  </div>
+                </div>
 
- 
+<br></br> 
 
-<div class="grid-container"> 
+<div class="collection with-header"> 
  <form>
   <div id="list1" class="dropdown-check-list" tabindex="100">
     <span class="anchor">Select your fruits</span>
     <ul class="items">
-        <li><input type="checkbox" />Apple </li>
-        <li><input type="checkbox" />Orange</li>
-        <li><input type="checkbox" />Grapes </li>
-        <li><input type="checkbox" />Berry </li>
-        <li><input type="checkbox" />Mango </li>
-        <li><input type="checkbox" />Banana </li>
-        <li><input type="checkbox" />Tomato</li>
+        <li class="collection-item"><input type="checkbox" />Apple </li>
+        <li class="collection-item"><input type="checkbox" />Orange</li>
+        <li class="collection-item"><input type="checkbox" />Grapes </li>
+        <li class="collection-item"><input type="checkbox" />Berry </li>
+        <li class="collection-item"><input type="checkbox" />Mango </li>
+        <li class="collection-item"><input type="checkbox" />Banana </li>
+        <li class="collection-item"><input type="checkbox" />Tomato</li>
     </ul>
-    <button type=submit>update your Fruit selection</button>
+    <button class="green darken-1 btn btn-large" type=submit>update your Fruit selection</button>
+  </form>
 </div>
-</form>
 
-<div class="header grid-container"> 
+<br></br>
+
+<div class="collection with-header"> 
   <form>
    <div id="list1" class="dropdown-check-list" tabindex="100">
      <span class="anchor">Select your vegetables</span>
      <ul class="items">
-         <li><input type="checkbox" />Carrots </li>
-         <li><input type="checkbox" />Brocolli</li>
-         <li><input type="checkbox" />Green Beans </li>
-         <li><input type="checkbox" />Bamboo </li>
-         <li><input type="checkbox" />Dinonuggets </li>
-         <li><input type="checkbox" />Eggplant </li>
-         <li><input type="checkbox" />Avocados</li>
+         <li class="collection-item"><input type="checkbox" />Carrots </li>
+         <li class="collection-item"><input type="checkbox" />Brocolli</li>
+         <li class="collection-item"><input type="checkbox" />Green Beans </li>
+         <li class="collection-item"><input type="checkbox" />Bamboo </li>
+         <li class="collection-item"><input type="checkbox" />Dinonuggets </li>
+         <li class="collection-item"><input type="checkbox" />Eggplant </li>
+         <li class="collection-item"><input type="checkbox" />Avocados</li>
      </ul>
-     <button type=submit>update your Veggie selection</button>
+     <button class="green darken-1 btn btn-large" type=submit>update your Veggie selection</button>
+    </form>
  </div>
- </form>
+
 
  
 
