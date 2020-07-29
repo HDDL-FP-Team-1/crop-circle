@@ -37,7 +37,7 @@
       <div class="col s12">
         <h3 class="search-text">Search for Local Produce</h3>
         <div class="input-field">
-          <i class="material-icons">search</i>
+          <i class="small material-icons searchbox hide-on-small-only">search</i>
           <input class="white grey-text autocomplete" placeholder="Blueberries, Kale, etc..." type="text" id="autocomplete-input">
         </div>
       </div>
@@ -83,8 +83,7 @@
         <div class="card">
            <div class='row' id='ma'>
             <div class="col s12 m6">
-                    <div class='sidebar pad2'>Listing</div>
-                    <div id='map' class='map pad2' style='width: 300px; height: 280px;'>Map</div>
+                    <div id='map' class='map' style='width: 480px; height: 280px;'>Map</div>
                     <script>
                     mapboxgl.accessToken = 'pk.eyJ1IjoiaGRkbCIsImEiOiJja2NtMGY1ZDgwcTZ5MnN0OGY3ajJjbW4yIn0.qHA8T449zRKiEj4SS9jnuQ';
                     var map = new mapboxgl.Map({
@@ -110,56 +109,166 @@
                       trackUserLocation: true
                       })
                       );
-                      stores.features.forEach(function(store, i){
-                      store.properties.id = i;
-                    });
-                    map.on('load', function (e) {
-                      /* Add the data to your map as a layer */
-                      map.addLayer({
-                        "id": "locations",
-                        "type": "symbol",
-                        /* Add a GeoJSON source containing place coordinates and information. */
-                        "source": {
-                          "type": "geojson",
-                          "data": stores
-                        },
-                        "layout": {
-                          "icon-image": "restaurant-15",
-                          "icon-allow-overlap": true,
-                        }
+                    //   stores.features.forEach(function(store, i){
+                    //   store.properties.id = i;
+                    // });
+                    map.on('load', function() {
+            // Add an image to use as a custom marker
+                      map.loadImage(
+                      'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
+                      function(error, image) {
+                      if (error) throw error;
+                      map.addImage('custom-marker', image);
+                      // Add a GeoJSON source with 3 points.
+                      map.addSource('points', {
+                      'type': 'geojson',
+                      'data': {
+                      'type': 'FeatureCollection',
+                      'features': [
+                      {
+                      'type': 'Feature',
+                      'properties': {},
+                      'geometry': {
+                      'type': 'Point',
+                      'coordinates': [
+                      -78.936425,
+                      36.006699
+                      ]
+                      }
+                      },
+                      {
+                      'type': 'Feature',
+                      'properties': {},
+                      'geometry': {
+                      'type': 'Point',
+                      'coordinates': [
+                      -78.924280,
+                      36.010483
+                      ]
+                      }
+                      },
+                      {
+                      'type': 'Feature',
+                      'properties': {},
+                      'geometry': {
+                      'type': 'Point',
+                      'coordinates': [
+                      -78.888325,
+                      35.990519
+                      ]
+                      }
+                      },
+                      {
+                      'type': 'Feature',
+                      'properties': {},
+                      'geometry': {
+                      'type': 'Point',
+                      'coordinates': [
+                      -78.918481,
+                      35.979732
+                      ]
+                      }
+                      },
+                      {
+                      'type': 'Feature',
+                      'properties': {},
+                      'geometry': {
+                      'type': 'Point',
+                      'coordinates': [
+                      -78.918481,
+                      35.979732
+                      ]
+                      }
+                      },
+                      {
+                      'type': 'Feature',
+                      'properties': {},
+                      'geometry': {
+                      'type': 'Point',
+                      'coordinates': [
+                      -78.922824,
+                      35.975140
+                      ]
+                      }
+                      },
+                      {
+                      'type': 'Feature',
+                      'properties': {},
+                      'geometry': {
+                      'type': 'Point',
+                      'coordinates': [
+                      -78.922824,
+                      35.975140
+                      ]
+                      }
+                      },
+                      ]
+                      }
                       });
-                    });
-                    </script> 
+                      
+                      // Add a symbol layer
+                      map.addLayer({
+                      'id': 'symbols',
+                      'type': 'symbol',
+                      'source': 'points',
+                      'layout': {
+                      'icon-image': 'custom-marker'
+                      }
+                      });
+                      }
+                      );
+                      
+                      // Center the map on the coordinates of any clicked symbol from the 'symbols' layer.
+                      map.on('click', 'symbols', function(e) {
+                      map.flyTo({
+                      center: e.features[0].geometry.coordinates
+                      });
+                      });
+                      
+                      // Change the cursor to a pointer when the it enters a feature in the 'symbols' layer.
+                      map.on('mouseenter', 'symbols', function() {
+                      map.getCanvas().style.cursor = 'pointer';
+                      });
+                      
+                      // Change it back to a pointer when it leaves.
+                      map.on('mouseleave', 'symbols', function() {
+                      map.getCanvas().style.cursor = '';
+                      });
+                      });
+                      </script> 
+                    </div>
+                  </div> 
+                </div>
+              </div>
+
+
+        <div class="col s12 m4">
+          <div class="card">
+            <div class="card-image">
+              <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80" alt="">
+              <span class="card-title"><a class="waves-effect waves-light green darken-1 btn-large">Farmville Farms</a></span>
+              <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">favorite</i></a>
             </div>
-        </div> 
-        </div>
-      </div>
-
-
-      <div class="col s12 m4">
-        <div class="card">
-          <div class="card-image">
-            <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80" alt="">
-            <span class="card-title"><a class="waves-effect waves-light green darken-1 btn-large">Farmville Farms</a></span>
-            <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">favorite</i></a>
-          </div>
-          <div class="card-content">
-            <p><i class="material-icons">location_on</i>Location</p>
-            <p><i class="material-icons">access_time</i> Hours</p>
-            <p><i class="material-icons">public</i> www.website.com</p>
+            <div class="card-content">
+              <p><i class="material-icons">location_on</i>Location</p>
+              <p><i class="material-icons">access_time</i> Hours</p>
+              <p><i class="material-icons">public</i> www.website.com</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col s12 center">
-        <a href="#contact" class="btn btn-large grey darken-3">
-          <i class="material-icons left">send</i> Contact selected farm
-        </a>
+      <div class="row">
+        <div class="col s12 center">
+          <a href="#contact" class="btn btn-large grey darken-3">
+            <i class="material-icons left">send</i> Contact selected farm
+          </a>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+
+
+  
 
 <section id="gallery" class="section section-gallery scrollspy">
   <div class="container">
@@ -221,7 +330,7 @@
         <div class="card-panel green darken-2 white-text center">
           <i class="material-icons medium">email</i>
           <h5>Contact Us</h5>
-          <p>Have a question for us? Fill out the form to let us know how we can better serve your community!</p>
+          <p>Have a question for us? Fill out the form to let us know how we can better serve you and your community!</p>
         </div>
         <ul class="collection with-header">
           <li class="collection-header">
@@ -286,6 +395,40 @@
       </section>
 
    
+     <!-- <script>
+    function buildLocationList(data) {
+      data.features.forEach(function(store, i){
+        /**
+         * Create a shortcut for `store.properties`,
+         * which will be used several times below.
+        **/
+        var prop = store.properties;
+    
+        /* Add a new listing section to the sidebar. */
+        var listings = document.getElementById('listings');
+        var listing = listings.appendChild(document.createElement('div'));
+        /* Assign a unique `id` to the listing. */
+        listing.id = "listing-" + prop.id;
+        /* Assign the `item` class to each listing for styling. */
+        listing.className = 'item';
+    
+        /* Add the link to the individual listing created above. */
+        var link = listing.appendChild(document.createElement('a'));
+        link.href = '#';
+        link.className = 'title';
+        link.id = "link-" + prop.id;
+        link.innerHTML = prop.address;
+    
+        /* Add details to the individual listing. */
+        var details = listing.appendChild(document.createElement('div'));
+        details.innerHTML = prop.city;
+        if (prop.phone) {
+          details.innerHTML += ' · ' + prop.phoneFormatted;
+        }
+      });
+    }
+</script> -->
+   </body>
 
 </div>
 {% endblock %}
