@@ -82,8 +82,8 @@
       <div class="col s12 m8">
         <div class="card">
            <div class='row' id='ma'>
-            <div class="col s12 m6">
-                    <div id='map' class='map' style='width: 480px; height: 280px;'>Map</div>
+            <div class="">
+                    <div id='map' class='' style='width: 480px; height: 280px;'>Map</div>
                     <script>
                     mapboxgl.accessToken = 'pk.eyJ1IjoiaGRkbCIsImEiOiJja2NtMGY1ZDgwcTZ5MnN0OGY3ajJjbW4yIn0.qHA8T449zRKiEj4SS9jnuQ';
                     var map = new mapboxgl.Map({
@@ -246,13 +246,13 @@
           <div class="card">
             <div class="card-image">
               <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80" alt="">
-              <span class="card-title"><a class="waves-effect waves-light green darken-1 btn-large">Farmville Farms</a></span>
+              <span class="card-title"><a class="waves-effect waves-light green darken-1 btn-large">{{ farm.name }}</a></span>
               <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">favorite</i></a>
             </div>
             <div class="card-content">
-              <p><i class="material-icons">location_on</i>Location</p>
-              <p><i class="material-icons">access_time</i> Hours</p>
-              <p><i class="material-icons">public</i> www.website.com</p>
+              <p><i class="material-icons">location_on</i>{{ farm.location }}</p>
+              <p><i class="material-icons">access_time</i> {{ farm.hours }}</p>
+              <p><i class="material-icons">public</i> {{ farm.website }}</p>
             </div>
           </div>
         </div>

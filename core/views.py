@@ -23,7 +23,7 @@ class FarmCreateView(CreateView):
 
 class FarmDetailView(DetailView):
     model = Farm
-    template_name = 'frontend/farm_detail.html'
+    template_name = 'frontend/home.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['last_updated'] = timezone.now()
