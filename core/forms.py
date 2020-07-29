@@ -14,3 +14,10 @@ class FarmForm(forms.ModelForm):
             'zip_code',
             'image',
         ]
+
+class CropForm(forms.ModelForm):
+    class Meta:
+        model = Crop
+        fields = [
+            'item'
+        ]

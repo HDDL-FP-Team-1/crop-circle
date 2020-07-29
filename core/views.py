@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.urls import reverse_lazy
 from .models import Tag, Farm, Crop, OffSite, Customer, Recipe, Ingredient, RecipeStep, FarmQuerySet, search
 from django.views.generic import View, TemplateView, CreateView, DeleteView, UpdateView, ListView, DetailView
-from .forms import FarmForm
+from .forms import FarmForm, CropForm
 
 
 def home_page(request):
@@ -45,13 +45,21 @@ def farm_delete(request, farm_pk):
     if request.method == 'POST':
         farm.delete()
         return redirect(to='home')
-    return redirect(request, 'frontend/farm_delete.html', {'farm': farm})
+    return render(request, 'frontend/farm_delete.html', {'farm': farm})
 
-class FarmDeleteView(DeleteView):
-    model = Farm
-    template = 'frontend/farm.html'
-    success_url = reverse_lazy('home')
-
+def crop_create(request, farm_pk):
+    farm = get_object_or_404(request.user.farms, pk=farm_pk)
+    if request.method == 'POST':
+        form = CropForm(data=request.POST)
+        if form.is_valid():
+            crop = form.save(commit=False)
+            crop.farm = farm
+            crop.save()
+            return redirect(to='farm_detail', farm_pk=farm.pk)
+    else:
+        form = CropForm()
+    return render(request, 'frontend/crop_create.html', {'form': form, 'farm': farm})
+    
 class CropCreateView(CreateView):
     model = Crop
     template_name = 'frontend/crop.html'
