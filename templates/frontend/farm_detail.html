@@ -184,14 +184,10 @@
   <div id="list1" class="dropdown-check-list" tabindex="100">
     <span class="anchor">Select your fruits</span>
     <ul class="items">
-      {% for ingredient in ingredients %}
-        <li class="collection-item"><input type="checkbox" />Apple </li>
-        <li class="collection-item"><input type="checkbox" />Orange</li>
-        <li class="collection-item"><input type="checkbox" />Grapes </li>
-        <li class="collection-item"><input type="checkbox" />Berry </li>
-        <li class="collection-item"><input type="checkbox" />Mango </li>
-        <li class="collection-item"><input type="checkbox" />Banana </li>
-        <li class="collection-item"><input type="checkbox" />Tomato</li>
+      {% for ingredient in CropListView %}
+        <li>
+        </li>
+      {% endfor %}
     </ul>
     <button class="green darken-1 btn btn-large" type=submit>update your Fruit selection</button>
   </form>

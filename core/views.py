@@ -6,7 +6,7 @@ from django.views.generic import View, TemplateView, CreateView, DeleteView, Upd
 
 
 def home_page(request):
-    return render(request, "frontend/home.html")
+    return render(request, "home.html")
 
 class FarmCreateView(CreateView):
     model = Farm
@@ -23,11 +23,10 @@ class FarmCreateView(CreateView):
 
 class FarmDetailView(DetailView):
     model = Farm
-    template_name = 'frontend/home.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['last_updated'] = timezone.now()
-        return context
+        return render(request, "farm_detail.html")
 
 class FarmUpdateView(UpdateView):
     model = Farm
