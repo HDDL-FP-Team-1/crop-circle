@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.urls import reverse_lazy
+from .forms import FarmRegistrationForm
 from .models import Tag, Farm, Crop, OffSite, Customer, Recipe, Ingredient, RecipeStep, FarmQuerySet, search
 from django.views.generic import View, TemplateView, CreateView, DeleteView, UpdateView, ListView, DetailView
 
@@ -259,3 +260,14 @@ def search_farms(request):
     return render(
         request, "frontend/search.html", {"farms": farms, "query": query or ""}
     )
+
+
+def farm_registration(request):
+    if request.method == 'POST':
+        farmer_form = FarmRegistrationForm(data=request.POST, instance=request.user)
+        if farmer_form.is_valid():
+            farmer_form.save()
+            return redirect(to='farm_detail')
+    else:
+        farmer_form = FarmRegistrationForm(instance=request.user)
+    return render(request, 'farmer_detail.html', {'farmer_form': farmer_form})
