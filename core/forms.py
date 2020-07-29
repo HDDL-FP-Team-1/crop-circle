@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from registration.forms import RegistrationForm
-from core.models import Farm, Customer
+from core.models import Farm, Customer, Crop
 from users.models import User
 from django.db import models
 

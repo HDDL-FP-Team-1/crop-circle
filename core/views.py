@@ -49,7 +49,7 @@ def farm_delete(request, farm_pk):
     return render(request, 'frontend/farm_delete.html', {'farm': farm})
 
 def crop_create(request, farm_pk):
-    farm = get_object_or_404(request.user.farms, pk=farm_pk)
+    farm = get_object_or_404(Farm.objects.all(), pk=farm_pk)
     if request.method == 'POST':
         form = CropForm(data=request.POST)
         if form.is_valid():
