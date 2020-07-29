@@ -5,6 +5,27 @@ from core.models import Farm, Customer
 from users.models import User
 from django.db import models
 
+class FarmForm(forms.ModelForm):
+    class Meta:
+        model = Farm
+        fields = [
+            'name',
+            'website',
+            'street_address',
+            'street_address_line_2',
+            'city',
+            'state',
+            'zip_code',
+            'image',
+        ]
+
+class CropForm(forms.ModelForm):
+    class Meta:
+        model = Crop
+        fields = [
+            'item'
+        ]
+        
 class FarmRegistrationForm(UserCreationForm):
 
     email = forms.EmailField(required=True)

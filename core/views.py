@@ -1,59 +1,66 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from django.urls import reverse_lazy
 from .forms import FarmRegistrationForm
 from .models import Tag, Farm, Crop, OffSite, Customer, Recipe, Ingredient, RecipeStep, FarmQuerySet, search
 from django.views.generic import View, TemplateView, CreateView, DeleteView, UpdateView, ListView, DetailView
+from .forms import FarmForm, CropForm
 
 
 def home_page(request):
     return render(request, "frontend/home.html")
 
-class FarmCreateView(CreateView):
-    model = Farm
-    template_name = 'frontend/farm.html'
-    success_url = reverse_lazy('home')
-    fields = [
-        'name',
-        'website',
-        'street_address',
-        'street_address_line_2',
-        'city',
-        'state',
-        'zip_code',
-        'image',
-    ]
-    def form_valid(self, form):
-        obj = form.save(commit=False)
-        obj.user = self.request.user
-        obj.save()
-        return redirect(self.get_success_url())
+def farm_create(request):
+    if request.method == "POST":
+        form = FarmForm(data=request.POST)
+        if form.is_valid():
+            farm = form.save(commit=False)
+            farm.user = request.user
+            form.save()
+            return redirect(to='home')
+    else:
+        form = FarmForm()
+
+    return render(request, 'frontend/farm.html', {'form': form})
+
+def farm_detail(request, farm_pk):
+    farm = get_object_or_404(Farm.objects.all(), pk=farm_pk)
+    return render(request, 'frontend/farm_detail.html', {'farm': farm})
+
+def farm_update(request, farm_pk):
+    farm = get_object_or_404(request.user.farms, pk=farm_pk)
+    if request.method == 'POST':
+        form = FarmForm(data=request.POST, instance=farm)
+        if form.is_valid():
+            farm = form.save()
+            return redirect(to='farm_detail', farm_pk=farm.pk)
+    else:
+        form = FarmForm(instance=farm)
+
+    return render(request, 'frontend/farm_update.html', {'form': form, 'farm': farm})
+
+def farm_delete(request, farm_pk):
+    farm = get_object_or_404(request.user.farms, pk=farm_pk)
+    if request.method == 'POST':
+        farm.delete()
+        return redirect(to='home')
+    return render(request, 'frontend/farm_delete.html', {'farm': farm})
+
+def crop_create(request, farm_pk):
+    farm = get_object_or_404(request.user.farms, pk=farm_pk)
+    if request.method == 'POST':
+        form = CropForm(data=request.POST)
+        if form.is_valid():
+            crop = form.save(commit=False)
+            crop.farm = farm
+            crop.save()
+            return redirect(to='farm_detail', farm_pk=farm.pk)
+    else:
+        form = CropForm()
+    return render(request, 'frontend/crop_create.html', {'form': form, 'farm': farm})
     
-
-    success_url = reverse_lazy('farm')
-
-class FarmDetailView(DetailView):
-    model = Farm
-    template_name = 'frontend/farm_detail.html'
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['last_updated'] = timezone.now()
-        return context
-
-class FarmUpdateView(UpdateView):
-    model = Farm
-    fields = [
-    #quality check url
-        'name',
-        'image',
-        'location',
-        'website',
-    ]
-
-class FarmDeleteView(DeleteView):
-    model = Farm
-    success_url = reverse_lazy('home')
-
 class CropCreateView(CreateView):
     model = Crop
     template_name = 'frontend/crop.html'
