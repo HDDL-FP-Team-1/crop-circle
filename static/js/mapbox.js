@@ -1,26 +1,5 @@
-{% extends "base.html" %}
-{% load static %}
 
-{% block scripts %}
-<script src="{% static 'static/js/mapbox.js' %}" defer></script>
-{% endblock %}
-<!-- 
-{% load render_bundle from webpack_loader %} -->
-
-{% block content %}
- 
-<form id='farmAdd' action="{% url 'farm_create' %}" method="POST">
-
-    {% csrf_token %}
-    {{ form.as_p }}
-    <div>
-    <button id='geoforward' type="submit" class="">submit</button>
-    </div>
-  </form>
-
-
-  <script>
-    document.addEventListener("submit", function (event) {
+ document.addEventListener("submit", function (event) {
    console.log('test')
        event.preventDefault();
          let street = document.querySelector("#id_street_address").value;
@@ -66,8 +45,3 @@
  function postData (data) {
    fetch('')
  }
-
-  </script>
-
-
-{% endblock %}
