@@ -1,26 +1,57 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% load render_bundle from webpack_loader %}
 {% block content %}
-<div class="container">
-  <h1>Search farms</h1>
-
-  <form action="{% url 'search' %}" method="GET">
-    <input type="search" name="q" placeholder="Search all farms" value="{{ query }}">
-    <p>
-      <button type="submit">Search</button>
-    </p>
-  </form>
+<section id="search" class="section section-search green darken-3 white-text center scrollspy">
+  <div class="row">
+    <div class="col s12">
+      <!-- <h4 class="left container search-text">Search for local items!</h4> -->
+  </div>
 </div>
+</section>
 
-  {% if farms is not None %}
-  <ul>
-    {% for farm in farms %}
-      <li><a href="{% url 'farm_detail' farm_pk=farm.pk %}">{{ farm.name }}</a></li>
-    {% empty %}
-      <li>There are no farms that match that query.</li>
-    {% endfor %}
-  </ul>
+<section id="search" class="section section-search green darken-3 white-text center scrollspy">
+  <div class="container">
+    <div class="row">
+      <div class="col s12">
+        <h3 class="search-text">Search for Local Produce</h3>
+        <form action="{% url 'search' %}" method="GET">
+        <div class="input-field">
+          <input type="search" name="q" value="{{ query }}" class="white grey-text autocomplete" placeholder="Blueberries, Kale, etc..." type="text" id="autocomplete-input">
+          <!-- <button class="input-field green darken-3 btn btn-large" type="submit">Search</button> -->
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
+
+<div class="col s12 m6 container text-card">
+  <div class="card-panel grey lighten-3">
+
+    <h4 class="center"><span class="green-text">Nearby</span> Farms</h4>
+    <br>
+    <hr>
+    <br>
+    <!-- <form action="{% url 'search' %}" method="GET">
+  <input type="search" name="q" placeholder="Search all farms" value="{{ query }}">
+  <p>
+    <button class="input-field green darken-3 btn btn-large" type="submit">Search</button>
+  </p>
+</form> -->
+
+{% if farms is not None %}
+<ul>
+  {% for farm in farms %}
+  <h5>
+    <li><a href="{% url 'farm_detail' farm_pk=farm.pk %}">{{ farm.name }}</a></li></h5>
+  {% empty %}
+    <li>There are no farms that match that query.</li>
+  {% endfor %}
+</ul>
 {% endif %}
+  </div>
+</div>
 {% endblock %}

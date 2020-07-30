@@ -55,12 +55,22 @@
   }
   
   .input-field {
-    border-radius: 2rem;
+    border-radius: 1rem;
   }
-  
+
+  .text-card {
+    padding-top: 5%;
+  }
+
+  .content {
+    min-height: calc(100vh - 70px);
+  }
+  .footer {
+    height: 50px;
+  }
 
   .search-text {
-      font-weight: 10;
+      font-weight: 100;
   }
 
   .slider-text {
