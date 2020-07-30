@@ -7,7 +7,7 @@
 <form method="post" action="/farm/add/">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" onclick="location.href='/customer/add/';" value="{% trans 'Proceed to Customer Registration' %}" />
-    <input type="submit" onclick="location.href='/farm/add/';" value="{% trans 'Proceed to Farm Registration' %}" />
+    <input type="submit" value="{% trans 'Proceed to Customer Registration' %}" />
+    <input type="submit" value="{% trans 'Proceed to Farm Registration' %}" />
 </form>
 {% endblock %} 
