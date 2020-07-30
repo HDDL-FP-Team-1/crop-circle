@@ -16,7 +16,11 @@ class FarmAddressForm(forms.ModelForm):
             'city',
             'state',
             'zip_code',
+            'latitude',
+            'longitude',
         ]
+        widgets = {'latitude': forms.HiddenInput(), 'longitude': forms.HiddenInput()}
+        
 
 class CropForm(forms.ModelForm):
     class Meta:
