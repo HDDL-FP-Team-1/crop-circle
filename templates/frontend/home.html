@@ -126,6 +126,7 @@
                       if (error) throw error;
                       map.addImage('custom-marker', image);
                       // Add a GeoJSON source with 3 points.
+                    
                       map.addSource('points', {
                       'type': 'geojson',
                       'data': {
@@ -135,81 +136,12 @@
                       'type': 'Feature',
                       'properties': {},
                       'geometry': {
-                      'type': 'Point',
-                      'coordinates': [
-                      -78.936425,
-                      36.006699
-                      ]
-                      }
+                        'type': 'Point',
+                        'coordinates': [-78.897220, 36.004518]
                       },
-                      {
-                      'type': 'Feature',
-                      'properties': {},
-                      'geometry': {
-                      'type': 'Point',
-                      'coordinates': [
-                      -78.924280,
-                      36.010483
+                    }
                       ]
-                      }
-                      },
-                      {
-                      'type': 'Feature',
-                      'properties': {},
-                      'geometry': {
-                      'type': 'Point',
-                      'coordinates': [
-                      -78.888325,
-                      35.990519
-                      ]
-                      }
-                      },
-                      {
-                      'type': 'Feature',
-                      'properties': {},
-                      'geometry': {
-                      'type': 'Point',
-                      'coordinates': [
-                      -78.918481,
-                      35.979732
-                      ]
-                      }
-                      },
-                      {
-                      'type': 'Feature',
-                      'properties': {},
-                      'geometry': {
-                      'type': 'Point',
-                      'coordinates': [
-                      -78.918481,
-                      35.979732
-                      ]
-                      }
-                      },
-                      {
-                      'type': 'Feature',
-                      'properties': {},
-                      'geometry': {
-                      'type': 'Point',
-                      'coordinates': [
-                      -78.922824,
-                      35.975140
-                      ]
-                      }
-                      },
-                      {
-                      'type': 'Feature',
-                      'properties': {},
-                      'geometry': {
-                      'type': 'Point',
-                      'coordinates': [
-                      -78.922824,
-                      35.975140
-                      ]
-                      }
-                      },
-                      ]
-                      }
+                       } 
                       });
                       
                       // Add a symbol layer
