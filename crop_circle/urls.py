@@ -40,6 +40,7 @@ urlpatterns = [
     path('crop/<int:crop_pk>/update/', core_views.crop_update, name='crop_update'),
     path('crop/<int:crop_pk>/delete/', core_views.crop_delete, name='crop_delete'),
     path('customer/add/', core_views.customer_create, name='customer_create'),
+    path('customer/<int:customer_pk>/', core_views.customer_detail, name='customer_detail'),
     path('search/', core_views.search_farms, name='search'),
 ]
 

@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from .forms import FarmRegistrationForm
 from .models import Tag, Farm, Crop, OffSite, Customer, Recipe, Ingredient, RecipeStep, FarmQuerySet, search
 from .forms import FarmAddressForm, CropForm, CustomerForm
-
+from django.views.generic.edit import FormView
 
 def home_page(request):
     return render(request, "frontend/home.html")
@@ -53,7 +53,7 @@ def crop_create(request, farm_pk):
             crop = form.save(commit=False)
             crop.farm = farm
             crop.save()
-           
+        
             return redirect(to='farm_detail', farm_pk=farm.pk)
     else:
         form = CropForm()
@@ -99,7 +99,11 @@ def customer_create(request):
     else:
         form = CustomerForm()
 
-    return render(request, 'frontend/farm.html', {'form': form})
+    return render(request, 'frontend/customer_detail.html', {'form': form})
+#need to create the views I lost
+def customer_detail(request, customer_pk):
+    profile = get_object_or_404(Customer.objects.all(), pk=customer_pk)
+    return render(request, 'frontend/customer_detail.html', {'profile': profile})
 
 def search_farms(request):
     query = request.GET.get("q")
@@ -112,18 +116,65 @@ def search_farms(request):
     return render(
         request, "frontend/search.html", {"farms": farms, "query": query or ""}
     )
+# from django.conf import settings
+# from django.utils.module_loading import import_string
+# from django.shortcuts import redirect
+# from django.utils.decorators import method_decorator
+# from django.utils.module_loading import import_string
+# from django.views.decorators.debug import sensitive_post_parameters
+# from django.views.generic.base import TemplateView
 
+# REGISTRATION_FORM_PATH = getattr(settings, 'REGISTRATION_FORM',
+#                                 'registration.forms.RegistrationForm')
+# REGISTRATION_FORM = import_string(REGISTRATION_FORM_PATH)
 
-def farm_registration(request):
-    if request.method == 'POST':
-        farmer_form = FarmRegistrationForm(data=request.POST, instance=request.user)
-        if farmer_form.is_valid():
-            farmer_form.save()
-            return redirect(to='farm_detail')
-    else:
-        farmer_form = FarmRegistrationForm(instance=request.user)
-    return render(request, 'farmer_detail.html', {'farmer_form': farmer_form})
+# class RegistrationView(FormView):
+#     """
+#     Base class for user registration views.
+#     """
+#     disallowed_url = 'registration_disallowed'
+#     form_class = REGISTRATION_FORM
+#     http_method_names = ['get', 'post', 'head', 'options', 'trace']
+#     success_url = 'frontend/farm.html'
+#     template_name = 'registration/registration_form.html'
 
+#     @method_decorator(sensitive_post_parameters('password1', 'password2'))
+#     def dispatch(self, request, *args, **kwargs):
+#         """
+#         Check that user signup is allowed and if user is logged in before even bothering to
+#         dispatch or do other processing.
+#         """
+#         if ACCOUNT_AUTHENTICATED_REGISTRATION_REDIRECTS:
+#             if self.request.user.is_authenticated:
+#                 if settings.LOGIN_REDIRECT_URL is not None:
+#                     return redirect(settings.LOGIN_REDIRECT_URL)
+#                 else:
+#                     raise Exception((
+#                         'You must set a URL with LOGIN_REDIRECT_URL in '
+#                         'settings.py or set '
+#                         'ACCOUNT_AUTHENTICATED_REGISTRATION_REDIRECTS=False'))
 
+#         if not self.registration_allowed():
+#             return redirect(self.disallowed_url)
+#         return super(RegistrationView, self).dispatch(request, *args, **kwargs)
 
+#     def form_valid(self, form):
+#         new_user = self.register(form)
+#         success_url = self.get_success_url(new_user)
+
+#         # success_url may be a simple string, or a tuple providing the
+#         # full argument set for redirect(). Attempting to unpack it
+#         # tells us which one it is.
+#         try:
+#             to, args, kwargs = success_url
+#         except ValueError:
+#             return redirect(success_url)
+#         else:
+#             return redirect(to, *args, **kwargs)
+
+#     def get_success_url(self, user=None):
+#         """
+#         Use the new user when constructing success_url.
+#         """
+#         return super(RegistrationView, self).get_success_url()
 
