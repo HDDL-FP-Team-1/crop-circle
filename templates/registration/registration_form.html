@@ -4,7 +4,7 @@
 {% block title %}{% trans "Register for an account" %}{% endblock %}
 
 {% block content %}
-<form method="post" action="">
+<form method="post" action="/farm/add/">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" onclick="location.href='/customer/add/';" value="{% trans 'Proceed to Customer Registration' %}" />

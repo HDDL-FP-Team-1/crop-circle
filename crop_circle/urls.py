@@ -19,15 +19,16 @@ from django.conf import settings
 from django.urls import include, path
 from django.views.generic import TemplateView
 from core import views as core_views
+from core.views import MyRegistrationView
 
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', core_views.home_page, name="home"),
-    path('accounts/', include('registration.backends.simple.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('registration.backends.simple.urls')),
+    path('accounts/register/', MyRegistrationView.as_view(), name='registration_register'),
     path('', TemplateView.as_view(template_name='frontend/index.html')),
     path('', core_views.home_page, name='home'),
     path('farm/add/', core_views.farm_create, name='farm_create'),

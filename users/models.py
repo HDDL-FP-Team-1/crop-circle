@@ -9,6 +9,7 @@ import uuid
 
 class User(AbstractUser):
     farm = models.ForeignKey(to='core.Farm', on_delete=models.CASCADE, related_name='farms', null=True, blank=True)
+    # customer = models.ForeignKey(to='core.Customer', on_delete=models.CASCADE, related_name='customers', null=True, blank=True)
     first_name = models.CharField(max_length=55, null=True, blank=True)
     last_name = models.CharField(max_length=55, null=True, blank=True)
 
