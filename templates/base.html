@@ -72,7 +72,7 @@
                <a href="#contact">Contact</a>
              </li>
              {% if user.is_authenticated %}
-             <li><a href="{% url 'farm_detail' farm_pk=farm.pk %}">Profile</a></li>
+             <li><a href="#">Profile</a></li>
              {% endif %}
            </li>
               {% if user.is_authenticated %}
@@ -102,7 +102,7 @@
        <a href="#contact">Contact</a>
      </li>
        {% if user.is_authenticated %}
-       <li><a href="{% url 'farm_detail' farm_pk=farm.pk %}">Profile</a>
+       <li><a href="#">Profile</a>
        {% endif %}
      </li>
      {% if user.is_authenticated %}
