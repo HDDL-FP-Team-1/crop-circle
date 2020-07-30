@@ -5,6 +5,7 @@ from .forms import FarmRegistrationForm
 from .models import Tag, Farm, Crop, OffSite, Customer, Recipe, Ingredient, RecipeStep, FarmQuerySet, search
 from .forms import FarmAddressForm, CropForm, CustomerForm
 from django.views.generic.edit import FormView
+from registration.backends.simple.views import RegistrationView
 from django.urls import reverse_lazy
 
 def home_page(request):
@@ -117,7 +118,6 @@ def search_farms(request):
     return render(
         request, "frontend/search.html", {"farms": farms, "query": query or ""}
     )
-from registration.backends.simple.views import RegistrationView
 
 class MyRegistrationView(RegistrationView):
     success_url = reverse_lazy('farm_create')
