@@ -71,11 +71,15 @@
              <li>
                <a href="#contact">Contact</a>
              </li>
+             {% if user.is_authenticated %}
+             <li><a href="{% url 'farm_detail' farm_pk=farm.pk %}">Profile</a></li>
+             {% endif %}
+           </li>
               {% if user.is_authenticated %}
-       <li><a href="{% url 'auth_logout' %}">Logout</a></li>
-       {% else %}
-       <li><a href="{% url 'auth_login' %}">Login</a></li>
-       {% endif %}
+              <li><a href="{% url 'auth_logout' %}">Logout</a></li>
+              {% else %}
+              <li><a href="{% url 'auth_login' %}">Login</a></li>
+              {% endif %}
            </ul>
          </div>
        </div>
@@ -97,6 +101,15 @@
      <li>
        <a href="#contact">Contact</a>
      </li>
+       {% if user.is_authenticated %}
+       <li><a href="{% url 'farm_detail' farm_pk=farm.pk %}">Profile</a>
+       {% endif %}
+     </li>
+     {% if user.is_authenticated %}
+       <li><a href="{% url 'auth_logout' %}">Logout</a></li>
+       {% else %}
+       <li><a href="{% url 'auth_login' %}">Login</a></li>
+       {% endif %}
    </ul>
  
    {% block content %}

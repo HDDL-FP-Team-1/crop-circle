@@ -1,8 +1,9 @@
+{% extends "registration/registration_base.html" %}
+{% load i18n %}
 
-{% extends "frontend/base.html" %}
-
+{% block title %}{% trans "Log in" %}{% endblock %}
 {% block content %}
-
+<div class="container">
   {% if form.errors %}
     <p>Your username and password didn't match. Please try again.</p>
   {% endif %}
@@ -33,6 +34,7 @@
   </form>
   
   {# Assumes you setup the password_reset view in your URLconf #}
-  <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
-  
+  <p><a href="{% url 'auth_password_reset' %}">Lost password?</a></p>
+  <p>{% trans "Not a member?" %} <a href="{% url 'registration_register' %}">{% trans "Register" %}</a>.</p>
+</div>
 {% endblock %}
