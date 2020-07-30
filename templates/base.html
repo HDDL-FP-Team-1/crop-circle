@@ -48,7 +48,7 @@
    <div id='root'></div>
    <!-- Webpack rendered JS -->
    
- 
+ <header>
    <div class="navbar-fixed">
      <nav class="green darken-2">
        <div class="container">
@@ -71,11 +71,15 @@
              <li>
                <a href="#contact">Contact</a>
              </li>
+             {% if user.is_authenticated %}
+             <li><a href="#">Profile</a></li>
+             {% endif %}
+           </li>
               {% if user.is_authenticated %}
-       <li><a href="{% url 'auth_logout' %}">Logout</a></li>
-       {% else %}
-       <li><a href="{% url 'auth_login' %}">Login</a></li>
-       {% endif %}
+              <li><a href="{% url 'auth_logout' %}">Logout</a></li>
+              {% else %}
+              <li><a href="{% url 'auth_login' %}">Login</a></li>
+              {% endif %}
            </ul>
          </div>
        </div>
@@ -97,16 +101,29 @@
      <li>
        <a href="#contact">Contact</a>
      </li>
+       {% if user.is_authenticated %}
+       <li><a href="#">Profile</a>
+       {% endif %}
+     </li>
+     {% if user.is_authenticated %}
+       <li><a href="{% url 'auth_logout' %}">Logout</a></li>
+       {% else %}
+       <li><a href="{% url 'auth_login' %}">Login</a></li>
+       {% endif %}
    </ul>
- 
+  </header>
+ <body>
+   <div class="content">
    {% block content %}
 
    {% endblock %}
- 
+  </div>
+  <div class="footer">
    <footer class="section green darken-2 white-text center">
-     <p class="">© 2020 Crop Circle LLC<br> All rights reserved</p>
+     <p class="">© 2020 Crop Circle HDDL LLC <br> All rights reserved</p>
    </footer>
- 
+  </div>
+  </body>
  
  
   <!-- Compiled and minified JavaScript -->

@@ -5,7 +5,7 @@ from core.models import Farm, Customer, Crop
 from users.models import User
 from django.db import models
 
-class FarmForm(forms.ModelForm):
+class FarmAddressForm(forms.ModelForm):
     class Meta:
         model = Farm
         fields = [

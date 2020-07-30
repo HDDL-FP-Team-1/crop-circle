@@ -4,9 +4,23 @@
 {% block title %}{% trans "Register for an account" %}{% endblock %}
 
 {% block content %}
-<form method="post" action="">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="{% trans 'Submit' %}" />
-</form>
+
+    <section id="search" class="section section-search green darken-3 white-text center scrollspy">
+        <div class="row">
+        <div class="col s12">
+            <h4 class="left container search-text">Register for an account!</h4>
+        </div>
+    </div>
+    </section>
+
+
+<div class="col s12 m6 container ">
+    <div class="card-panel grey lighten-3">
+    <form class="container" method="post" action="">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input class="input-field green darken-3 btn btn-large" type="submit" value="{% trans 'Submit' %}" />
+    </form>
+    </div>
+</div>
 {% endblock %}

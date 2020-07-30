@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.urls import reverse_lazy
 from .forms import FarmRegistrationForm
 from .models import Tag, Farm, Crop, OffSite, Customer, Recipe, Ingredient, RecipeStep, FarmQuerySet, search
-from .forms import FarmForm, CropForm, CustomerForm
+from .forms import FarmAddressForm, CropForm, CustomerForm
 
 
 def home_page(request):
@@ -11,14 +11,14 @@ def home_page(request):
 
 def farm_create(request):
     if request.method == "POST":
-        form = FarmForm(data=request.POST)
+        form = FarmAddressForm(data=request.POST)
         if form.is_valid():
             farm = form.save(commit=False)
             farm.user = request.user
             form.save()
             return redirect(to='home')
     else:
-        form = FarmForm()
+        form = FarmAddressForm()
 
     return render(request, 'frontend/farm.html', {'form': form})
 

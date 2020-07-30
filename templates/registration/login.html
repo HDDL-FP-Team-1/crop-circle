@@ -1,0 +1,53 @@
+{% extends "registration/registration_base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Log in" %}{% endblock %}
+{% block content %}
+<section id="search" class="section section-search green darken-3 white-text center scrollspy">
+    <div class="row">
+      <div class="col s12">
+        <h4 class="left container search-text">Login to your account!</h4>
+    </div>
+  </div>
+</section>
+    <div class="container">
+  {% if form.errors %}
+    <p>Your username and password didn't match. Please try again.</p>
+  {% endif %}
+  
+  {% if next %}
+    {% if user.is_authenticated %}
+      <p>Your account doesn't have access to this page. To proceed,
+      please login with an account that has access.</p>
+    {% else %}
+      <p>Please login to see this page.</p>
+    {% endif %}
+  {% endif %}
+  <div class="col s12 m6 container text-card">
+    <div class="card-panel grey lighten-3">
+      <div class="center">
+        <i class="fas fa-user-circle fa-7x"></i>
+      </div>
+    <form method="post" action="{% url 'login' %}">
+      {% csrf_token %}
+      <table>
+        <tr>
+          <td class="">{{ form.username.label_tag }}</td>
+          <td>{{ form.username }}</td>
+        </tr>
+        <tr>
+          <td class="">{{ form.password.label_tag }}</td>
+          <td>{{ form.password }}</td>
+        </tr>
+      </table>
+      <input class="right input-field green darken-3 btn btn" type="submit" value="login" />
+      <input class="right input-field green darken-3 btn btn" type="hidden" name="next" value="{{ next }}" />
+    </form>
+    
+  {# Assumes you setup the password_reset view in your URLconf #}
+      <p><a href="{% url 'auth_password_reset' %}">Lost password?</a></p>
+      <p>{% trans "Not a member?" %} <strong><a class="green-text" href="{% url 'registration_register' %}">{% trans "Register" %}</a></strong>.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}
