@@ -72,37 +72,37 @@
                <a href="#contact">Contact</a>
              </li>
              {% if user.is_authenticated %}
-             <li><a href="#">Profile</a></li>
+             <li><a href="{% url 'farm_list' %}">Profile</a></li>
              {% endif %}
-           </li>
-              {% if user.is_authenticated %}
-              <li><a href="{% url 'auth_logout' %}">Logout</a></li>
-              {% else %}
-              <li><a href="{% url 'auth_login' %}">Login</a></li>
-              {% endif %}
-           </ul>
-         </div>
-       </div>
-     </nav>
-   </div>
-   <ul class="sidenav" id="mobile-demo">
-     <li>
-       <a href="/">Home</a>
-     </li>
-     <li>
-       <a href="#search">Search</a>
-     </li>
-     <li>
-       <a href="#popular">Nearby Farms</a>
-     </li>
-     <li>
-       <a href="#gallery">Gallery</a>
-     </li>
-     <li>
-       <a href="#contact">Contact</a>
-     </li>
-       {% if user.is_authenticated %}
-       <li><a href="#">Profile</a>
+            </li>
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'auth_logout' %}">Logout</a></li>
+            {% else %}
+            <li><a href="{% url 'auth_login' %}">Login</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+  <ul class="sidenav" id="mobile-demo">
+    <li>
+      <a href="/">Home</a>
+    </li>
+    <li>
+      <a href="#search">Search</a>
+    </li>
+    <li>
+      <a href="#popular">Nearby Farms</a>
+    </li>
+    <li>
+      <a href="#gallery">Gallery</a>
+    </li>
+    <li>
+      <a href="#contact">Contact</a>
+    </li>
+    {% if user.is_authenticated %}
+      <li><a href="{% url 'farm_list' %}">Profile</a></li>
        {% endif %}
      </li>
      {% if user.is_authenticated %}

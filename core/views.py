@@ -2,11 +2,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.urls import reverse_lazy
 from .forms import FarmRegistrationForm
-from .models import Tag, Farm, Crop, OffSite, Customer, Recipe, Ingredient, RecipeStep, FarmQuerySet, search
+from .models import Tag, Farm, Crop, OffSite, Customer, Recipe, Ingredient, RecipeStep, FarmQuerySet, search, get_farms_for_user
 from .forms import FarmAddressForm, CropForm, CustomerForm
 from django.views.generic.edit import FormView
 from registration.backends.simple.views import RegistrationView
 from django.urls import reverse_lazy
+
 
 def home_page(request):
     return render(request, "frontend/home.html")
@@ -27,6 +28,10 @@ def farm_create(request):
 def farm_detail(request, farm_pk):
     farm = get_object_or_404(Farm.objects.all(), pk=farm_pk)
     return render(request, 'frontend/farm_detail.html', {'farm': farm})
+
+def farm_list(request):
+    farms = get_farms_for_user(Farm.objects, request.user)
+    return render(request, 'frontend/farm_list.html', {'farms': farms})
 
 def farm_update(request, farm_pk):
     farm = get_object_or_404(request.user.farms, pk=farm_pk)

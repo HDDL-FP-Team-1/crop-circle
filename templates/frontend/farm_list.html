@@ -1,0 +1,11 @@
+{% extends "base.html" %} {% load static %} {% load render_bundle from
+webpack_loader %} {% block content %}
+
+<ul>
+  {% for farm in farms %}
+  <li>
+    <a href="{% url 'farm_detail' farm_pk=farm.pk %}">{{farm.name}}</a>
+  </li>
+  {% endfor %} 
+</ul>
+{% endblock %}

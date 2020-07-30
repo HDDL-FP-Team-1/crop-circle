@@ -98,3 +98,8 @@ def search(search_term):
         .annotate(search=SearchVector("name", "crops__item")) \
         .filter(search=search_term) \
         .distinct('pk')
+
+def get_farms_for_user(queryset, user):
+    if user.is_authenticated:
+        farms = queryset.filter(Q(user=user))
+    return farms
