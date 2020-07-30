@@ -36,7 +36,7 @@ class OpenHours(models.Model):
 
 class Farm(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='farms', null=True, blank=True)
-    name = models.CharField(max_length=255) 
+    name = models.CharField(max_length=255, verbose_name='Farm Name') 
     street_address = models.CharField(verbose_name='Street Address', max_length=255, null=True, blank=True)
     street_address_line_2 = models.CharField(verbose_name='Street Address Line 2', max_length=255, null=True, blank=True)
     city = models.CharField(verbose_name='City', max_length=255, null=True, blank=True)
@@ -62,7 +62,6 @@ class Crop(models.Model):
 
     def __str__(self):
         return self.item
-
 
 class Customer(models.Model):
     customer = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='customers', null=True)
@@ -100,3 +99,7 @@ def search(search_term):
         .filter(search=search_term) \
         .distinct('pk')
 
+def get_farms_for_user(queryset, user):
+    if user.is_authenticated:
+        farms = queryset.filter(Q(user=user))
+    return farms

@@ -2,8 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.urls import reverse_lazy
 from .forms import FarmRegistrationForm
-from .models import Tag, Farm, Crop, OffSite, Customer, Recipe, Ingredient, RecipeStep, FarmQuerySet, search
+from .models import Tag, Farm, Crop, OffSite, Customer, Recipe, Ingredient, RecipeStep, FarmQuerySet, search, get_farms_for_user
 from .forms import FarmAddressForm, CropForm, CustomerForm
+from django.views.generic.edit import FormView
+from registration.backends.simple.views import RegistrationView
+from django.urls import reverse_lazy
 
 
 def home_page(request):
@@ -25,6 +28,10 @@ def farm_create(request):
 def farm_detail(request, farm_pk):
     farm = get_object_or_404(Farm.objects.all(), pk=farm_pk)
     return render(request, 'frontend/farm_detail.html', {'farm': farm})
+
+def farm_list(request):
+    farms = get_farms_for_user(Farm.objects, request.user)
+    return render(request, 'frontend/farm_list.html', {'farms': farms})
 
 def farm_update(request, farm_pk):
     farm = get_object_or_404(request.user.farms, pk=farm_pk)
@@ -53,7 +60,7 @@ def crop_create(request, farm_pk):
             crop = form.save(commit=False)
             crop.farm = farm
             crop.save()
-           
+        
             return redirect(to='farm_detail', farm_pk=farm.pk)
     else:
         form = CropForm()
@@ -99,7 +106,11 @@ def customer_create(request):
     else:
         form = CustomerForm()
 
-    return render(request, 'frontend/farm.html', {'form': form})
+    return render(request, 'frontend/customer_detail.html', {'form': form})
+#need to create the views I lost
+def customer_detail(request, customer_pk):
+    profile = get_object_or_404(Customer.objects.all(), pk=customer_pk)
+    return render(request, 'frontend/customer_detail.html', {'profile': profile})
 
 def search_farms(request):
     query = request.GET.get("q")
@@ -113,17 +124,5 @@ def search_farms(request):
         request, "frontend/search.html", {"farms": farms, "query": query or ""}
     )
 
-
-def farm_registration(request):
-    if request.method == 'POST':
-        farmer_form = FarmRegistrationForm(data=request.POST, instance=request.user)
-        if farmer_form.is_valid():
-            farmer_form.save()
-            return redirect(to='farm_detail')
-    else:
-        farmer_form = FarmRegistrationForm(instance=request.user)
-    return render(request, 'farmer_detail.html', {'farmer_form': farmer_form})
-
-
-
-
+class MyRegistrationView(RegistrationView):
+    success_url = reverse_lazy('farm_create')

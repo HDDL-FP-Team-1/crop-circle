@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="">{{ user.first_name }}'s Page</h1>
+<img src="{{ user.customer.image.url }}"/>
+{% endblock %}
