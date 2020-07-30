@@ -57,7 +57,17 @@
   .input-field {
     border-radius: 1rem;
   }
-  
+
+  .text-card {
+    padding-top: 15%;
+  }
+
+  .content {
+    min-height: calc(100vh - 70px);
+  }
+  .footer {
+    height: 50px;
+  }
 
   .search-text {
       font-weight: 100;
