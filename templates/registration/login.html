@@ -3,7 +3,14 @@
 
 {% block title %}{% trans "Log in" %}{% endblock %}
 {% block content %}
-<div class="container">
+<section id="search" class="section section-search green darken-3 white-text center scrollspy">
+    <div class="row">
+      <div class="col s12">
+        <h4 class="left container search-text">Login to your account!</h4>
+    </div>
+  </div>
+</section>
+    <div class="container">
   {% if form.errors %}
     <p>Your username and password didn't match. Please try again.</p>
   {% endif %}
@@ -29,8 +36,8 @@
         <td>{{ form.password }}</td>
       </tr>
     </table>
-    <input type="submit" value="login" />
-    <input type="hidden" name="next" value="{{ next }}" />
+    <input class="right input-field green darken-3 btn btn" type="submit" value="login" />
+    <input class="right input-field green darken-3 btn btn" type="hidden" name="next" value="{{ next }}" />
   </form>
   
   {# Assumes you setup the password_reset view in your URLconf #}
