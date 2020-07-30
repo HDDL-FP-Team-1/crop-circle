@@ -25,6 +25,9 @@
   {% endif %}
   <div class="col s12 m6 container text-card">
     <div class="card-panel grey lighten-3">
+      <div class="center">
+        <i class="fas fa-user-circle fa-7x"></i>
+      </div>
     <form method="post" action="{% url 'login' %}">
       {% csrf_token %}
       <table>
