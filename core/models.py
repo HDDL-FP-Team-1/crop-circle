@@ -63,7 +63,6 @@ class Crop(models.Model):
     def __str__(self):
         return self.item
 
-
 class Customer(models.Model):
     customer = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='customers', null=True)
     avatar = models.ImageField(default='default.jpg', upload_to='images')
@@ -99,4 +98,3 @@ def search(search_term):
         .annotate(search=SearchVector("name", "crops__item")) \
         .filter(search=search_term) \
         .distinct('pk')
-
