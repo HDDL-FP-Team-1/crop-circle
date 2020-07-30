@@ -8,19 +8,19 @@
   <form action="{% url 'search' %}" method="GET">
     <input type="search" name="q" placeholder="Search all farms" value="{{ query }}">
     <p>
-      <button type="submit">Search</button>
+      <button class="input-field green darken-3 btn " type="submit">Search</button>
     </p>
   </form>
-</div>
+
 
   {% if farms is not None %}
   <ul>
     {% for farm in farms %}
       <li><a href="{% url 'farm_detail' farm_pk=farm.pk %}">{{ farm.name }}</a></li>
     {% empty %}
-      <li>There are no farms that match that query.</li>
+      <li class="text-red">There are no farms that match that query.</li>
     {% endfor %}
   </ul>
-
+  </div>
 {% endif %}
 {% endblock %}
