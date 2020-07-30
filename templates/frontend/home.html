@@ -9,7 +9,7 @@
       <div class="caption center-align">
         <h2 class="slider-text">Look for local farms</h2>
         <h5 class="light grey-text text-lighten-3 hide-on-small-only">Search your local area to find farms and produce stands near you!</h5>
-        <a href="#" class="green darken-1 btn btn-large">Learn More</a>
+        <a href="#" class="green darken-3 btn btn-large">Learn More</a>
       </div>
     </li>
     <li>
@@ -17,7 +17,7 @@
       <div class="caption left-align">
         <h2 class="slider-text">Search for produce that is grown locally</h2>
         <h5 class="light grey-text text-lighten-3 hide-on-small-only">Minimize your carbon-footprint by selecting items that are grown or harvested nearby!</h5>
-        <a href="#" class="green darken-1 btn btn-large">Learn More</a>
+        <a href="#" class="green darken-3 btn btn-large">Learn More</a>
       </div>
     </li>
     <li>
@@ -25,13 +25,13 @@
       <div class="caption right-align">
         <h2 class="slider-text">Connect with your community</h2>
         <h5 class="light grey-text text-lighten-3 hide-on-small-only">Gain the ability to connect with local farms to see what is available during particular seasons!</h5>
-        <a href="#" class="green darken-1 btn btn-large">Learn More</a>
+        <a href="#" class="green darken-3 btn btn-large">Learn More</a>
       </div>
     </li>
   </ul>
 </section>
 
-<section id="search" class="section section-search green darken-2 white-text center scrollspy">
+<section id="search" class="section section-search green darken-3 white-text center scrollspy">
   <div class="container">
     <div class="row">
       <div class="col s12">
@@ -50,24 +50,30 @@
   <div class="container">
     <div class="row">
       <div class="col s12 m4">
-        <div class="card-panel">
+        <a href="{% url 'search' %}">
+        <div class="card-panel ">
           <i class="material-icons large blue-text">room</i>
-          <h4>Search Local</h4>
+          <h4 class="search-text">Search Local</h4>
           <p>Love a fruit or veggie during a particular time of year? Simply use search <i class="material-icons">search</i> to see whats available nearby!</p>
+        </a>
         </div>
       </div>
       <div class="col s12 m4">
+        <a href="{% url 'search' %}">
         <div class="card-panel">
           <i class="material-icons large blue-text darken-2">store</i>
-          <h4>Buy Local</h4>
+          <h4 class="search-text">Buy Local</h4>
           <p><br>Get the freshest produce in the surrounding area!<br><br></p>
+        </a>
         </div>
       </div>
       <div class="col s12 m4">
+        <a href="{% url 'search' %}">
         <div class="card-panel">
           <i class="material-icons large blue-text">insert_emoticon</i>
-          <h4>Support Local</h4>
+          <h4 class="search-text">Support Local</h4>
           <p><br>Support local businesses and surrounding farmers to help build a stronger community.<br></p>
+        </a>
         </div>
       </div>
     </div>
@@ -236,6 +242,7 @@
                       });
                       });
                       </script> 
+                      
                     </div>
                   </div> 
                 </div>
@@ -372,11 +379,11 @@
         <div class="container">
           <div class="row">
             <div class="col s12">
-              <h5>Follow Crop Circles</h5>
+              <h5 class="search-text">Follow Crop Circles</h5>
               <p>Follow us on social media for special offers</p>
-              <a href="htttps://facebook.com" target="_blank" class="white-text">
+              <h1 target="_blank" class="white-text center">
                 <i class="fab fa-facebook fa-4x"></i>
-              </a>
+            </h1>
               <a href="htttps://twitter.com" target="_blank" class="white-text">
                 <i class="fab fa-twitter fa-4x"></i>
               </a>
