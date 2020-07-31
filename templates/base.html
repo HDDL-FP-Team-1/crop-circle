@@ -4,8 +4,6 @@
  <!DOCTYPE html>
  <html>
  <head>
-   {% block scripts %}
-   {% endblock %}
    <meta charset="UTF-8">
    <title>Crop Circle</title>
  <!-- 
@@ -16,7 +14,9 @@
    <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css' rel='stylesheet' />
    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-  <link
+
+
+   <link
    rel="stylesheet"
    href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css"
    type="text/css"
@@ -74,35 +74,35 @@
              {% if user.is_authenticated %}
              <li><a href="{% url 'farm_list' %}">Profile</a></li>
              {% endif %}
-            </li>
-            {% if user.is_authenticated %}
-            <li><a href="{% url 'auth_logout' %}">Logout</a></li>
-            {% else %}
-            <li><a href="{% url 'auth_login' %}">Login</a></li>
-            {% endif %}
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </div>
-  <ul class="sidenav" id="mobile-demo">
-    <li>
-      <a href="/">Home</a>
-    </li>
-    <li>
-      <a href="#search">Search</a>
-    </li>
-    <li>
-      <a href="#popular">Nearby Farms</a>
-    </li>
-    <li>
-      <a href="#gallery">Gallery</a>
-    </li>
-    <li>
-      <a href="#contact">Contact</a>
-    </li>
-    {% if user.is_authenticated %}
-      <li><a href="{% url 'farm_list' %}">Profile</a></li>
+           </li>
+              {% if user.is_authenticated %}
+              <li><a href="{% url 'auth_logout' %}">Logout</a></li>
+              {% else %}
+              <li><a href="{% url 'auth_login' %}">Login</a></li>
+              {% endif %}
+           </ul>
+         </div>
+       </div>
+     </nav>
+   </div>
+   <ul class="sidenav" id="mobile-demo">
+     <li>
+       <a href="/">Home</a>
+     </li>
+     <li>
+       <a href="#search">Search</a>
+     </li>
+     <li>
+       <a href="#popular">Nearby Farms</a>
+     </li>
+     <li>
+       <a href="#gallery">Gallery</a>
+     </li>
+     <li>
+       <a href="#contact">Contact</a>
+     </li>
+       {% if user.is_authenticated %}
+       <li><a href="{% url 'farm_list' %}">Profile</a>
        {% endif %}
      </li>
      {% if user.is_authenticated %}

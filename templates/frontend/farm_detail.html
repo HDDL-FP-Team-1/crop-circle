@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% load render_bundle from webpack_loader %}
 
 {% block content %}
 <body>
@@ -185,14 +184,14 @@
 <div class="collection with-header"> 
  <form>
   <div id="list1" class="dropdown-check-list" tabindex="100">
-    <span class="anchor">Select your fruits</span>
+    <span class="anchor">Add an item you want to sell</span>
     <ul class="items">
       {% for ingredient in CropListView %}
         <li>
         </li>
       {% endfor %}
     </ul>
-    <button class="green darken-1 btn btn-large" type=submit>update your Fruit selection</button>
+    <button class="green darken-1 btn btn-large" type=submit>Add an item you want to sell</button>
   </form>
 </div>
 
@@ -201,7 +200,7 @@
 <div class="collection with-header"> 
   <form>
    <div id="list1" class="dropdown-check-list" tabindex="100">
-     <span class="anchor">Select your vegetables</span>
+     <span class="anchor">Your Item</span>
      <ul class="items">
          <li class="collection-item"><input type="checkbox" />Carrots </li>
          <li class="collection-item"><input type="checkbox" />Brocolli</li>
@@ -211,7 +210,6 @@
          <li class="collection-item"><input type="checkbox" />Eggplant </li>
          <li class="collection-item"><input type="checkbox" />Avocados</li>
      </ul>
-     <button class="green darken-1 btn btn-large" type=submit>update your Veggie selection</button>
     </form>
  </div>
 
@@ -220,23 +218,6 @@
  <br></br>
 </body>
 
-
-<!-- {% if user.is_authenticated %}
-  You are logged in as {{ user }}.
-  <a href="/accounts/logout/">Click here to log out.</a>
-
-  <div>
-    <div id="react-app"></div>
-    <div id="farm-card"></div>
-    {% render_bundle 'main' 'js' %}
-     
-      {{ farmstand_data|json_script:"farmstand-data" }}
-  </div>
-
-{% else %}
-  You are not logged in.
-  <a href="/accounts/login/">Click here to log in.</a>
-{% endif %} -->
 
 
 {% endblock %}
