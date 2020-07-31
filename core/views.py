@@ -114,26 +114,26 @@ def customer_detail(request, customer_pk):
     return render(request, 'frontend/customer_detail.html', {'profile': profile})
 
 def customer_edit(request, customer_pk):
-    profile = get_object_or_404(Customer.objects.all(), pk=customer_pk)
+    customer = get_object_or_404(Customer.objects.all(), pk=customer_pk)
     
     if request.method == 'POST':
-        form = CustomerForm(data=request.POST, files=request.FILES, instance=profile)
+        form = CustomerForm(data=request.POST, files=request.FILES, instance=customer)
         if form.is_valid():
-            customer = form.save()
+            form.save()
             return redirect(to='customer_detail', customer_pk=customer.pk)
     else:
-        form = CustomerForm(instance=profile)
+        form = CustomerForm(instance=customer)
 
-    return render(request, 'frontend/customer_edit.html', {'form': form, 'profile': profile})
+    return render(request, 'frontend/customer_edit.html', {'form': form, 'customer':customer})
 
 def customer_delete(request, customer_pk):
-    profile = get_object_or_404(Customer.objects.all(), pk=customer_pk)
+    customer = get_object_or_404(Customer.objects.all(), pk=customer_pk)
 
     if request.method == 'POST':
-        profile.delete()
-        return reidrect(to='home')
+        customer.delete()
+        return redirect(to='home')
 
-    return render(request, 'frontend/customer_delete.html', {'profile': profile})
+    return render(request, 'frontend/customer_delete.html', {'customer': customer})
 
 def search_farms(request):
     query = request.GET.get("q")
