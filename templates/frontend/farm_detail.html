@@ -15,9 +15,9 @@
 
 <!-- favorited farm by logged in user -->
 {% if customer_favorite_farm %}
-<a class="" id="favorited" data-question-id="{{ farm.pk }}" href="#">&#9734;</a>
+<a class="" id="favorited" data-farm-id="{{ farm.pk }}" href="#">&#9734;</a>
 {% else %}
-<a class="" id="favorited" data-question-id="{{ farm.pk }}" href="#">&#11088;</a>
+<a class="" id="favorited" data-farm-id="{{ farm.pk }}" href="#">&#11088;</a>
 {% endif %}
 
     <div class="container">
@@ -100,8 +100,8 @@
                         const favoriteFarmLink = document.querySelector("#favorited")
                           favoriteFarmLink.addEventListener("click", event => {
                               event.preventDefault()
-                              const farmId = favoriteFarmLink.dataset.farmId
-                              fetch('/frontend/farm/' + farmId + '/favorite/', {
+                              const farmId = favoriteFarmLink.dataset['farmId']
+                              fetch(`/farm/${farmId}/favorite/`, {
                                   method: 'POST',
                                   credentials: 'include'
                               })

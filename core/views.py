@@ -7,7 +7,7 @@ from .forms import FarmAddressForm, CropForm, CustomerForm
 from django.views.generic.edit import FormView
 from registration.backends.simple.views import RegistrationView
 from django.urls import reverse_lazy
-
+from django.http import JsonResponse
 
 def home_page(request):
     farms = Farm.objects.all()
