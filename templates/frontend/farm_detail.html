@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load ratings %}
 
 {% load render_bundle from webpack_loader %}
 
@@ -14,13 +15,16 @@
 <!-- image can be written in anyway -->
 <img src='{{ farm.image.url }}'/>
 
+<!--star rating django tag, can be moved or positioned anywhere-->
+{% ratings farm %}
+
     <div class="container">
       <br class="row">
         <h4 class="center">
           <span class="green-text">Your </span>Farmstands</h4>
         <div class="col s12 m8">
           <div class="card">
-             <div class='row' id='ma'>
+            <div class='row' id='ma'>
               <div class="col s12 m6">
                       <div id='map' class='map' style='width: 700px; height: 280px;'>Map</div>
                       <script>
@@ -183,7 +187,7 @@
 <br></br> 
 
 <div class="collection with-header"> 
- <form>
+  <form>
   <div id="list1" class="dropdown-check-list" tabindex="100">
     <span class="anchor">Select your fruits</span>
     <ul class="items">
@@ -213,30 +217,13 @@
      </ul>
      <button class="green darken-1 btn btn-large" type=submit>update your Veggie selection</button>
     </form>
- </div>
+</div>
 
 
- 
- <br></br>
+
+<br></br>
 </body>
 
-
-<!-- {% if user.is_authenticated %}
-  You are logged in as {{ user }}.
-  <a href="/accounts/logout/">Click here to log out.</a>
-
-  <div>
-    <div id="react-app"></div>
-    <div id="farm-card"></div>
-    {% render_bundle 'main' 'js' %}
-     
-      {{ farmstand_data|json_script:"farmstand-data" }}
-  </div>
-
-{% else %}
-  You are not logged in.
-  <a href="/accounts/login/">Click here to log in.</a>
-{% endif %} -->
 
 
 {% endblock %}
