@@ -35,12 +35,14 @@ urlpatterns = [
     path('farm/<int:farm_pk>/update/', core_views.farm_update, name='farm_update'),
     path('farm/<int:farm_pk>/delete/', core_views.farm_delete, name='farm_delete'),
     path('farm/<int:farm_pk>/crop/add/', core_views.crop_create, name='crop_create'),
-    path('crop/<int:crop_pk>/', core_views.crop_detail, name='crop_detail'),
     path('crop/list/', core_views.crop_list, name='crop_list'),
+    path('crop/<int:crop_pk>/', core_views.crop_detail, name='crop_detail'),
     path('crop/<int:crop_pk>/update/', core_views.crop_update, name='crop_update'),
     path('crop/<int:crop_pk>/delete/', core_views.crop_delete, name='crop_delete'),
     path('customer/add/', core_views.customer_create, name='customer_create'),
     path('customer/<int:customer_pk>/', core_views.customer_detail, name='customer_detail'),
+    path('customer/<int:customer_pk>/edit/', core_views.customer_edit, name='customer_edit'),
+    path('customer/<int:customer_pk>/delete/', core_views.customer_delete, name='customer_delete'),
     path('search/', core_views.search_farms, name='search'),
 ]
 

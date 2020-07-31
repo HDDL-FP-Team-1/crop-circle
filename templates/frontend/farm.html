@@ -8,15 +8,14 @@
 {% load render_bundle from webpack_loader %} -->
 
 {% block content %}
- 
-<form id='farmAdd' action="{% url 'farm_create' %}" method="POST">
 
-    {% csrf_token %}
-    {{ form.as_p }}
+<form id='farmAdd' action="{% url 'farm_create' %}" method="POST" enctype="multipart/form-data>
+  {% csrf_token %}
+  {{ form.as_p }}
     <div>
-    <button id='geoforward' type="submit" class="">submit</button>
+      <button id='geoforward' type="submit" class="">submit</button>
     </div>
-  </form>
+</form>
 
 
   <script>

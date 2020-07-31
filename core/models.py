@@ -66,6 +66,15 @@ class Crop(models.Model):
 class Customer(models.Model):
     customer = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='customers', null=True)
     avatar = models.ImageField(default='default.jpg', upload_to='images')
+    street_address = models.CharField(verbose_name='Street Address', max_length=255, null=True, blank=True)
+    street_address_line_2 = models.CharField(verbose_name='Street Address Line 2', max_length=255, null=True, blank=True)
+    city = models.CharField(verbose_name='City', max_length=255, null=True, blank=True)
+    state = models.CharField(verbose_name='State', max_length=255, null=True, blank=True)
+    zip_code = models.CharField(verbose_name='Zip', max_length=255, null=True, blank=True)
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
+    bio = models.TextField(max_length=200, null=True, blank=True)
+    web_link = models.URLField(max_length=200, null=True, blank=True)
 
 class Recipe(models.Model):
     author = models.ForeignKey(to='users.User', on_delete=models.CASCADE, related_name='recipes', null=True)

@@ -34,6 +34,15 @@ class CustomerForm(forms.ModelForm):
         model = Customer
         fields = [
             'avatar',
+            'bio',
+            'web_link',
+            'street_address',
+            'street_address_line_2',
+            'city',
+            'state',
+            'zip_code',
+            'latitude',
+            'longitude',
         ]
 
 class FarmRegistrationForm(UserCreationForm):
