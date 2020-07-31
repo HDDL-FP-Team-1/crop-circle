@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from registration.forms import RegistrationForm
-from core.models import Farm, Customer, Crop
+from core.models import Farm, Customer, Crop, OffSite
 from users.models import User
 from django.db import models
 
@@ -36,6 +36,19 @@ class CustomerForm(forms.ModelForm):
             'avatar',
             'bio',
             'web_link',
+            'street_address',
+            'street_address_line_2',
+            'city',
+            'state',
+            'zip_code',
+            'latitude',
+            'longitude',
+        ]
+
+class OffSiteForm(forms.ModelForm):
+    class Meta:
+        model = OffSite
+        fields = [
             'street_address',
             'street_address_line_2',
             'city',

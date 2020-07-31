@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.urls import reverse_lazy
 from .forms import FarmRegistrationForm
 from .models import Tag, Farm, Crop, OffSite, Customer, Recipe, Ingredient, RecipeStep, FarmQuerySet, search, get_farms_for_user
-from .forms import FarmAddressForm, CropForm, CustomerForm
+from .forms import FarmAddressForm, CropForm, CustomerForm, OffSiteForm
 from django.views.generic.edit import FormView
 from registration.backends.simple.views import RegistrationView
 from django.urls import reverse_lazy
@@ -130,10 +130,49 @@ def customer_delete(request, customer_pk):
     customer = get_object_or_404(Customer.objects.all(), pk=customer_pk)
 
     if request.method == 'POST':
-        customer.delete()
+        offsite.delete()
         return redirect(to='home')
 
     return render(request, 'frontend/customer_delete.html', {'customer': customer})
+
+def offsite_create(request):
+    if request.method == "POST":
+        form = OffSiteForm(data=request.POST, files=request.FILES)
+        if form.is_valid():
+            offsite = form.save(commit=False)
+            offsite.user = request.user
+            form.save()
+            return redirect(to='offsite_detail', offsite_pk=offsite.pk)
+    else:
+        form = OffSiteForm()
+
+    return render(request, 'frontend/offsite_create.html', {'form': form})
+
+def offsite_detail(request, offsite_pk):
+    offsite = get_object_or_404(OffSite.objects.all(), pk=offsite_pk)
+    return render(request, 'frontend/offsite_detail.html', {'offsite': offsite})
+
+def offsite_edit(request, offsite_pk):
+    offsite = get_object_or_404(OffSite.objects.all(), pk=offsite_pk)
+    
+    if request.method == 'POST':
+        form = OffSiteForm(data=request.POST, files=request.FILES, instance=offsite)
+        if form.is_valid():
+            form.save()
+            return redirect(to='offsite_detail', offsite_pk=offsite.pk)
+    else:
+        form = OffSiteForm(instance=offsite)
+
+    return render(request, 'frontend/offsite_edit.html', {'form': form, 'offsite':offsite})
+
+def offsite_delete(request, offsite_pk):
+    offsite = get_object_or_404(OffSite.objects.all(), pk=offsite_pk)
+
+    if request.method == 'POST':
+        offsite.delete()
+        return redirect(to='home')
+
+    return render(request, 'frontend/offsite_delete.html', {'offsite': offsite})
 
 def search_farms(request):
     query = request.GET.get("q")
