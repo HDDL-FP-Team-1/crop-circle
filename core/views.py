@@ -28,6 +28,9 @@ def farm_create(request):
 
 def farm_detail(request, farm_pk):
     farm = get_object_or_404(Farm.objects.all(), pk=farm_pk)
+    user_favorite_farm = False
+    if request.user.is_authenticated:
+        user_favorite_farm = request.user.is_favorite_farm(farm)
     return render(request, 'frontend/farm_detail.html', {'farm': farm})
 
 def farm_list(request):
@@ -146,6 +149,16 @@ def search_farms(request):
     return render(
         request, "frontend/search.html", {"farms": farms, "query": query or ""}
     )
+
+def toggle_favorite_farm(request, farm_pk):
+    farm = get_object_or_404(Farm.objects.all(), pk=farm_pk)
+
+    if request.user.is_favorite_farm(farm):
+        request.user.favorite_farms.remove(farm)
+        return JsonResponse({"isFavorite": False})
+    else:
+        request.user.favorite_farms.add(farm)
+        return JsonResponse({"isFavorite": True})
 
 class MyRegistrationView(RegistrationView):
     success_url = reverse_lazy('farm_create')
