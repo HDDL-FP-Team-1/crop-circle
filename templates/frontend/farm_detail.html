@@ -14,10 +14,12 @@
 <img src='{{ farm.image.url }}'/>
 
 <!-- favorited farm by logged in user -->
+{% if user.is_authenticated %}
 {% if customer_favorite_farm %}
 <a class="" id="favorited" data-farm-id="{{ farm.pk }}" href="#">&#9734;</a>
 {% else %}
 <a class="" id="favorited" data-farm-id="{{ farm.pk }}" href="#">&#11088;</a>
+{% endif %}
 {% endif %}
 
     <div class="container">

@@ -1,13 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.urls import reverse_lazy
-from .forms import FarmRegistrationForm
 from .models import Tag, Farm, Crop, OffSite, Customer, Recipe, Ingredient, RecipeStep, FarmQuerySet, search, get_farms_for_user
-from .forms import FarmAddressForm, CropForm, CustomerForm
+from .forms import FarmAddressForm, CropForm, CustomerForm, FarmRegistrationForm
 from django.views.generic.edit import FormView
 from registration.backends.simple.views import RegistrationView
-from django.urls import reverse_lazy
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 def home_page(request):
     farms = Farm.objects.all()
@@ -150,6 +149,7 @@ def search_farms(request):
         request, "frontend/search.html", {"farms": farms, "query": query or ""}
     )
 
+@csrf_exempt
 def toggle_favorite_farm(request, farm_pk):
     farm = get_object_or_404(Farm.objects.all(), pk=farm_pk)
 
