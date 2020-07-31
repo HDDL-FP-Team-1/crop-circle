@@ -113,7 +113,7 @@ def customer_detail(request, customer_pk):
     return render(request, 'frontend/customer_detail.html', {'profile': profile})
 
 def customer_edit(request, customer_pk):
-    profile = get_object_or_404(request.user.customers, pk=customer_pk)
+    profile = get_object_or_404(Customer.objects.all(), pk=customer_pk)
     
     if request.method == 'POST':
         form = CustomerForm(data=request.POST, files=request.FILES, instance=profile)
@@ -123,10 +123,10 @@ def customer_edit(request, customer_pk):
     else:
         form = CustomerForm(instance=profile)
 
-    return render(request, 'frontend/customer_edit.html', {'form': form, 'customer': customer})
+    return render(request, 'frontend/customer_edit.html', {'form': form, 'profile': profile})
 
 def customer_delete(request, customer_pk):
-    profile = get_object_or_404(request.user.customers, pk=customer_pk)
+    profile = get_object_or_404(Customer.objects.all(), pk=customer_pk)
 
     if request.method == 'POST':
         profile.delete()
