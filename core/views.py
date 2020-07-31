@@ -126,3 +126,4 @@ def search_farms(request):
 
 class MyRegistrationView(RegistrationView):
     success_url = reverse_lazy('farm_create')
+
