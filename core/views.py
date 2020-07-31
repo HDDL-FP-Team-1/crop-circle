@@ -10,11 +10,12 @@ from django.urls import reverse_lazy
 
 
 def home_page(request):
-    return render(request, "frontend/home.html")
+    farms = Farm.objects.all()
+    return render(request, "frontend/home.html", {'farms': farms})
 
 def farm_create(request):
     if request.method == "POST":
-        form = FarmAddressForm(data=request.POST)
+        form = FarmAddressForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             farm = form.save(commit=False)
             farm.user = request.user
@@ -36,7 +37,7 @@ def farm_list(request):
 def farm_update(request, farm_pk):
     farm = get_object_or_404(request.user.farms, pk=farm_pk)
     if request.method == 'POST':
-        form = FarmForm(data=request.POST, instance=farm)
+        form = FarmForm(data=request.POST, files=request.FILES, instance=farm)
         if form.is_valid():
             farm = form.save()
             return redirect(to='farm_detail', farm_pk=farm.pk)
@@ -55,7 +56,7 @@ def farm_delete(request, farm_pk):
 def crop_create(request, farm_pk):
     farm = get_object_or_404(request.user.farms, pk=farm_pk)
     if request.method == 'POST':
-        form = CropForm(data=request.POST)
+        form = CropForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             crop = form.save(commit=False)
             crop.farm = farm
@@ -78,7 +79,7 @@ def crop_list(request):
 def crop_update(request, crop_pk):
     crop = get_object_or_404(Crop.objects.all(), pk=crop_pk)
     if request.method == 'POST':
-        form = CropForm(data=request.POST, instance=crop)
+        form = CropForm(data=request.POST, files=request.FILES, instance=crop)
         if form.is_valid():
             crop = form.save()
             return redirect(to='crop_detail', crop_pk=crop.pk)
@@ -97,7 +98,7 @@ def crop_delete(request, crop_pk):
 
 def customer_create(request):
     if request.method == "POST":
-        form = CustomerForm(data=request.POST)
+        form = CustomerForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             customer = form.save(commit=False)
             customer.user = request.user
@@ -106,11 +107,33 @@ def customer_create(request):
     else:
         form = CustomerForm()
 
-    return render(request, 'frontend/customer_detail.html', {'form': form})
-#need to create the views I lost
+    return render(request, 'frontend/customer_create.html', {'form': form})
+
 def customer_detail(request, customer_pk):
     profile = get_object_or_404(Customer.objects.all(), pk=customer_pk)
     return render(request, 'frontend/customer_detail.html', {'profile': profile})
+
+def customer_edit(request, customer_pk):
+    customer = get_object_or_404(Customer.objects.all(), pk=customer_pk)
+    
+    if request.method == 'POST':
+        form = CustomerForm(data=request.POST, files=request.FILES, instance=customer)
+        if form.is_valid():
+            form.save()
+            return redirect(to='customer_detail', customer_pk=customer.pk)
+    else:
+        form = CustomerForm(instance=customer)
+
+    return render(request, 'frontend/customer_edit.html', {'form': form, 'customer':customer})
+
+def customer_delete(request, customer_pk):
+    customer = get_object_or_404(Customer.objects.all(), pk=customer_pk)
+
+    if request.method == 'POST':
+        customer.delete()
+        return redirect(to='home')
+
+    return render(request, 'frontend/customer_delete.html', {'customer': customer})
 
 def search_farms(request):
     query = request.GET.get("q")

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<form action="{% url 'customer_delete' customer_pk=customer.pk %}" method="POST">
+    {% csrf_token %}
+    <p>Are you sure you want to delete this profile?</p>
+    <div>
+        <button type="submit">Delete</button>
+        <a href="{% url 'home'  %}">Cancel</a>
+    </div>
+</form>
+{% endblock %}

@@ -120,7 +120,7 @@
                     // });
                     map.on('load', function() {
             // Add an image to use as a custom marker
-                      map.loadImage(
+                       map.loadImage(
                       'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
                       function(error, image) {
                       if (error) throw error;
@@ -131,87 +131,21 @@
                       'data': {
                       'type': 'FeatureCollection',
                       'features': [
+                      {% for farm in farms.all %}
                       {
                       'type': 'Feature',
                       'properties': {},
                       'geometry': {
                       'type': 'Point',
                       'coordinates': [
-                      -78.936425,
-                      36.006699
+                      {{farm.longitude}},
+                      {{farm.latitude}}
                       ]
                       }
-                      },
-                      {
-                      'type': 'Feature',
-                      'properties': {},
-                      'geometry': {
-                      'type': 'Point',
-                      'coordinates': [
-                      -78.924280,
-                      36.010483
-                      ]
-                      }
-                      },
-                      {
-                      'type': 'Feature',
-                      'properties': {},
-                      'geometry': {
-                      'type': 'Point',
-                      'coordinates': [
-                      -78.888325,
-                      35.990519
-                      ]
-                      }
-                      },
-                      {
-                      'type': 'Feature',
-                      'properties': {},
-                      'geometry': {
-                      'type': 'Point',
-                      'coordinates': [
-                      -78.918481,
-                      35.979732
-                      ]
-                      }
-                      },
-                      {
-                      'type': 'Feature',
-                      'properties': {},
-                      'geometry': {
-                      'type': 'Point',
-                      'coordinates': [
-                      -78.918481,
-                      35.979732
-                      ]
-                      }
-                      },
-                      {
-                      'type': 'Feature',
-                      'properties': {},
-                      'geometry': {
-                      'type': 'Point',
-                      'coordinates': [
-                      -78.922824,
-                      35.975140
-                      ]
-                      }
-                      },
-                      {
-                      'type': 'Feature',
-                      'properties': {},
-                      'geometry': {
-                      'type': 'Point',
-                      'coordinates': [
-                      -78.922824,
-                      35.975140
-                      ]
-                      }
-                      },
+                      },{% endfor %}
                       ]
                       }
                       });
-                      
                       // Add a symbol layer
                       map.addLayer({
                       'id': 'symbols',
