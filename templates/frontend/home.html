@@ -120,30 +120,32 @@
                     // });
                     map.on('load', function() {
             // Add an image to use as a custom marker
-                      map.loadImage(
+                       map.loadImage(
                       'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
                       function(error, image) {
                       if (error) throw error;
                       map.addImage('custom-marker', image);
                       // Add a GeoJSON source with 3 points.
-                    
                       map.addSource('points', {
                       'type': 'geojson',
                       'data': {
                       'type': 'FeatureCollection',
                       'features': [
+                      {% for farm in farms.all %}
                       {
                       'type': 'Feature',
                       'properties': {},
                       'geometry': {
-                        'type': 'Point',
-                        'coordinates': [-78.897220, 36.004518]
-                      },
-                    }
+                      'type': 'Point',
+                      'coordinates': [
+                      {{farm.longitude}},
+                      {{farm.latitude}}
                       ]
-                       } 
+                      }
+                      },{% endfor %}
+                      ]
+                      }
                       });
-                      
                       // Add a symbol layer
                       map.addLayer({
                       'id': 'symbols',

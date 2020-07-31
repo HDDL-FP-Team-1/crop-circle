@@ -10,7 +10,8 @@ from django.urls import reverse_lazy
 
 
 def home_page(request):
-    return render(request, "frontend/home.html")
+    farms = Farm.objects.all()
+    return render(request, "frontend/home.html", {'farms': farms})
 
 def farm_create(request):
     if request.method == "POST":
