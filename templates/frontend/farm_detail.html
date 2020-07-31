@@ -10,13 +10,12 @@
   <h4>Welcome back to your profile, {{ user.username }}!  </h4>
 </div> -->
 
-<!-- image can be written in anyway -->
-<img src='{{ farm.image.url }}'/>
 
+<section class="section section-icons grey lighten-4 center">
     <div class="container">
       <br class="row">
         <h4 class="center">
-          <span class="green-text">Your </span>Farmstands</h4>
+          <span class="green-text">Your </span>Farmstand</h4>
         <div class="col s12 m8">
           <div class="card">
              <div class='row' id='ma'>
@@ -178,8 +177,63 @@
                     </div> 
                   </div>
                 </div>
+                <br>
+              </section>
 
 <br></br> 
+<div class="container">
+<section id="contact" class="section section-contact scrollspy">
+  <!-- <div class="container"> -->
+    <div class="row">
+      <div class="col s12 m6">
+        <div class="card-panel green darken-2 white-text center">
+          <i class="material-icons medium">add_a_photo</i>
+          <h5>Add a photo</h5>
+          <p>Add a photo of your farm </p>
+        </div>
+      </div>
+      <div class="col s12 m6">
+        <div class="card-panel grey lighten-3">
+          <h5>Please fill out this form</h5>
+          <div class="input-field">
+            <input type="text" placeholder="Name" id="name">
+            <label for="name">Name</label>
+          </div>
+          <div class="input-field">
+            <input type="email" placeholder="Email" id="email">
+            <label for="email">Email</label>
+          </div>
+          <div class="input-field">
+            <input type="text" placeholder="Phone" id="phone">
+            <label for="phone">Phone</label>
+          </div>
+          <div class="input-field">
+            <textarea class="materialize-textarea" placeholder="Enter Message" id="message"></textarea>
+            <label for="message">Message</label>
+          </div>
+          <input type="submit" value="Submit" class="btn green darken-1">
+        </div>
+      </div>
+    </div>
+  <!-- </div> -->
+</section>
+
+
+
+<section id="search" class="input-field section section-search grey darken-1 white-text center scrollspy">
+  <div class="container">
+    <div class="row">
+      <div class="col s12">
+        <h3 class="search-text">Add your Produce</h3>
+        <div class="input-field">
+          <i class="small material-icons searchbox hide-on-small-only">add</i>
+          <input class="white grey-text autocomplete" placeholder="Add items you want to sell" type="text" id="autocomplete-input">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 
 <div class="collection with-header"> 
  <form>
@@ -209,15 +263,15 @@
          <li class="collection-item"><input type="checkbox" />Dinonuggets </li>
          <li class="collection-item"><input type="checkbox" />Eggplant </li>
          <li class="collection-item"><input type="checkbox" />Avocados</li>
-     </ul>
-    </form>
- </div>
-
+        </ul>
+      </form>
+    </div>
+  </body>
+    
 
  
  <br></br>
-</body>
 
 
-
+</div>
 {% endblock %}
