@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% load render_bundle from webpack_loader %}
 
 {% block content %}
 <body>
@@ -17,7 +16,7 @@
     <div class="container">
       <br class="row">
         <h4 class="center">
-          <span class="green-text">Your </span>Farmstands</h4>
+          <span class="green-text">Your </span>Farmstand</h4>
         <div class="col s12 m8">
           <div class="card">
              <div class='row' id='ma'>
@@ -28,7 +27,7 @@
                       var map = new mapboxgl.Map({
                       container: 'map',
                       style: 'mapbox://styles/mapbox/streets-v11',
-                      center: [-78.9013, 35.9958],           
+                      center: [{{ farm.longitude}}, {{ farm.latitude }}],           
                       zoom: 11
                       });
                       map.addControl(
@@ -38,7 +37,7 @@
                         })
                         );
                       var marker = new mapboxgl.Marker()
-                        .setLngLat([-78.9013, 35.9958])
+                        .setLngLat([{{ farm.longitude}}, {{ farm.latitude }}])
                         .addTo(map);
                         map.addControl(
                       new mapboxgl.GeolocateControl({
@@ -59,91 +58,7 @@
                         if (error) throw error;
                         map.addImage('custom-marker', image);
                         // Add a GeoJSON source with 3 points.
-                        map.addSource('points', {
-                        'type': 'geojson',
-                        'data': {
-                        'type': 'FeatureCollection',
-                        'features': [
-                        {
-                        'type': 'Feature',
-                        'properties': {},
-                        'geometry': {
-                        'type': 'Point',
-                        'coordinates': [
-                        -78.936425,
-                        36.006699
-                        ]
-                        }
-                        },
-                        {
-                        'type': 'Feature',
-                        'properties': {},
-                        'geometry': {
-                        'type': 'Point',
-                        'coordinates': [
-                        -78.924280,
-                        36.010483
-                        ]
-                        }
-                        },
-                        {
-                        'type': 'Feature',
-                        'properties': {},
-                        'geometry': {
-                        'type': 'Point',
-                        'coordinates': [
-                        -78.888325,
-                        35.990519
-                        ]
-                        }
-                        },
-                        {
-                        'type': 'Feature',
-                        'properties': {},
-                        'geometry': {
-                        'type': 'Point',
-                        'coordinates': [
-                        -78.918481,
-                        35.979732
-                        ]
-                        }
-                        },
-                        {
-                        'type': 'Feature',
-                        'properties': {},
-                        'geometry': {
-                        'type': 'Point',
-                        'coordinates': [
-                        -78.918481,
-                        35.979732
-                        ]
-                        }
-                        },
-                        {
-                        'type': 'Feature',
-                        'properties': {},
-                        'geometry': {
-                        'type': 'Point',
-                        'coordinates': [
-                        -78.922824,
-                        35.975140
-                        ]
-                        }
-                        },
-                        {
-                        'type': 'Feature',
-                        'properties': {},
-                        'geometry': {
-                        'type': 'Point',
-                        'coordinates': [
-                        -78.922824,
-                        35.975140
-                        ]
-                        }
-                        },
-                        ]
-                        }
-                        });
+                        
                         
                         // Add a symbol layer
                         map.addLayer({
@@ -220,24 +135,6 @@
  
  <br></br>
 </body>
-
-
-<!-- {% if user.is_authenticated %}
-  You are logged in as {{ user }}.
-  <a href="/accounts/logout/">Click here to log out.</a>
-
-  <div>
-    <div id="react-app"></div>
-    <div id="farm-card"></div>
-    {% render_bundle 'main' 'js' %}
-     
-      {{ farmstand_data|json_script:"farmstand-data" }}
-  </div>
-
-{% else %}
-  You are not logged in.
-  <a href="/accounts/login/">Click here to log in.</a>
-{% endif %} -->
 
 
 {% endblock %}

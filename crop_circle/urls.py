@@ -21,8 +21,6 @@ from django.views.generic import TemplateView
 from core import views as core_views
 from core.views import MyRegistrationView
 
-
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', core_views.home_page, name="home"),
