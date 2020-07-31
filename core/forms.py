@@ -10,6 +10,7 @@ class FarmAddressForm(forms.ModelForm):
         model = Farm
         fields = [
             'name',
+            'about_us',
             'website',
             'street_address',
             'street_address_line_2',
