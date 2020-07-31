@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'registration',
     'ordered_model',
     'storages',
-
+    'star_ratings',
 
     # Project-specific
     'users',
@@ -83,6 +83,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.core.context_processors.request',
             ],
         },
     },

@@ -16,6 +16,7 @@ class FarmAddressForm(forms.ModelForm):
             'city',
             'state',
             'zip_code',
+            'image',
             'latitude',
             'longitude',
         ]
