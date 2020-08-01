@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.urls import reverse_lazy
 from .forms import FarmRegistrationForm
 from .models import Tag, Farm, Crop, OffSite, Customer, Recipe, Ingredient, RecipeStep, FarmQuerySet, search, get_farms_for_user
-from .forms import FarmAddressForm, CropForm, CustomerForm
+from .forms import FarmAddressForm, CropForm, CustomerForm, HourForm
 from django.views.generic.edit import FormView
 from registration.backends.simple.views import RegistrationView
 from django.urls import reverse_lazy
@@ -66,6 +66,7 @@ def crop_create(request, farm_pk):
     else:
         form = CropForm()
     return render(request, 'frontend/crop_create.html', {'form': form, 'farm': farm})
+
     
 def crop_detail(request, crop_pk):
     crop = get_object_or_404(Crop.objects.all(), pk=crop_pk)
@@ -95,6 +96,32 @@ def crop_delete(request, crop_pk):
         crop.delete()
         return redirect(to='farm_detail', farm_pk=farm.pk)
     return render(request, 'frontend/crop_delete.html', {'crop': crop})
+
+def hour_create(request, farm_pk):
+    farm = get_object_or_404(request.user.farms, pk=farm_pk)
+    if request.method == 'POST':
+        form = HourForm(data=request.POST, files=request.FILES)
+        if form.is_valid():
+            hour = form.save(commit=False)
+            hour.farm = farm
+            hour.save()
+        
+            return redirect(to='farm_detail', farm_pk=farm.pk)
+    else:
+        form = HourForm()
+    return render(request, 'frontend/hour_create.html', {'form': form, 'farm': farm})
+
+def hour_update(request, farm_pk):
+    farm = get_object_or_404(request.user.farms, pk=farm_pk)
+    if request.method == 'POST':
+        form = HourForm(data=request.POST, files=request.FILES, instance=farm)
+        if form.is_valid():
+            hour = form.save()
+                    
+            return redirect(to='farm_detail', farm_pk=farm.pk)
+    else:
+        form = HourForm()
+    return render(request, 'frontend/hour_update.html', {'form': form, 'farm': farm})
 
 def customer_create(request):
     if request.method == "POST":
