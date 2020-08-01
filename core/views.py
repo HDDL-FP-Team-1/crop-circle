@@ -135,6 +135,9 @@ def customer_delete(request, customer_pk):
 
     return render(request, 'frontend/customer_delete.html', {'customer': customer})
 
+def registration_transfer(request):
+    return render(request, "frontend/registration_transfer.html")
+
 def search_farms(request):
     query = request.GET.get("q")
 

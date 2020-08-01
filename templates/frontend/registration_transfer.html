@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<a class="" href="{% url 'farm_create' %}">Are you a farmer?</a>
+<br>
+<a class="" href="{% url 'customer_create' %}">In it for that produce?</a>
+{% endblock %}

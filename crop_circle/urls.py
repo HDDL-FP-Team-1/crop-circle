@@ -29,6 +29,7 @@ urlpatterns = [
     path('accounts/', include('registration.backends.simple.urls')),
     path('', TemplateView.as_view(template_name='frontend/index.html')),
     path('', core_views.home_page, name='home'),
+    path('accounts/register/transfer', core_views.registration_transfer, name='registration_transfer'),
     path('farm/add/', core_views.farm_create, name='farm_create'),
     path('farm/<int:farm_pk>/', core_views.farm_detail, name='farm_detail'),
     path('farm/list/', core_views.farm_list, name='farm_list'),
