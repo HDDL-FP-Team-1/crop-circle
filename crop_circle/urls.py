@@ -27,6 +27,7 @@ urlpatterns = [
     path('accounts/register/', MyRegistrationView.as_view(), name='registration_register'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('registration.backends.simple.urls')),
+    path('ratings/', include('star_ratings.urls', namespace='ratings')),
     path('', TemplateView.as_view(template_name='frontend/index.html')),
     path('', core_views.home_page, name='home'),
     path('accounts/register/transfer', core_views.registration_transfer, name='registration_transfer'),
