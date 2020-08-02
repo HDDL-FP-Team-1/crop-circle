@@ -37,22 +37,23 @@ HOUR_CHOICES = [(None, '------')] + [(dt.time(hour=x), '{:02d}:00'.format(x)) fo
 class HourForm(forms.ModelForm):
     class Meta:
         model = OpenHours
-        fields = [
-            'mon_start',
-            'mon_end',
-            'tue_start',
-            'tue_end',
-            'wed_start',
-            'wed_end',
-            'thu_start',
-            'thu_end',
-            'fri_start',
-            'fri_end',
-            'sat_start',
-            'sat_end',
-            'sun_start',
-            'sun_end',
-        ]
+        exclude = ['farm']
+        # fields = [
+        #     'mon_start',
+        #     'mon_end',
+        #     'tue_start',
+        #     'tue_end',
+        #     'wed_start',
+        #     'wed_end',
+        #     'thu_start',
+        #     'thu_end',
+        #     'fri_start',
+        #     'fri_end',
+        #     'sat_start',
+        #     'sat_end',
+        #     'sun_start',
+        #     'sun_end',
+        # ]
         widgets = {
             'mon_start': forms.Select(choices=HOUR_CHOICES),
             'mon_end': forms.Select(choices=HOUR_CHOICES),

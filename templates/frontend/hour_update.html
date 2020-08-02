@@ -12,6 +12,11 @@
     <button type="submit" class="">submit</button>
     </div>
   </form>
-
+  <script>
+    let selectFields = document.querySelectorAll("select");
+    for (field of selectFields) {
+      field.classList.add("browser-default");
+    }
+  </script>
 
 {% endblock %}
