@@ -1,13 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.urls import reverse_lazy
-from .forms import FarmRegistrationForm
 from .models import Tag, Farm, Crop, OffSite, Customer, Recipe, Ingredient, RecipeStep, FarmQuerySet, search, get_farms_for_user
-from .forms import FarmAddressForm, CropForm, CustomerForm, HourForm
+from .forms import FarmAddressForm, CropForm, CustomerForm, FarmRegistrationForm, HourForm
+
+
 from django.views.generic.edit import FormView
 from registration.backends.simple.views import RegistrationView
-from django.urls import reverse_lazy
-
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 def home_page(request):
     farms = Farm.objects.all()
@@ -28,7 +29,12 @@ def farm_create(request):
 
 def farm_detail(request, farm_pk):
     farm = get_object_or_404(Farm.objects.all(), pk=farm_pk)
-    
+
+    user_favorite_farm = False
+    if request.user.is_authenticated:
+        user_favorite_farm = request.user.is_favorite_farm(farm)
+    return render(request, 'frontend/farm_detail.html', {'farm': farm})
+
     if request.method == 'POST':
         crop_form = CropForm(data=request.POST, files=request.FILES)
         if crop_form.is_valid():
@@ -41,6 +47,7 @@ def farm_detail(request, farm_pk):
         form = CropForm()
         
     return render(request, 'frontend/farm_detail.html', {'crop_form': crop_form, 'farm': farm})
+
 
 def farm_list(request):
     farms = get_farms_for_user(Farm.objects, request.user)
@@ -188,6 +195,17 @@ def search_farms(request):
     return render(
         request, "frontend/search.html", {"farms": farms, "query": query or ""}
     )
+
+@csrf_exempt
+def toggle_favorite_farm(request, farm_pk):
+    farm = get_object_or_404(Farm.objects.all(), pk=farm_pk)
+
+    if request.user.is_favorite_farm(farm):
+        request.user.favorite_farms.remove(farm)
+        return JsonResponse({"isFavorite": False})
+    else:
+        request.user.favorite_farms.add(farm)
+        return JsonResponse({"isFavorite": True})
 
 class MyRegistrationView(RegistrationView):
     success_url = reverse_lazy('farm_create')
