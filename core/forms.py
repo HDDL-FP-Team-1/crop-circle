@@ -27,6 +27,7 @@ class FarmAddressForm(forms.ModelForm):
 
 class FarmImageForm(forms.ModelForm):
     class Meta:
+        model = Farm
         fields = [
             'image',
         ]

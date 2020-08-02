@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load ratings %}
+{% csrf_token %}
 
 
 {% block scripts %}
@@ -193,10 +194,9 @@
             <p><a class="white-text" id="show-card-form" href="{% url 'crop_create' farm_pk=farm.pk %}"><i class="small material-icons searchbox">add</i></a></p>
 
             <form class="hide" class="input-field" id="card-form" action="{% url 'crop_create' farm_pk=farm.pk %}" method="POST">
-              {% csrf_token %}
-              {{ form.as_p }}
+              {{ crop_form.as_p }}
               <div><button class="green input-field darken-3 btn " type="submit">Add</button></div>
-          </form>
+            </form>
 
               <!-- <div class="input-field">
                 <i class="small material-icons searchbox hide-on-med-and-down">add</i>

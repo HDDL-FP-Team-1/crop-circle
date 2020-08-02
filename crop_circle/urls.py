@@ -34,6 +34,7 @@ urlpatterns = [
     path('farm/add/', core_views.farm_create, name='farm_create'),
     path('farm/<int:farm_pk>/', core_views.farm_detail, name='farm_detail'),
     path('farm/<int:farm_pk>/favorite/', core_views.toggle_favorite_farm, name="toggle_favorite_farm"), 
+    path('farm/<int:farm_pk>/add_image/', core_views.farm_image_add, name="farm_image_add"), 
     path('farm/list/', core_views.farm_list, name='farm_list'),
     path('farm/<int:farm_pk>/update/', core_views.farm_update, name='farm_update'),
     path('farm/<int:farm_pk>/delete/', core_views.farm_delete, name='farm_delete'),
