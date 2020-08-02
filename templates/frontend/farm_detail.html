@@ -18,14 +18,26 @@
 </div>
 </section>
 
+<<<<<<< HEAD
+<!-- favorited farm by logged in user -->
+{% if user.is_authenticated %}
+{% if customer_favorite_farm %}
+<a class="" id="favorited" data-farm-id="{{ farm.pk }}" href="#">&#9734;</a>
+{% else %}
+<a class="" id="favorited" data-farm-id="{{ farm.pk }}" href="#">&#11088;</a>
+{% endif %}
+{% endif %}
+
+=======
 <section class="section section-icons grey lighten-4 center">
+>>>>>>> master
     <div class="container">
       <br class="row">
         <h4 class="center">
           <span class="green-text">Your </span>Location</h4><br>
         <div class="col s12 m8">
           <div class="card">
-             <div class='row' id='ma'>
+            <div class='row' id='ma'>
               <div class="col s12 m6">
                       <div id='map' class='map' style='width: 700px; height: 280px;'>Map</div>
                       <script>
@@ -95,6 +107,24 @@
                         map.getCanvas().style.cursor = '';
                         });
                         });
+
+                        const favoriteFarmLink = document.querySelector("#favorited")
+                          favoriteFarmLink.addEventListener("click", event => {
+                              event.preventDefault()
+                              const farmId = favoriteFarmLink.dataset['farmId']
+                              fetch(`/farm/${farmId}/favorite/`, {
+                                  method: 'POST',
+                                  credentials: 'include'
+                              })
+                              .then(res => res.json())
+                              .then(data => {
+                                  if (data.isFavorite) {
+                                      favoriteFarmLink.innerHTML = '&#9734'
+                                  } else {
+                                      favoriteFarmLink.innerHTML = '&#11088;'
+                                  }
+                              })
+                          })
                         </script> 
                       </div>
                     </div> 
@@ -165,6 +195,40 @@
               <div><button class="green input-field darken-3 btn " type="submit">Add</button></div>
           </form>
 
+<<<<<<< HEAD
+<div class="collection with-header"> 
+<form>
+  <div id="list1" class="dropdown-check-list" tabindex="100">
+    <span class="anchor">Select your fruits</span>
+    <ul class="items">
+      {% for ingredient in CropListView %}
+        <li>
+        </li>
+      {% endfor %}
+    </ul>
+    <button class="green darken-1 btn btn-large" type=submit>update your Fruit selection</button>
+  </form>
+</div>
+
+<br></br>
+
+<div class="collection with-header"> 
+  <form>
+  <div id="list1" class="dropdown-check-list" tabindex="100">
+    <span class="anchor">Select your vegetables</span>
+    <ul class="items">
+        <li class="collection-item"><input type="checkbox" />Carrots </li>
+        <li class="collection-item"><input type="checkbox" />Brocolli</li>
+        <li class="collection-item"><input type="checkbox" />Green Beans </li>
+        <li class="collection-item"><input type="checkbox" />Bamboo </li>
+        <li class="collection-item"><input type="checkbox" />Dinonuggets </li>
+        <li class="collection-item"><input type="checkbox" />Eggplant </li>
+        <li class="collection-item"><input type="checkbox" />Avocados</li>
+    </ul>
+    <button class="green darken-1 btn btn-large" type=submit>update your Veggie selection</button>
+    </form>
+</div>
+=======
 
               <!-- <div class="input-field">
                 <i class="small material-icons searchbox hide-on-med-and-down">add</i>
@@ -198,6 +262,7 @@
       <br></br>
       
     </div>
+>>>>>>> master
 
     <script>
       document.addEventListener('DOMContentLoaded', () => {
@@ -208,11 +273,16 @@
 })  
     </script>
 
+<<<<<<< HEAD
+
+<br></br>
+=======
 {% endblock %}
 <!--QR code placement-->
 <img src="https://api.qrserver.com/v1/create-qr-code/?data={{ farm.name }}&amp;size=100x100" alt="QR Code" title="{{ farm.name }} QR Code" />
  
  <br></br>
+>>>>>>> master
 </body>
 
 
