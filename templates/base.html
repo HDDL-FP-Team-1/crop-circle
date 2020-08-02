@@ -45,9 +45,26 @@
  
  <body>
    
-   <div id='root'></div>
-   <!-- Webpack rendered JS -->
-   
+  <ul id="dropdown1" class="dropdown-content">
+    {% for farm in farms %}
+    <li>
+      <a href="{% url 'farm_detail' farm_pk=farm.pk %}">{{farm.name}}</a>
+    </li>
+    {% endfor %} 
+    <li class="divider"></li>
+    <li><a href="{% url 'customer_create' %}">Add a new farm</a></li>
+  </ul>
+
+  <ul id="dropdown2" class="dropdown-content">
+    {% for farm in farms %}
+    <li>
+      <a href="{% url 'farm_detail' farm_pk=farm.pk %}">{{farm.name}}</a>
+    </li>
+    {% endfor %} 
+    <li class="divider"></li>
+    <li><a href="{% url 'customer_create' %}">Add a new farm</a></li>
+  </ul>
+          
  <header>
    <div class="navbar-fixed">
      <nav class="green darken-2">
@@ -65,14 +82,8 @@
              <li>
                <a href="#popular"><i class="material-icons">location_on</i></a>
              </li>
-             <li>
-               <a href="#gallery">Gallery</a>
-             </li>
-             <li>
-               <a href="#contact">Contact</a>
-             </li>
              {% if user.is_authenticated %}
-             <li><a href="{% url 'farm_list' %}">Profile</a></li>
+             <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Profile<i class="material-icons right">arrow_drop_down</i></a></li>
              {% endif %}
            </li>
               {% if user.is_authenticated %}
@@ -102,7 +113,7 @@
        <a href="#contact">Contact</a>
      </li>
        {% if user.is_authenticated %}
-       <li><a href="{% url 'farm_list' %}">Profile</a>
+       <li><a class="dropdown-trigger" href="#!" data-target="dropdown2">Profile<i class="material-icons right">arrow_drop_down</i></a>
        {% endif %}
      </li>
      {% if user.is_authenticated %}
@@ -135,6 +146,15 @@
    <!-- <script src="./frontend/app.js"></script> -->
    <script>
   //  const { base } = require('material-components-web');
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.dropdown-trigger');
+    var options = {
+      'hover': true,
+      'coverTrigger': false
+    };
+    var instances = M.Dropdown.init(elems, options);
+  });
 
     const sideNav = document.querySelector('.sidenav');
     M.Sidenav.init(sideNav, {});
