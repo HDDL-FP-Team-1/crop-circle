@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load ratings %}
 
 
 {% block scripts %}
@@ -17,6 +18,20 @@
   </div>
 </div>
 </section>
+
+
+<!--star rating django tag, can be moved or positioned anywhere-->
+{% ratings farm %}
+
+
+<!-- favorited farm by logged in user -->
+{% if user.is_authenticated %}
+{% if customer_favorite_farm %}
+<a class="" id="favorited" data-farm-id="{{ farm.pk }}" href="#">&#9734;</a>
+{% else %}
+<a class="" id="favorited" data-farm-id="{{ farm.pk }}" href="#">&#11088;</a>
+{% endif %}
+{% endif %}
 
 <section class="section section-icons grey lighten-4 center">
     <div class="container">
@@ -208,11 +223,12 @@
 })  
     </script>
 
-<br></br>
+
 </body>
+
+
+
+
 {% endblock %}
 <!--QR code placement-->
 <img src="https://api.qrserver.com/v1/create-qr-code/?data={{ farm.name }}&amp;size=100x100" alt="QR Code" title="{{ farm.name }} QR Code" />
- 
-
-

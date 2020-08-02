@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'registration',
     'ordered_model',
     'storages',
-
+    'star_ratings',
 
     # Project-specific
     'users',
