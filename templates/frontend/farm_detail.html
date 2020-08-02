@@ -118,7 +118,7 @@
           <li class="collection-header">
             <h5 class="center">Your Personal QR Code</h5>
           </li>
-          <li class="center collection-item"> <i class="fa fa-qrcode fa-9x" aria-hidden="true"></i></li>
+          <li class="center collection-item"> <img src="https://api.qrserver.com/v1/create-qr-code/?data={{ farm.name }}&amp;size=100x100" alt="QR Code" title="{{ farm.name }} QR Code" /></li>
         </ul>
       </div>
       <div class="col s12 m6">
@@ -140,7 +140,7 @@
             <textarea class="materialize-textarea" placeholder="Enter Message" id="message"></textarea>
             <label for="message">Message</label>
           </div>
-          <input type="submit" value="Submit" class="btn green darken-1">
+          <input type="submit" value="Edit" class="btn green darken-1">
         </div>
       </div>
     </div>
@@ -208,11 +208,11 @@
 })  
     </script>
 
+<br></br>
+</body>
 {% endblock %}
 <!--QR code placement-->
 <img src="https://api.qrserver.com/v1/create-qr-code/?data={{ farm.name }}&amp;size=100x100" alt="QR Code" title="{{ farm.name }} QR Code" />
  
- <br></br>
-</body>
 
 
