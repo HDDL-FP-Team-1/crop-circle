@@ -1,6 +1,10 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-<h1 class="">{{ user.first_name }}'s Page</h1>
-<img src="{{ user.customer.image.url }}"/>
+<h1 class="">{{ profile.customer.first_name }}'s Page</h1>
+<img src="{{ profile.avatar.url }}"/>
+
+<p>{{ profile.bio }}</p>
+<p>{{ profile.web_link }}</p>
 {% endblock %}

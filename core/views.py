@@ -1,13 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.urls import reverse_lazy
-from .forms import FarmRegistrationForm
 from .models import Tag, Farm, Crop, OffSite, Customer, Recipe, Ingredient, RecipeStep, FarmQuerySet, search, get_farms_for_user
-from .forms import FarmAddressForm, CropForm, CustomerForm
+<<<<<<< HEAD
+from .forms import FarmAddressForm, CropForm, CustomerForm, FarmRegistrationForm
+=======
+from .forms import FarmAddressForm, CropForm, CustomerForm, HourForm
+>>>>>>> master
 from django.views.generic.edit import FormView
 from registration.backends.simple.views import RegistrationView
-from django.urls import reverse_lazy
-
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 def home_page(request):
     farms = Farm.objects.all()
@@ -15,7 +18,7 @@ def home_page(request):
 
 def farm_create(request):
     if request.method == "POST":
-        form = FarmAddressForm(data=request.POST)
+        form = FarmAddressForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             farm = form.save(commit=False)
             farm.user = request.user
@@ -28,7 +31,21 @@ def farm_create(request):
 
 def farm_detail(request, farm_pk):
     farm = get_object_or_404(Farm.objects.all(), pk=farm_pk)
+    user_favorite_farm = False
+    if request.user.is_authenticated:
+        user_favorite_farm = request.user.is_favorite_farm(farm)
     return render(request, 'frontend/farm_detail.html', {'farm': farm})
+    if request.method == 'POST':
+        form = CropForm(data=request.POST, files=request.FILES)
+        if form.is_valid():
+            crop = form.save(commit=False)
+            crop.farm = farm
+            crop.save()
+        
+            return redirect(to='farm_detail', farm_pk=farm.pk)
+    else:
+        form = CropForm()
+    return render(request, 'frontend/farm_detail.html', {'form':form, 'farm': farm})
 
 def farm_list(request):
     farms = get_farms_for_user(Farm.objects, request.user)
@@ -37,7 +54,7 @@ def farm_list(request):
 def farm_update(request, farm_pk):
     farm = get_object_or_404(request.user.farms, pk=farm_pk)
     if request.method == 'POST':
-        form = FarmForm(data=request.POST, instance=farm)
+        form = FarmForm(data=request.POST, files=request.FILES, instance=farm)
         if form.is_valid():
             farm = form.save()
             return redirect(to='farm_detail', farm_pk=farm.pk)
@@ -56,7 +73,7 @@ def farm_delete(request, farm_pk):
 def crop_create(request, farm_pk):
     farm = get_object_or_404(request.user.farms, pk=farm_pk)
     if request.method == 'POST':
-        form = CropForm(data=request.POST)
+        form = CropForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             crop = form.save(commit=False)
             crop.farm = farm
@@ -66,6 +83,7 @@ def crop_create(request, farm_pk):
     else:
         form = CropForm()
     return render(request, 'frontend/crop_create.html', {'form': form, 'farm': farm})
+
     
 def crop_detail(request, crop_pk):
     crop = get_object_or_404(Crop.objects.all(), pk=crop_pk)
@@ -79,7 +97,7 @@ def crop_list(request):
 def crop_update(request, crop_pk):
     crop = get_object_or_404(Crop.objects.all(), pk=crop_pk)
     if request.method == 'POST':
-        form = CropForm(data=request.POST, instance=crop)
+        form = CropForm(data=request.POST, files=request.FILES, instance=crop)
         if form.is_valid():
             crop = form.save()
             return redirect(to='crop_detail', crop_pk=crop.pk)
@@ -96,9 +114,35 @@ def crop_delete(request, crop_pk):
         return redirect(to='farm_detail', farm_pk=farm.pk)
     return render(request, 'frontend/crop_delete.html', {'crop': crop})
 
+def hour_create(request, farm_pk):
+    farm = get_object_or_404(request.user.farms, pk=farm_pk)
+    if request.method == 'POST':
+        form = HourForm(data=request.POST, files=request.FILES)
+        if form.is_valid():
+            hour = form.save(commit=False)
+            hour.farm = farm
+            hour.save()
+        
+            return redirect(to='farm_detail', farm_pk=farm.pk)
+    else:
+        form = HourForm()
+    return render(request, 'frontend/hour_create.html', {'form': form, 'farm': farm})
+
+def hour_update(request, farm_pk):
+    farm = get_object_or_404(request.user.farms, pk=farm_pk)
+    if request.method == 'POST':
+        form = HourForm(data=request.POST, files=request.FILES, instance=farm)
+        if form.is_valid():
+            hour = form.save()
+                    
+            return redirect(to='farm_detail', farm_pk=farm.pk)
+    else:
+        form = HourForm()
+    return render(request, 'frontend/hour_update.html', {'form': form, 'farm': farm})
+
 def customer_create(request):
     if request.method == "POST":
-        form = CustomerForm(data=request.POST)
+        form = CustomerForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             customer = form.save(commit=False)
             customer.user = request.user
@@ -107,11 +151,36 @@ def customer_create(request):
     else:
         form = CustomerForm()
 
-    return render(request, 'frontend/customer_detail.html', {'form': form})
-#need to create the views I lost
+    return render(request, 'frontend/customer_create.html', {'form': form})
+
 def customer_detail(request, customer_pk):
     profile = get_object_or_404(Customer.objects.all(), pk=customer_pk)
     return render(request, 'frontend/customer_detail.html', {'profile': profile})
+
+def customer_edit(request, customer_pk):
+    customer = get_object_or_404(Customer.objects.all(), pk=customer_pk)
+    
+    if request.method == 'POST':
+        form = CustomerForm(data=request.POST, files=request.FILES, instance=customer)
+        if form.is_valid():
+            form.save()
+            return redirect(to='customer_detail', customer_pk=customer.pk)
+    else:
+        form = CustomerForm(instance=customer)
+
+    return render(request, 'frontend/customer_edit.html', {'form': form, 'customer':customer})
+
+def customer_delete(request, customer_pk):
+    customer = get_object_or_404(Customer.objects.all(), pk=customer_pk)
+
+    if request.method == 'POST':
+        customer.delete()
+        return redirect(to='home')
+
+    return render(request, 'frontend/customer_delete.html', {'customer': customer})
+
+def registration_transfer(request):
+    return render(request, "frontend/registration_transfer.html")
 
 def search_farms(request):
     query = request.GET.get("q")
@@ -125,5 +194,17 @@ def search_farms(request):
         request, "frontend/search.html", {"farms": farms, "query": query or ""}
     )
 
+@csrf_exempt
+def toggle_favorite_farm(request, farm_pk):
+    farm = get_object_or_404(Farm.objects.all(), pk=farm_pk)
+
+    if request.user.is_favorite_farm(farm):
+        request.user.favorite_farms.remove(farm)
+        return JsonResponse({"isFavorite": False})
+    else:
+        request.user.favorite_farms.add(farm)
+        return JsonResponse({"isFavorite": True})
+
 class MyRegistrationView(RegistrationView):
     success_url = reverse_lazy('farm_create')
+
