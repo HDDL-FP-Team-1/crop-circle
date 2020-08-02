@@ -4,6 +4,7 @@ from django.contrib.postgres.search import SearchVector
 from ordered_model.models import OrderedModel
 from mapbox_location_field.models import LocationField, AddressAutoHiddenField
 from users.models import User
+import datetime as dt
 
 
 class Tag(models.Model):
@@ -12,27 +13,6 @@ class Tag(models.Model):
     def __str__(self):
         return self.tag
 
-WEEKDAYS = (
-  (1, "Monday"),
-  (2, "Tuesday"),
-  (3, "Wednesday"),
-  (4, "Thursday"),
-  (5, "Friday"),
-  (6, "Saturday"),
-  (7, "Sunday"),
-)
-
-class OpenHours(models.Model):
-    weekday = models.IntegerField(choices=WEEKDAYS)
-    from_hour = models.TimeField()
-    to_hour = models.TimeField()
-
-    class Meta:
-        ordering = ('weekday', 'from_hour')
-        unique_together = ('weekday', 'from_hour', 'to_hour')
-
-    def __str__(self):
-        return f'{self.get_weekday_display()} : {self.from_hour} - {self.to_hour}'
 
 class Farm(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='farms', null=True, blank=True)
@@ -45,7 +25,7 @@ class Farm(models.Model):
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
     website = models.CharField(max_length=255, null=True, blank=True)
-    hours = models.ManyToManyField(to=OpenHours, related_name="hours")
+    # hours = models.ManyToManyField(to=OpenHours, related_name="hours")
     image = models.ImageField(default='default.jpg', upload_to='images')
     last_updated = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     tags = models.ManyToManyField(to=Tag, related_name='farms', blank=True)
@@ -53,6 +33,24 @@ class Farm(models.Model):
 
     def __str__(self):
         return self.name
+
+class OpenHours(models.Model):
+    farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='hours', null=True, blank=True)
+    mon_start = models.TimeField(verbose_name='Monday Opening Time', null=True, blank=True, default=None)
+    mon_end = models.TimeField(verbose_name='Monday Closing Time', null=True, blank=True, default=None)
+    tue_start = models.TimeField(verbose_name='Tuesday Opening Time', null=True, blank=True, default=None)
+    tue_end = models.TimeField(verbose_name='Tuesday Closing Time',null=True, blank=True, default=None)
+    wed_start = models.TimeField(verbose_name='Wednesday Opening Time',null=True, blank=True, default=None)
+    wed_end = models.TimeField(verbose_name='Wednesday Closing Time',null=True, blank=True, default=None)
+    thu_start = models.TimeField(verbose_name='Thursday Opening Time',null=True, blank=True, default=None)
+    thu_end = models.TimeField(verbose_name='Thursday Closing Time',null=True, blank=True, default=None)
+    fri_start = models.TimeField(verbose_name='Friday Opening Time',null=True, blank=True, default=None)
+    fri_end = models.TimeField(verbose_name='Friday Closing Time',null=True, blank=True, default=None)
+    sat_start = models.TimeField(verbose_name='Saturday Opening Time',null=True, blank=True, default=None)
+    sat_end = models.TimeField(verbose_name='Saturday Closing Time',null=True, blank=True, default=None)
+    sun_start = models.TimeField(verbose_name='Sunday Opening Time',null=True, blank=True, default=None)
+    sun_end = models.TimeField(verbose_name='Sunday Closing Time',null=True, blank=True, default=None)
+
 
 class OffSite(models.Model):
     pass
