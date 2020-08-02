@@ -36,9 +36,9 @@ def farm_detail(request, farm_pk):
     return render(request, 'frontend/farm_detail.html', {'farm': farm})
 
     if request.method == 'POST':
-        crop_form = CropForm(data=request.POST, files=request.FILES)
-        if crop_form.is_valid():
-            crop = crop_form.save(commit=False)
+        form = CropForm(data=request.POST, files=request.FILES)
+        if form.is_valid():
+            crop = form.save(commit=False)
             crop.farm = farm
             form.save()
         
@@ -46,7 +46,7 @@ def farm_detail(request, farm_pk):
     else:
         form = CropForm()
         
-    return render(request, 'frontend/farm_detail.html', {'crop_form': crop_form, 'farm': farm})
+    return render(request, 'frontend/farm_detail.html', {'form': form, 'farm': farm})
 
 
 def farm_list(request):

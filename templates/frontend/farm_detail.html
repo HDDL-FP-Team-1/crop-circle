@@ -194,44 +194,9 @@
 
             <form class="hide" class="input-field" id="card-form" action="{% url 'crop_create' farm_pk=farm.pk %}" method="POST">
               {% csrf_token %}
-              {{ crop_form.as_p }}
+              {{ form.as_p }}
               <div><button class="green input-field darken-3 btn " type="submit">Add</button></div>
           </form>
-
-
-<div class="collection with-header"> 
-<form>
-  <div id="list1" class="dropdown-check-list" tabindex="100">
-    <span class="anchor">Select your fruits</span>
-    <ul class="items">
-      {% for ingredient in CropListView %}
-        <li>
-        </li>
-      {% endfor %}
-    </ul>
-    <button class="green darken-1 btn btn-large" type=submit>update your Fruit selection</button>
-  </form>
-</div>
-
-<br></br>
-
-<div class="collection with-header"> 
-  <form>
-  <div id="list1" class="dropdown-check-list" tabindex="100">
-    <span class="anchor">Select your vegetables</span>
-    <ul class="items">
-        <li class="collection-item"><input type="checkbox" />Carrots </li>
-        <li class="collection-item"><input type="checkbox" />Brocolli</li>
-        <li class="collection-item"><input type="checkbox" />Green Beans </li>
-        <li class="collection-item"><input type="checkbox" />Bamboo </li>
-        <li class="collection-item"><input type="checkbox" />Dinonuggets </li>
-        <li class="collection-item"><input type="checkbox" />Eggplant </li>
-        <li class="collection-item"><input type="checkbox" />Avocados</li>
-    </ul>
-    <button class="green darken-1 btn btn-large" type=submit>update your Veggie selection</button>
-
-    </form>
-</div>
 
               <!-- <div class="input-field">
                 <i class="small material-icons searchbox hide-on-med-and-down">add</i>
