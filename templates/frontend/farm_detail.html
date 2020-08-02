@@ -185,6 +185,8 @@
             <ul class="items">
               {% for crop in farm.crops.all %}
             <li><h4>{{ crop.item }}</h4></li>
+            <p><a href="{% url 'crop_update' crop_pk=crop.pk %}" class="">Edit</a>
+              <a href="{% url 'crop_delete' crop_pk=crop.pk %}" class="">Delete</a></p>
               {% endfor %}
             </ul>
           </form>
