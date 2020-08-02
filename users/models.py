@@ -13,6 +13,9 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=55, null=True, blank=True)
     last_name = models.CharField(max_length=55, null=True, blank=True)
 
+    def is_favorite_farm(self, farm):
+        return self.favorite_farms.filter(pk=farm.pk).count() == 1
+
 
 class Image(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
