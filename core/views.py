@@ -28,17 +28,19 @@ def farm_create(request):
 
 def farm_detail(request, farm_pk):
     farm = get_object_or_404(Farm.objects.all(), pk=farm_pk)
+    
     if request.method == 'POST':
-        form = CropForm(data=request.POST, files=request.FILES)
-        if form.is_valid():
-            crop = form.save(commit=False)
+        crop_form = CropForm(data=request.POST, files=request.FILES)
+        if crop_form.is_valid():
+            crop = crop_form.save(commit=False)
             crop.farm = farm
-            crop.save()
+            form.save()
         
             return redirect(to='farm_detail', farm_pk=farm.pk)
     else:
         form = CropForm()
-    return render(request, 'frontend/farm_detail.html', {'form':form, 'farm': farm})
+        
+    return render(request, 'frontend/farm_detail.html', {'crop_form': crop_form, 'farm': farm})
 
 def farm_list(request):
     farms = get_farms_for_user(Farm.objects, request.user)

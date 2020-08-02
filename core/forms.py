@@ -22,7 +22,14 @@ class FarmAddressForm(forms.ModelForm):
             'longitude',
         ]
         widgets = {'latitude': forms.HiddenInput(), 'longitude': forms.HiddenInput()}
-        
+
+
+class FarmImageForm(forms.ModelForm):
+    class Meta:
+        fields = [
+            'image',
+        ]
+
 
 class CropForm(forms.ModelForm):
     class Meta:
@@ -69,6 +76,7 @@ class HourForm(forms.ModelForm):
             'sun_end': forms.Select(choices=HOUR_CHOICES),
             }
 
+
 class CustomerForm(forms.ModelForm):
     class Meta:
         model = Customer
@@ -84,6 +92,7 @@ class CustomerForm(forms.ModelForm):
             'latitude',
             'longitude',
         ]
+
 
 class FarmRegistrationForm(UserCreationForm):
 

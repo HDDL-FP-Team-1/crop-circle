@@ -161,7 +161,7 @@
 
             <form class="hide" class="input-field" id="card-form" action="{% url 'crop_create' farm_pk=farm.pk %}" method="POST">
               {% csrf_token %}
-              {{ form.as_p }}
+              {{ crop_form.as_p }}
               <div><button class="green input-field darken-3 btn " type="submit">Add</button></div>
           </form>
 
