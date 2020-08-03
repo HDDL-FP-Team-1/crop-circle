@@ -73,6 +73,10 @@
       font-weight: 100;
   }
 
+  .add-button {
+    padding-bottom: 20px;
+  }
+
   .slider-text {
       text-shadow: 2px 4px rgb(53, 53, 53);
       color: antiquewhite;

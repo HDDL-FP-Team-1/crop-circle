@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'registration',
     'ordered_model',
     'storages',
-
+    'star_ratings',
 
     # Project-specific
     'users',
@@ -169,12 +169,15 @@ del DATABASES['default']['OPTIONS']['sslmode']
 MAPBOX_KEY = env('MAPBOX_KEY')
 
 #aws service
+
 AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
 DEFAULT_FILE_STORAGE = env('DEFAULT_FILE_STORAGE')
 AWS_STORAGE_BUCKET_NAME = 'cropcirclehddl'
 AWS_S3_REGION_NAME = 'us-east-1'
 AWS_DEFAULT_ACL = None
+
+#registration-redux
 
 REGISTRATION_FORM = 'core.forms.FarmRegistrationForm'
 LOGIN_REDIRECT_URL = '/'

@@ -14,6 +14,7 @@ class Tag(models.Model):
         return self.tag
 
 
+
 class Farm(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='farms', null=True, blank=True)
     name = models.CharField(max_length=255, verbose_name='Farm Name') 
@@ -30,9 +31,11 @@ class Farm(models.Model):
     last_updated = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     tags = models.ManyToManyField(to=Tag, related_name='farms', blank=True)
     about_us = models.TextField(max_length=1500, null=True, blank=True)
+    favorited_by = models.ManyToManyField(to=User, related_name='favorite_farms', blank=True)
 
     def __str__(self):
         return self.name
+
 
 class OpenHours(models.Model):
     farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='hours', null=True, blank=True)
@@ -53,7 +56,20 @@ class OpenHours(models.Model):
 
 
 class OffSite(models.Model):
-    pass
+    farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='offsites', null=True, blank=True)
+    street_address = models.CharField(verbose_name='Street Address', max_length=255, null=True, blank=True)
+    street_address_line_2 = models.CharField(verbose_name='Street Address Line 2', max_length=255, null=True, blank=True)
+    city = models.CharField(verbose_name='City', max_length=255, null=True, blank=True)
+    state = models.CharField(verbose_name='State', max_length=255, null=True, blank=True)
+    zip_code = models.CharField(verbose_name='Zip', max_length=255, null=True, blank=True)
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
+    offsite_hour = models.ManyToManyField(to=OpenHours, related_name="offsite_hours")
+    last_updated = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
 
 class Crop(models.Model):
     farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='crops', null=True, blank=True)
@@ -74,6 +90,16 @@ class Customer(models.Model):
     longitude = models.FloatField(null=True, blank=True)
     bio = models.TextField(max_length=200, null=True, blank=True)
     web_link = models.URLField(max_length=200, null=True, blank=True)
+    
+    def __str__(self):
+        return self.name
+
+class Crop(models.Model):
+    farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='crops', null=True, blank=True)
+    item = models.CharField(max_length=255, null=True, blank=True)
+
+    def __str__(self):
+        return self.item
 
 class Recipe(models.Model):
     author = models.ForeignKey(to='users.User', on_delete=models.CASCADE, related_name='recipes', null=True)

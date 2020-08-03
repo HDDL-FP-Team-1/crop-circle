@@ -1,8 +1,13 @@
 {% extends "base.html" %}
 {% load static %}
+{% load ratings %}
 
+{% block scripts %}
+    <script src="{% static 'static/js/search.js' %}"></script>
+{% endblock %}
 
 {% block content %}
+
 <body>
 
 <!-- <div class="grid-container">
@@ -58,10 +63,12 @@
               map.addImage('custom-marker', image);
               // Add a GeoJSON source with 3 points.
               map.addSource('points', {
+
               'type': 'geojson',
               'data': {
               'type': 'FeatureCollection',
               'features': [
+
               {% for farm in farms.all %}
               {
               'type': 'Feature',
@@ -87,6 +94,7 @@
               'type': 'symbol',
               'source': 'points',
               'layout': {
+
                 'icon-image': 'custom-marker',
                 'icon-allow-overlap': true
               }
@@ -158,37 +166,83 @@
     <ul class="items">
       {% for ingredient in CropListView %}
         <li>
+
         </li>
-      {% endfor %}
-    </ul>
-    <button class="green darken-1 btn btn-large" type=submit>update your Fruit selection</button>
-  </form>
+        <li class="center collection-item"><img src="https://api.qrserver.com/v1/create-qr-code/?data={{ farm.name }}&amp;size=100x100" alt="QR Code" title="{{ farm.name }} QR Code" /></li>
+      </ul>
+    </div>
+    <div class="col s12 m6">
+      <div class="card-panel grey lighten-3">
+        <h5>Farm Details</h5>
+        <div class="input-field">
+          <input type="text" placeholder="Name" id="name">
+          <label for="name">Name</label>
+        </div>
+        <div class="input-field">
+          <input type="email" placeholder="Email" id="email">
+          <label for="email">Email</label>
+        </div>
+        <div class="input-field">
+          <input type="text" placeholder="Phone" id="phone">
+          <label for="phone">Phone</label>
+        </div>
+        <div class="input-field">
+          <textarea class="materialize-textarea" placeholder="Enter Message" id="message"></textarea>
+          <label for="message">Message</label>
+        </div>
+        <input type="submit" value="Submit" class="btn green darken-1">
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="col s12 m6">
+  <div class="card-panel grey lighten-3">
+    <section id="search" class="input-field section section-search grey darken-1 white-text center scrollspy">
+      <div class="container">
+        <div class="row">
+          <div class="col s12">
+            <h3 class="search-text">Add your Produce</h3>
+            <p><a class="white-text" id="show-card-form" href="{% url 'crop_create' farm_pk=farm.pk %}"><i class="small material-icons searchbox">add</i></a></p>
+            <form class="hide" class="input-field" id="card-form" action="{% url 'crop_create' farm_pk=farm.pk %}" method="POST">
+              {% csrf_token %}
+              {{ form.as_p }}
+              <div><button class="green input-field darken-3 btn " type="submit">Add</button></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+<br>      
+  <div class="collection with-header"> 
+    <form>
+      <h4 class="center">
+        <span class="green-text">Your </span>Items</h4>
+      <div id="list1" class="dropdown-check-list" tabindex="100">
+        <ul class="items">
+          {% for crop in farm.crops.all %}
+          <li class="produce-items"></li><h5>{{ crop.item }}
+            <a href="{% url 'crop_update' crop_pk=crop.pk %}" class=""><i class="small material-icons searchbox blue-text">edit</i></a>
+              <a href="{% url 'crop_delete' crop_pk=crop.pk %}" class=""><i class="small material-icons searchbox red-text">delete</i></a>
+            </h5>
+          </li>
+          {% endfor %}
+        </ul>
+      </form>
+    </div>
+  </div>
 </div>
 
-<br></br>
+<br>
 
-<div class="collection with-header"> 
-  <form>
-   <div id="list1" class="dropdown-check-list" tabindex="100">
-     <span class="anchor">Select your vegetables</span>
-     <ul class="items">
-         <li class="collection-item"><input type="checkbox" />Carrots </li>
-         <li class="collection-item"><input type="checkbox" />Brocolli</li>
-         <li class="collection-item"><input type="checkbox" />Green Beans </li>
-         <li class="collection-item"><input type="checkbox" />Bamboo </li>
-         <li class="collection-item"><input type="checkbox" />Dinonuggets </li>
-         <li class="collection-item"><input type="checkbox" />Eggplant </li>
-         <li class="collection-item"><input type="checkbox" />Avocados</li>
-     </ul>
-     <button class="green darken-1 btn btn-large" type=submit>update your Veggie selection</button>
-    </form>
- </div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelector('#show-card-form').addEventListener('click', event => {
+    event.preventDefault()
+    document.querySelector('#card-form').classList.remove('hide')
+  })
+})  
+</script>
 
-<!--QR code placement-->
-<img src="https://api.qrserver.com/v1/create-qr-code/?data={{ farm.name }}&amp;size=100x100" alt="QR Code" title="{{ farm.name }} QR Code" />
- 
- <br></br>
 </body>
-
-
 {% endblock %}
