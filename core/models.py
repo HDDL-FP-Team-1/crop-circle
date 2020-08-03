@@ -31,6 +31,7 @@ class Farm(models.Model):
     last_updated = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     tags = models.ManyToManyField(to=Tag, related_name='farms', blank=True)
     about_us = models.TextField(max_length=1500, null=True, blank=True)
+    favorited_by = models.ManyToManyField(to=User, related_name='favorite_farms', blank=True)
 
     def __str__(self):
         return self.name
