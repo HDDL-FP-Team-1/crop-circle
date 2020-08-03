@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<form action="{% url 'offsite_delete' offsite_pk=offsite.pk %}" method="POST">
+    {% csrf_token %}
+    <p>Are you sure you want to delete this stand?</p>
+    <div>
+        <button type="submit">Delete</button>
+        <a href="{% url 'farm_detail' farm_pk=farm.pk %}">Cancel</a>
+    </div>
+</form>
+{% endblock %}

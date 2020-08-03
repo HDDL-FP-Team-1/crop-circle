@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from registration.forms import RegistrationForm
-from core.models import Farm, Customer, Crop, OpenHours
+from core.models import Farm, Customer, Crop, OffSite, OpenHours
 from users.models import User
 from django.db import models
 import datetime as dt
@@ -37,22 +37,23 @@ HOUR_CHOICES = [(None, '------')] + [(dt.time(hour=x), '{:02d}:00'.format(x)) fo
 class HourForm(forms.ModelForm):
     class Meta:
         model = OpenHours
-        fields = [
-            'mon_start',
-            'mon_end',
-            'tue_start',
-            'tue_end',
-            'wed_start',
-            'wed_end',
-            'thu_start',
-            'thu_end',
-            'fri_start',
-            'fri_end',
-            'sat_start',
-            'sat_end',
-            'sun_start',
-            'sun_end',
-        ]
+        exclude = ['farm']
+        # fields = [
+        #     'mon_start',
+        #     'mon_end',
+        #     'tue_start',
+        #     'tue_end',
+        #     'wed_start',
+        #     'wed_end',
+        #     'thu_start',
+        #     'thu_end',
+        #     'fri_start',
+        #     'fri_end',
+        #     'sat_start',
+        #     'sat_end',
+        #     'sun_start',
+        #     'sun_end',
+        # ]
         widgets = {
             'mon_start': forms.Select(choices=HOUR_CHOICES),
             'mon_end': forms.Select(choices=HOUR_CHOICES),
@@ -77,6 +78,19 @@ class CustomerForm(forms.ModelForm):
             'avatar',
             'bio',
             'web_link',
+            'street_address',
+            'street_address_line_2',
+            'city',
+            'state',
+            'zip_code',
+            'latitude',
+            'longitude',
+        ]
+
+class OffSiteForm(forms.ModelForm):
+    class Meta:
+        model = OffSite
+        fields = [
             'street_address',
             'street_address_line_2',
             'city',

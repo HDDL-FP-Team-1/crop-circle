@@ -1,17 +1,21 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends "base.html" %} {% load static %} {% load render_bundle from
+webpack_loader %} {% block content %}
 
-{% load render_bundle from webpack_loader %}
-
-{% block content %}
-
-<form action="{% url 'hour_create' farm_pk=farm.pk %}" method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <div>
+<form
+  action="{% url 'hour_create' farm_pk=farm.pk %}"
+  method="POST"
+  class="browser-default"
+>
+  {% csrf_token %} {{form.as_p}}
+  <div>
     <button type="submit" class="">submit</button>
-    </div>
-  </form>
-
+  </div>
+</form>
+<script>
+  let selectFields = document.querySelectorAll("select");
+  for (field of selectFields) {
+    field.classList.add("browser-default");
+  }
+</script>
 
 {% endblock %}
