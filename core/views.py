@@ -56,12 +56,12 @@ def farm_list(request):
 def farm_update(request, farm_pk):
     farm = get_object_or_404(request.user.farms, pk=farm_pk)
     if request.method == 'POST':
-        form = FarmForm(data=request.POST, files=request.FILES, instance=farm)
+        form = FarmAddressForm(data=request.POST, files=request.FILES, instance=farm)
         if form.is_valid():
             farm = form.save()
             return redirect(to='farm_detail', farm_pk=farm.pk)
     else:
-        form = FarmForm(instance=farm)
+        form = FarmAddressForm(instance=farm)
 
     return render(request, 'frontend/farm_update.html', {'form': form, 'farm': farm})
 
@@ -75,9 +75,11 @@ def farm_delete(request, farm_pk):
 
 
 def farm_image_add(request, farm_pk):
-    farm = get_object_or_404(request.user.farms, pk=farm_pk)    
+    farm = get_object_or_404(request.user.farms, pk=farm_pk)   
+    # image = farm.image.first()
+    
     if request.method == 'POST':
-        image_form = FarmImageForm(data=request.POST, files=request.FILES)
+        image_form = FarmImageForm(data=request.POST, files=request.FILES, instance=farm)
         if image_form.is_valid():
             image = image_form.save(commit=False)
             image.farm = farm
@@ -85,7 +87,7 @@ def farm_image_add(request, farm_pk):
         
             return redirect(to='farm_detail', farm_pk=farm.pk)
     else:
-        image_form = FarmImageForm()
+        image_form = FarmImageForm(instance=farm)
     
     return render(request, 'frontend/farm_image_add.html', {'image_form': image_form, 'farm': farm})
 
