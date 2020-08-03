@@ -2,7 +2,6 @@
 {% load static %}
 {% load ratings %}
 
-
 {% block scripts %}
     <script src="{% static 'static/js/search.js' %}"></script>
 {% endblock %}
@@ -35,124 +34,125 @@
       <div class="card">
         <div class='row' id='ma'>
           <div class="col s12 m6">
-            <div id='map' class='map' style='width: 700px; height: 280px;'>Map</div>
-              <script>
-                      mapboxgl.accessToken = 'pk.eyJ1IjoiaGRkbCIsImEiOiJja2NtMGY1ZDgwcTZ5MnN0OGY3ajJjbW4yIn0.qHA8T449zRKiEj4SS9jnuQ';
-                      var map = new mapboxgl.Map({
-                      container: 'map',
-                      style: 'mapbox://styles/mapbox/streets-v11',
-                      center: [{{ farm.longitude }}, {{ farm.latitude }}],           
-                      zoom: 11
-                      });
-                      map.addControl(
-                        new MapboxGeocoder({
-                        accessToken: mapboxgl.accessToken,
-                        mapboxgl: mapboxgl
-                        })
-                        );
-                      var marker = new mapboxgl.Marker()
-                        .setLngLat([{{ farm.longitude}}, {{ farm.latitude }}])
-                        .addTo(map);
-                        map.addControl(
-                      new mapboxgl.GeolocateControl({
-                        positionOptions: {
-                        enableHighAccuracy: true
-                        },
-                        trackUserLocation: true
-                        })
-                        );
-                      //   stores.features.forEach(function(store, i){
-                      //   store.properties.id = i;
-                      // });
-                      map.on('load', function() {
+          <div id='map' class='map' style='width: 700px; height: 280px;'>Map</div>
+            <script>
+              mapboxgl.accessToken = 'pk.eyJ1IjoiaGRkbCIsImEiOiJja2NtMGY1ZDgwcTZ5MnN0OGY3ajJjbW4yIn0.qHA8T449zRKiEj4SS9jnuQ';
+              var map = new mapboxgl.Map({
+              container: 'map',
+              style: 'mapbox://styles/mapbox/streets-v11',
+              center: [{{ farm.longitude }}, {{ farm.latitude }}],           
+              zoom: 11
+              });
+              map.addControl(
+                new MapboxGeocoder({
+                accessToken: mapboxgl.accessToken,
+                mapboxgl: mapboxgl
+                })
+                );
+              var marker = new mapboxgl.Marker()
+                .setLngLat([{{ farm.longitude}}, {{ farm.latitude }}])
+                .addTo(map);
+                map.addControl(
+              new mapboxgl.GeolocateControl({
+                positionOptions: {
+                enableHighAccuracy: true
+                },
+                trackUserLocation: true
+                })
+                );
+              //   stores.features.forEach(function(store, i){
+              //   store.properties.id = i;
+              // });
+              map.on('load', function() {
               // Add an image to use as a custom marker
-                        map.loadImage(
-                        'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-64.png',
-                        function(error, image) {
-                        if (error) throw error;
-                        map.addImage('custom-marker', image);
-                        // Add a GeoJSON source with 3 points.
-                        map.addSource('points', {
-                      'type': 'geojson',
-                      'data': {
-                      'type': 'FeatureCollection',
-                      'features': [
-                      {% for offsite in farms.offsites.all %}
-                      {
-                      'type': 'Feature',
-                      'properties': {},
-                      'geometry': {
-                      'type': 'Point',
-                      'coordinates': [
-                      {{offsite.longitude}},
-                      {{offsite.latitude}}
-                      ]
+                map.loadImage(
+                'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-64.png',
+                function(error, image) {
+                if (error) throw error;
+                map.addImage('custom-marker', image);
+                // Add a GeoJSON source with 3 points.
+                map.addSource('points', {
+              'type': 'geojson',
+              'data': {
+              'type': 'FeatureCollection',
+              'features': [
+              {% for offsite in farms.offsites.all %}
+              {
+              'type': 'Feature',
+              'properties': {},
+              'geometry': {
+              'type': 'Point',
+              'coordinates': [
+              {{offsite.longitude}},
+              {{offsite.latitude}}
+              ]
+              }
+              },{% endfor %}
+              ]
+              }
+              });
+              // Add a symbol layer
+              map.addLayer({
+              'id': 'symbols',
+              'type': 'symbol',
+              'source': 'points',
+              'layout': {
+              'icon-image': 'custom-marker'
+              }
+              });
+              }
+              );
+                
+              // Add a symbol layer
+              map.addLayer({
+              'id': 'symbols',
+              'type': 'symbol',
+              'source': 'points',
+              'layout': {
+              'icon-image': 'custom-marker'
+              }
+              });
+              }
+              );
+              
+              // Center the map on the coordinates of any clicked symbol from the 'symbols' layer.
+              map.on('click', 'symbols', function(e) {
+              map.flyTo({
+              center: e.features[0].geometry.coordinates
+              });
+              });
+              
+              // Change the cursor to a pointer when the it enters a feature in the 'symbols' layer.
+              map.on('mouseenter', 'symbols', function() {
+              map.getCanvas().style.cursor = 'pointer';
+              });
+              
+              // Change it back to a pointer when it leaves.
+              map.on('mouseleave', 'symbols', function() {
+              map.getCanvas().style.cursor = '';
+              });
+              
+              const favoriteFarmLink = document.querySelector("#favorited")
+              favoriteFarmLink.addEventListener("click", event => {
+                  event.preventDefault()
+                  const farmId = favoriteFarmLink.dataset['farmId']
+                  fetch(`/farm/${farmId}/favorite/`, {
+                      method: 'POST',
+                      credentials: 'include'
+                  })
+                  .then(res => res.json())
+                  .then(data => {
+                      if (data.isFavorite) {
+                          favoriteFarmLink.innerHTML = '&#9734'
+                      } else {
+                          favoriteFarmLink.innerHTML = '&#11088;'
                       }
-                      },{% endfor %}
-                      ]
-                      }
-                      });
-                      // Add a symbol layer
-                      map.addLayer({
-                      'id': 'symbols',
-                      'type': 'symbol',
-                      'source': 'points',
-                      'layout': {
-                      'icon-image': 'custom-marker'
-                      }
-                      });
-                      }
-                      );
-                        
-                        // Add a symbol layer
-                        map.addLayer({
-                        'id': 'symbols',
-                        'type': 'symbol',
-                        'source': 'points',
-                        'layout': {
-                        'icon-image': 'custom-marker'
-                        }
-                        });
-                        }
-                        );
-                        
-                        // Center the map on the coordinates of any clicked symbol from the 'symbols' layer.
-                        map.on('click', 'symbols', function(e) {
-                        map.flyTo({
-                        center: e.features[0].geometry.coordinates
-                        });
-                        });
-                        
-                        // Change the cursor to a pointer when the it enters a feature in the 'symbols' layer.
-                        map.on('mouseenter', 'symbols', function() {
-                        map.getCanvas().style.cursor = 'pointer';
-                        });
-                        
-                        // Change it back to a pointer when it leaves.
-                        map.on('mouseleave', 'symbols', function() {
-                        map.getCanvas().style.cursor = '';
-                        });
-
-                        const favoriteFarmLink = document.querySelector("#favorited")
-                        favoriteFarmLink.addEventListener("click", event => {
-                            event.preventDefault()
-                            const farmId = favoriteFarmLink.dataset['farmId']
-                            fetch(`/farm/${farmId}/favorite/`, {
-                                method: 'POST',
-                                credentials: 'include'
-                            })
-                            .then(res => res.json())
-                            .then(data => {
-                                if (data.isFavorite) {
-                                    favoriteFarmLink.innerHTML = '&#9734'
-                                } else {
-                                    favoriteFarmLink.innerHTML = '&#11088;'
-                                }
-                            })
-                        })
+                  })
+              })
             </script> 
-        </div>
-      </div> 
+          </div>
+        </div> 
+      </div>
     </div>
   </div>
 </section>
@@ -223,7 +223,7 @@
             <p><a class="white-text" id="show-card-form" href="{% url 'crop_create' farm_pk=farm.pk %}"><i class="small material-icons searchbox">add</i></a></p>
             <form class="hide" class="input-field" id="card-form" action="{% url 'crop_create' farm_pk=farm.pk %}" method="POST">
               {% csrf_token %}
-              {{ crop_form.as_p }}
+              {{ form.as_p }}
               <div><button class="green input-field darken-3 btn " type="submit">Add</button></div>
             </form>
           </div>

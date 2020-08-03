@@ -35,26 +35,17 @@ def farm_detail(request, farm_pk):
         user_favorite_farm = request.user.is_favorite_farm(farm)
 
     if request.method == 'POST':
-        image_form = FarmImageForm(data=request.POST, files=request.FILES)
-        if image_form.is_valid():
-            image = image_form.save(commit=False)
-            image.farm = farm
-            image.save()
-        
-            return redirect(to='farm_detail', farm_pk=farm.pk)
-    elif request.method == 'POST':
-        crop_form = CropForm(data=request.POST, files=request.FILES)
-        if crop_form.is_valid():
-            crop = crop_form.save(commit=False)
+        form = CropForm(data=request.POST, files=request.FILES)
+        if form.is_valid():
+            crop = form.save(commit=False)
             crop.farm = farm
             crop.save()
         
             return redirect(to='farm_detail', farm_pk=farm.pk)
     else:
-        crop_form = CropForm()
-        image_form = FarmImageForm()
+        form = CropForm()
 
-    return render(request, 'frontend/farm_detail.html', {'image_form': image_form, 'crop_form': crop_form, 'farm': farm})
+    return render(request, 'frontend/farm_detail.html', {'form': form, 'farm': farm})
 
 
 def farm_list(request):
