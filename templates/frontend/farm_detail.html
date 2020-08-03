@@ -139,7 +139,6 @@
                         map.on('mouseleave', 'symbols', function() {
                         map.getCanvas().style.cursor = '';
                         });
-                        
 
                         const favoriteFarmLink = document.querySelector("#favorited")
                           favoriteFarmLink.addEventListener("click", event => {
@@ -167,6 +166,26 @@
               </section>
 
 <br></br> 
+<div class='container center'>
+  <div class="row">
+    <div class="col s12 m6">
+      <h4 class="center">
+        <span class="green-text">Your </span>Rating</h4>
+        <div class="card-panel grey lighten-2 center">
+        <!--star rating django tag, can be moved or positioned anywhere-->
+        {% ratings farm %}
+        <!-- favorited farm by logged in user -->
+        {% if user.is_authenticated %}
+        {% if customer_favorite_farm %}
+        <a class="" id="favorited" data-farm-id="{{ farm.pk }}" href="#">&#9734;</a>
+        {% else %}
+        <a class="" id="favorited" data-farm-id="{{ farm.pk }}" href="#">&#11088;</a>
+        {% endif %}
+        {% endif %}
+        </div>
+    </div>
+  </div>
+</div>
 <div class="container">
 <section id="contact" class="section section-contact scrollspy">
   <!-- <div class="container"> -->
@@ -176,13 +195,6 @@
           <i class="material-icons medium">add_a_photo</i>
           <h5>Add a photo</h5>
           <p>Add a photo of your farm </p>
-          <form class="" class="input-field" id="card-form" action="{% url 'farm_image_add' farm_pk=farm.pk %}" method="POST">
-            {% csrf_token %}
-            {{ image_form.as_p }}
-            <div>
-                <button class="green input-field darken-3 btn " type="submit">Add</button>
-            </div>
-        </form>
             <div>
                 <button class="green input-field darken-3 btn " type="submit">Add</button>
             </div>
@@ -192,7 +204,7 @@
           <li class="collection-header">
             <h5 class="center">Your Personal QR Code</h5>
           </li>
-          <li class="center collection-item"> <i class="fa fa-qrcode fa-9x" aria-hidden="true"></i></li>
+          <li class="center collection-item"><img src="https://api.qrserver.com/v1/create-qr-code/?data={{ farm.name }}&amp;size=100x100" alt="QR Code" title="{{ farm.name }} QR Code" /></li>
         </ul>
       </div>
       <div class="col s12 m6">
@@ -257,9 +269,11 @@
           <div id="list1" class="dropdown-check-list" tabindex="100">
             <ul class="items">
               {% for crop in farm.crops.all %}
-            <li><h4>{{ crop.item }}</h4></li>
-            <p><a href="{% url 'crop_update' crop_pk=crop.pk %}" class="">Edit</a>
-              <a href="{% url 'crop_delete' crop_pk=crop.pk %}" class="">Delete</a></p>
+              <li class="produce-items"></li><h5>{{ crop.item }}
+                <a href="{% url 'crop_update' crop_pk=crop.pk %}" class=""><i class="small material-icons searchbox blue-text">edit</i></a>
+                  <a href="{% url 'crop_delete' crop_pk=crop.pk %}" class=""><i class="small material-icons searchbox red-text">delete</i></a>
+                </h5>
+              </li>
               {% endfor %}
             </ul>
           </form>
@@ -290,4 +304,4 @@
 
 {% endblock %}
 <!--QR code placement-->
-<img src="https://api.qrserver.com/v1/create-qr-code/?data={{ farm.name }}&amp;size=100x100" alt="QR Code" title="{{ farm.name }} QR Code" />
+
