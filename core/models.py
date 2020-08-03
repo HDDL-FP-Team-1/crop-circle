@@ -94,9 +94,6 @@ class Customer(models.Model):
     def __str__(self):
         return self.name
 
-class OffSite(models.Model):
-    pass
-
 class Crop(models.Model):
     farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='crops', null=True, blank=True)
     item = models.CharField(max_length=255, null=True, blank=True)
