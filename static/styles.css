@@ -92,6 +92,7 @@
 
   .sidebar {
     width: 33.3333%;
+    height: 100%;
   }
   
   .map {
@@ -99,6 +100,7 @@
     position: absolute;
     left: 33.3333%;
     width: 66.6666%;
+    height: 100%;
     top: 0;
     bottom: 0;
   }
@@ -112,8 +114,8 @@
   
   .hero {
     position: relative; 
-    height: 31vh;
-    width: 17.5vh;
+    height: 30.5vh;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -125,17 +127,27 @@
     background-repeat: no-repeat;
     color: black;
     position: absolute;
-    height: 33vh;
-    width: 17.5vh;
+    height: 100%;
+    width: 100%;
     background-size: cover;
     opacity: .25;
 }
 
 .listItems{
+  font-size: 1em;
   font-weight: 700;
 position: relative;
 color: rgb(36, 143, 26);
 line-height: 1.5;
 text-align: center;
 border-bottom: 1px solid green
+}
+
+.listItems1{
+  font-size: 1em;
+  font-weight: 700;
+position: relative;
+color: rgb(36, 143, 26);
+line-height: 1.5;
+text-align: left;
 }

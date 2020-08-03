@@ -80,26 +80,26 @@
   </div>
 </section>
 
-<section id="popular" class="section section-popular scrollspy">
-  <div class="container">
+<section id="popular" class="section center  section-popular scrollspy">
+  <div class="">
     <div class="row">
       <h4 class="center">
         <span class="green-text">Nearby</span> Farms</h4>
-      <div class="col s12 m8">
-        <div class="card">
+      <div class="col s12 m8 center">
+        <div class="card center">
            <div class='row' id='ma'>
             
             <div class="">
-              <div class='sidebar pad2' style='height:280px;'>
+              <div class='sidebar pad2'>
                 
                   
                 <div class='center-align caption hero  z-depth-5'>
                   <img src="" alt="">
                   <div class="">
-                  <h6 class='listItems'>Yours Locally:</h6>
-                  <ul class='listItems'>
+                  <p class='listItems'>Yours Locally</p>
+                  <ul>
                     {% for farm in farms.all %}
-                    <li><a href='{{farm.name}}'>{{ farm.name }}</a></li>
+                    <li class='listItems1'><a href='{{farm.name}}'>{{ farm.name }}</a></li>
                     {% endfor %}
                   </ul>
                   </div>
@@ -206,7 +206,7 @@
               </div>
 
 
-        <div class="col s12 m4">
+        <!-- <div class="col s12 m4">
           <div class="card">
             <div class="card-image">
               <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80" alt="">
@@ -219,15 +219,15 @@
               <p><i class="material-icons">public</i> {{ farm.website }}</p>
             </div>
           </div>
-        </div>
-      </div>
+        </div> -->
+      <!-- </div>
       <div class="row">
         <div class="col s12 center">
           <a href="#contact" class="btn btn-large grey darken-3">
             <i class="material-icons left">send</i> Contact selected farm
           </a>
         </div>
-      </div>
+      </div> -->
     </div>
   </section>
 
