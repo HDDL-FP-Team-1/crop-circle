@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load render_bundle from webpack_loader %}
+{% load static %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Crop Circle</title>
+  <!-- <link rel="stylesheet" href="{{STATIC_URL}}static/styles.css" type="text/css" media="screen" > -->
+  <link rel="stylesheet" href="bundle.css">
+</head>
+
+<body>
+  
+  
+
+</body>
+</html>
+
+
+<div class="">
+  <div id='map' class='' style='width: 480px; height: 280px;'>Map</div>
+  <script>
+  mapboxgl.accessToken = 'pk.eyJ1IjoiaGRkbCIsImEiOiJja2NtMGY1ZDgwcTZ5MnN0OGY3ajJjbW4yIn0.qHA8T449zRKiEj4SS9jnuQ';
+  var map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/mapbox/streets-v11',
+  center: [-78.9013, 35.9958],           
+  zoom: 11
+  });
+  map.addControl(
+    new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    mapboxgl: mapboxgl
+    })
+    );
+  var marker = new mapboxgl.Marker()
+    .setLngLat([-78.9013, 35.9958])
+    .addTo(map);
+    map.addControl(
+        new mapboxgl.GeolocateControl({
+          positionOptions: {
+          enableHighAccuracy: true
+          },
+          trackUserLocation: true
+          })
+          );
+  //   stores.features.forEach(function(store, i){
+  //   store.properties.id = i;
+  // });
+  map.on('load', function() {
+// Add an image to use as a custom marker
+     map.loadImage(
+    'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
+    function(error, image) {
+    if (error) throw error;
+    map.addImage('custom-marker', image);
+    // Add a GeoJSON source with 3 points.
+    map.addSource('points', {
+    'type': 'geojson',
+    'data': {
+    'type': 'FeatureCollection',
+    'features': [
+    {% for farm in farms.all %}
+    {
+    'type': 'Feature',
+    'properties': {},
+    'geometry': {
+    'type': 'Point',
+    'coordinates': [
+    {{farm.longitude}},
+    {{farm.latitude}}
+    ]
+    }
+    },{% endfor %}
+    ]
+    }
+    });
+    // Add a symbol layer
+    map.addLayer({
+    'id': 'symbols',
+    'type': 'symbol',
+    'source': 'points',
+    'layout': {
+    'icon-image': 'custom-marker'
+    }
+    });
+    });
+    
+    // Center the map on the coordinates of any clicked symbol from the 'symbols' layer.
+    map.on('click', 'symbols', function(e) {
+    map.flyTo({
+    center: e.features[0].geometry.coordinates
+    });
+    });
+    
+    // Change the cursor to a pointer when the it enters a feature in the 'symbols' layer.
+    map.on('mouseenter', 'symbols', function() {
+    map.getCanvas().style.cursor = 'pointer';
+    });
+    
+    // Change it back to a pointer when it leaves.
+    map.on('mouseleave', 'symbols', function() {
+    map.getCanvas().style.cursor = '';
+    });
+    });
+    </script> 
+    
+  </div>
+
+
+  <p>Our locations</p>
+  <ul>
+    {% for farm in farms.all %}
+    <li><a href='{{farm.name}}'>{{ farm.name }}</a></li>
+    {% endfor %}
+  </ul>
