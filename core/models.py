@@ -36,6 +36,7 @@ class Farm(models.Model):
     def __str__(self):
         return self.name
 
+
 class OpenHours(models.Model):
     farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='hours', null=True, blank=True)
     mon_start = models.TimeField(verbose_name='Monday Opening Time', null=True, blank=True, default=None)
@@ -55,7 +56,20 @@ class OpenHours(models.Model):
 
 
 class OffSite(models.Model):
-    pass
+    farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='offsites', null=True, blank=True)
+    street_address = models.CharField(verbose_name='Street Address', max_length=255, null=True, blank=True)
+    street_address_line_2 = models.CharField(verbose_name='Street Address Line 2', max_length=255, null=True, blank=True)
+    city = models.CharField(verbose_name='City', max_length=255, null=True, blank=True)
+    state = models.CharField(verbose_name='State', max_length=255, null=True, blank=True)
+    zip_code = models.CharField(verbose_name='Zip', max_length=255, null=True, blank=True)
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
+    offsite_hour = models.ManyToManyField(to=OpenHours, related_name="offsite_hours")
+    last_updated = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
 
 class Crop(models.Model):
     farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='crops', null=True, blank=True)
@@ -79,9 +93,6 @@ class Customer(models.Model):
     
     def __str__(self):
         return self.name
-
-class OffSite(models.Model):
-    pass
 
 class Crop(models.Model):
     farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='crops', null=True, blank=True)

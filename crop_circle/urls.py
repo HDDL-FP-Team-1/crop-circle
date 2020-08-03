@@ -49,6 +49,10 @@ urlpatterns = [
     path('customer/<int:customer_pk>/', core_views.customer_detail, name='customer_detail'),
     path('customer/<int:customer_pk>/edit/', core_views.customer_edit, name='customer_edit'),
     path('customer/<int:customer_pk>/delete/', core_views.customer_delete, name='customer_delete'),
+    path('offsite/add/', core_views.offsite_create, name='offsite_create'),
+    path('offsite/<int:offsite_pk>/', core_views.offsite_detail, name='offsite_detail'),
+    path('offsite/<int:offsite_pk>/edit/', core_views.offsite_edit, name='offsite_edit'),
+    path('offsite/<int:offsite_pk>/delete/', core_views.offsite_delete, name='offsite_delete'),
     path('search/', core_views.search_farms, name='search'),
 ]
 

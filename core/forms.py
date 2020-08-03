@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from registration.forms import RegistrationForm
-from core.models import Farm, Customer, Crop, OpenHours
+from core.models import Farm, Customer, Crop, OffSite, OpenHours
 from users.models import User
 from django.db import models
 import datetime as dt
@@ -96,6 +96,18 @@ class CustomerForm(forms.ModelForm):
             'longitude',
         ]
 
+class OffSiteForm(forms.ModelForm):
+    class Meta:
+        model = OffSite
+        fields = [
+            'street_address',
+            'street_address_line_2',
+            'city',
+            'state',
+            'zip_code',
+            'latitude',
+            'longitude',
+        ]
 
 class FarmRegistrationForm(UserCreationForm):
 

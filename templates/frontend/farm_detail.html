@@ -48,7 +48,7 @@
                       var map = new mapboxgl.Map({
                       container: 'map',
                       style: 'mapbox://styles/mapbox/streets-v11',
-                      center: [{{ farm.longitude}}, {{ farm.latitude }}],           
+                      center: [{{ farm.longitude }}, {{ farm.latitude }}],           
                       zoom: 11
                       });
                       map.addControl(
@@ -74,12 +74,42 @@
                       map.on('load', function() {
               // Add an image to use as a custom marker
                         map.loadImage(
-                        'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
+                        'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-64.png',
                         function(error, image) {
                         if (error) throw error;
                         map.addImage('custom-marker', image);
                         // Add a GeoJSON source with 3 points.
-                        
+                        map.addSource('points', {
+                      'type': 'geojson',
+                      'data': {
+                      'type': 'FeatureCollection',
+                      'features': [
+                      {% for offsite in farms.offsites.all %}
+                      {
+                      'type': 'Feature',
+                      'properties': {},
+                      'geometry': {
+                      'type': 'Point',
+                      'coordinates': [
+                      {{offsite.longitude}},
+                      {{offsite.latitude}}
+                      ]
+                      }
+                      },{% endfor %}
+                      ]
+                      }
+                      });
+                      // Add a symbol layer
+                      map.addLayer({
+                      'id': 'symbols',
+                      'type': 'symbol',
+                      'source': 'points',
+                      'layout': {
+                      'icon-image': 'custom-marker'
+                      }
+                      });
+                      }
+                      );
                         
                         // Add a symbol layer
                         map.addLayer({
