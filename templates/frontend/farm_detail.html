@@ -2,7 +2,6 @@
 {% load static %}
 {% load ratings %}
 
-
 {% block scripts %}
     <script src="{% static 'static/js/search.js' %}"></script>
 {% endblock %}
@@ -18,12 +17,6 @@
   </div>
 </div>
 </section>
-
-
-<!--star rating django tag, can be moved or positioned anywhere-->
-{% ratings farm %}
-
-
 <!-- favorited farm by logged in user -->
 {% if user.is_authenticated %}
 {% if customer_favorite_farm %}
@@ -34,182 +27,191 @@
 {% endif %}
 
 <section class="section section-icons grey lighten-4 center">
-    <div class="container">
-      <br class="row">
-        <h4 class="center">
-          <span class="green-text">Your </span>Location</h4><br>
-        <div class="col s12 m8">
-          <div class="card">
-            <div class='row' id='ma'>
-              <div class="col s12 m6">
-                      <div id='map' class='map' style='width: 700px; height: 280px;'>Map</div>
-                      <script>
-                      mapboxgl.accessToken = 'pk.eyJ1IjoiaGRkbCIsImEiOiJja2NtMGY1ZDgwcTZ5MnN0OGY3ajJjbW4yIn0.qHA8T449zRKiEj4SS9jnuQ';
-                      var map = new mapboxgl.Map({
-                      container: 'map',
-                      style: 'mapbox://styles/mapbox/streets-v11',
-                      center: [{{ farm.longitude }}, {{ farm.latitude }}],           
-                      zoom: 11
-                      });
-                      map.addControl(
-                        new MapboxGeocoder({
-                        accessToken: mapboxgl.accessToken,
-                        mapboxgl: mapboxgl
-                        })
-                        );
-                      var marker = new mapboxgl.Marker()
-                        .setLngLat([{{ farm.longitude}}, {{ farm.latitude }}])
-                        .addTo(map);
-                        map.addControl(
-                      new mapboxgl.GeolocateControl({
-                        positionOptions: {
-                        enableHighAccuracy: true
-                        },
-                        trackUserLocation: true
-                        })
-                        );
-                      //   stores.features.forEach(function(store, i){
-                      //   store.properties.id = i;
-                      // });
-                      map.on('load', function() {
+  <div class="container">
+  <br class="row">
+  <h4 class="center"><span class="green-text">Your </span>Location</h4><br>
+    <div class="col s12 m8">
+      <div class="card">
+        <div class='row' id='ma'>
+          <div class="col s12 m6">
+          <div id='map' class='map' style='width: 700px; height: 280px;'>Map</div>
+            <script>
+              mapboxgl.accessToken = 'pk.eyJ1IjoiaGRkbCIsImEiOiJja2NtMGY1ZDgwcTZ5MnN0OGY3ajJjbW4yIn0.qHA8T449zRKiEj4SS9jnuQ';
+              var map = new mapboxgl.Map({
+              container: 'map',
+              style: 'mapbox://styles/mapbox/streets-v11',
+              center: [{{ farm.longitude }}, {{ farm.latitude }}],           
+              zoom: 11
+              });
+              map.addControl(
+                new MapboxGeocoder({
+                accessToken: mapboxgl.accessToken,
+                mapboxgl: mapboxgl
+                })
+                );
+              var marker = new mapboxgl.Marker()
+                .setLngLat([{{ farm.longitude}}, {{ farm.latitude }}])
+                .addTo(map);
+                map.addControl(
+              new mapboxgl.GeolocateControl({
+                positionOptions: {
+                enableHighAccuracy: true
+                },
+                trackUserLocation: true
+                })
+                );
+              //   stores.features.forEach(function(store, i){
+              //   store.properties.id = i;
+              // });
+              map.on('load', function() {
               // Add an image to use as a custom marker
-                        map.loadImage(
-                        'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-64.png',
-                        function(error, image) {
-                        if (error) throw error;
-                        map.addImage('custom-marker', image);
-                        // Add a GeoJSON source with 3 points.
-                        map.addSource('points', {
-                      'type': 'geojson',
-                      'data': {
-                      'type': 'FeatureCollection',
-                      'features': [
-                      {% for offsite in farms.offsites.all %}
-                      {
-                      'type': 'Feature',
-                      'properties': {},
-                      'geometry': {
-                      'type': 'Point',
-                      'coordinates': [
-                      {{offsite.longitude}},
-                      {{offsite.latitude}}
-                      ]
+                map.loadImage(
+                'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-64.png',
+                function(error, image) {
+                if (error) throw error;
+                map.addImage('custom-marker', image);
+                // Add a GeoJSON source with 3 points.
+                map.addSource('points', {
+              'type': 'geojson',
+              'data': {
+              'type': 'FeatureCollection',
+              'features': [
+              {% for offsite in farms.offsites.all %}
+              {
+              'type': 'Feature',
+              'properties': {},
+              'geometry': {
+              'type': 'Point',
+              'coordinates': [
+              {{offsite.longitude}},
+              {{offsite.latitude}}
+              ]
+              }
+              },{% endfor %}
+              ]
+              }
+              });
+              // Add a symbol layer
+              map.addLayer({
+              'id': 'symbols',
+              'type': 'symbol',
+              'source': 'points',
+              'layout': {
+              'icon-image': 'custom-marker'
+              }
+              });
+              }
+              );
+                
+              // Add a symbol layer
+              map.addLayer({
+              'id': 'symbols',
+              'type': 'symbol',
+              'source': 'points',
+              'layout': {
+              'icon-image': 'custom-marker'
+              }
+              });
+              }
+              );
+              
+              // Center the map on the coordinates of any clicked symbol from the 'symbols' layer.
+              map.on('click', 'symbols', function(e) {
+              map.flyTo({
+              center: e.features[0].geometry.coordinates
+              });
+              });
+              
+              // Change the cursor to a pointer when the it enters a feature in the 'symbols' layer.
+              map.on('mouseenter', 'symbols', function() {
+              map.getCanvas().style.cursor = 'pointer';
+              });
+              
+              // Change it back to a pointer when it leaves.
+              map.on('mouseleave', 'symbols', function() {
+              map.getCanvas().style.cursor = '';
+              });
+              
+              const favoriteFarmLink = document.querySelector("#favorited")
+              favoriteFarmLink.addEventListener("click", event => {
+                  event.preventDefault()
+                  const farmId = favoriteFarmLink.dataset['farmId']
+                  fetch(`/farm/${farmId}/favorite/`, {
+                      method: 'POST',
+                      credentials: 'include'
+                  })
+                  .then(res => res.json())
+                  .then(data => {
+                      if (data.isFavorite) {
+                          favoriteFarmLink.innerHTML = '&#9734'
+                      } else {
+                          favoriteFarmLink.innerHTML = '&#11088;'
                       }
-                      },{% endfor %}
-                      ]
-                      }
-                      });
-                      // Add a symbol layer
-                      map.addLayer({
-                      'id': 'symbols',
-                      'type': 'symbol',
-                      'source': 'points',
-                      'layout': {
-                      'icon-image': 'custom-marker'
-                      }
-                      });
-                      }
-                      );
-                        
-                        // Add a symbol layer
-                        map.addLayer({
-                        'id': 'symbols',
-                        'type': 'symbol',
-                        'source': 'points',
-                        'layout': {
-                        'icon-image': 'custom-marker'
-                        }
-                        });
-                        }
-                        );
-                        
-                        // Center the map on the coordinates of any clicked symbol from the 'symbols' layer.
-                        map.on('click', 'symbols', function(e) {
-                        map.flyTo({
-                        center: e.features[0].geometry.coordinates
-                        });
-                        });
-                        
-                        // Change the cursor to a pointer when the it enters a feature in the 'symbols' layer.
-                        map.on('mouseenter', 'symbols', function() {
-                        map.getCanvas().style.cursor = 'pointer';
-                        });
-                        
-                        // Change it back to a pointer when it leaves.
-                        map.on('mouseleave', 'symbols', function() {
-                        map.getCanvas().style.cursor = '';
-                        });
-                        
-
-                        const favoriteFarmLink = document.querySelector("#favorited")
-                          favoriteFarmLink.addEventListener("click", event => {
-                              event.preventDefault()
-                              const farmId = favoriteFarmLink.dataset['farmId']
-                              fetch(`/farm/${farmId}/favorite/`, {
-                                  method: 'POST',
-                                  credentials: 'include'
-                              })
-                              .then(res => res.json())
-                              .then(data => {
-                                  if (data.isFavorite) {
-                                      favoriteFarmLink.innerHTML = '&#9734'
-                                  } else {
-                                      favoriteFarmLink.innerHTML = '&#11088;'
-                                  }
-                              })
-                          })
-                        </script> 
-                      </div>
-                    </div> 
-                  </div>
-                </div>
-                <br>
-              </section>
-
-<br></br> 
-<div class="container">
-<section id="contact" class="section section-contact scrollspy">
-  <!-- <div class="container"> -->
-    <div class="row">
-      <div class="col s12 m6">
-        <div class="card-panel green darken-2 white-text center">
-          <i class="material-icons medium">add_a_photo</i>
-          <h5>Add a photo</h5>
-          <p>Add a photo of your farm </p>
-        </div>
-        <ul class="collection with-header">
-          <li class="collection-header">
-            <h5 class="center">Your Personal QR Code</h5>
-          </li>
-          <li class="center collection-item"> <i class="fa fa-qrcode fa-9x" aria-hidden="true"></i></li>
-        </ul>
-      </div>
-      <div class="col s12 m6">
-        <div class="card-panel grey lighten-3">
-          <h5>Farm Details</h5>
-          <div class="input-field">
-            <input type="text" placeholder="Name" id="name">
-            <label for="name">Name</label>
+                  })
+              })
+            </script> 
           </div>
-          <div class="input-field">
-            <input type="email" placeholder="Email" id="email">
-            <label for="email">Email</label>
-          </div>
-          <div class="input-field">
-            <input type="text" placeholder="Phone" id="phone">
-            <label for="phone">Phone</label>
-          </div>
-          <div class="input-field">
-            <textarea class="materialize-textarea" placeholder="Enter Message" id="message"></textarea>
-            <label for="message">Message</label>
-          </div>
-          <input type="submit" value="Submit" class="btn green darken-1">
-        </div>
+        </div> 
       </div>
     </div>
-  <!-- </div> -->
+  </div>
 </section>
-
+<br>
+<div class='container center'>
+  <div class="row">
+    <div class="col s12 m6">
+      <h4 class="center">
+        <span class="green-text">Your </span>Rating</h4>
+        <div class="card-panel grey lighten-2 center">
+        {% ratings farm %}
+        </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+<section id="contact" class="section section-contact scrollspy">
+  <div class="row">
+    <div class="col s12 m6">
+      <div class="card-panel green darken-2 white-text center">
+        <i class="material-icons medium">add_a_photo</i>
+        <h5>Add a photo</h5>
+        <p>Add a photo of your farm </p>
+          <div>
+            <button class="green input-field darken-3 btn " type="submit">Add</button>
+          </div>
+      </form>
+      </div>
+      <ul class="collection with-header">
+        <li class="collection-header">
+          <h5 class="center">Your Personal QR Code</h5>
+        </li>
+        <li class="center collection-item"><img src="https://api.qrserver.com/v1/create-qr-code/?data={{ farm.name }}&amp;size=100x100" alt="QR Code" title="{{ farm.name }} QR Code" /></li>
+      </ul>
+    </div>
+    <div class="col s12 m6">
+      <div class="card-panel grey lighten-3">
+        <h5>Farm Details</h5>
+        <div class="input-field">
+          <input type="text" placeholder="Name" id="name">
+          <label for="name">Name</label>
+        </div>
+        <div class="input-field">
+          <input type="email" placeholder="Email" id="email">
+          <label for="email">Email</label>
+        </div>
+        <div class="input-field">
+          <input type="text" placeholder="Phone" id="phone">
+          <label for="phone">Phone</label>
+        </div>
+        <div class="input-field">
+          <textarea class="materialize-textarea" placeholder="Enter Message" id="message"></textarea>
+          <label for="message">Message</label>
+        </div>
+        <input type="submit" value="Submit" class="btn green darken-1">
+      </div>
+    </div>
+  </div>
+</section>
 
 <div class="col s12 m6">
   <div class="card-panel grey lighten-3">
@@ -218,100 +220,46 @@
         <div class="row">
           <div class="col s12">
             <h3 class="search-text">Add your Produce</h3>
-
-
             <p><a class="white-text" id="show-card-form" href="{% url 'crop_create' farm_pk=farm.pk %}"><i class="small material-icons searchbox">add</i></a></p>
-
             <form class="hide" class="input-field" id="card-form" action="{% url 'crop_create' farm_pk=farm.pk %}" method="POST">
               {% csrf_token %}
               {{ form.as_p }}
               <div><button class="green input-field darken-3 btn " type="submit">Add</button></div>
-          </form>
-
-
-<div class="collection with-header"> 
-<form>
-  <div id="list1" class="dropdown-check-list" tabindex="100">
-    <span class="anchor">Select your fruits</span>
-    <ul class="items">
-      {% for ingredient in CropListView %}
-        <li>
-        </li>
-      {% endfor %}
-    </ul>
-    <button class="green darken-1 btn btn-large" type=submit>update your Fruit selection</button>
-  </form>
-</div>
-
-<br></br>
-
-<div class="collection with-header"> 
-  <form>
-  <div id="list1" class="dropdown-check-list" tabindex="100">
-    <span class="anchor">Select your vegetables</span>
-    <ul class="items">
-        <li class="collection-item"><input type="checkbox" />Carrots </li>
-        <li class="collection-item"><input type="checkbox" />Brocolli</li>
-        <li class="collection-item"><input type="checkbox" />Green Beans </li>
-        <li class="collection-item"><input type="checkbox" />Bamboo </li>
-        <li class="collection-item"><input type="checkbox" />Dinonuggets </li>
-        <li class="collection-item"><input type="checkbox" />Eggplant </li>
-        <li class="collection-item"><input type="checkbox" />Avocados</li>
-    </ul>
-    <button class="green darken-1 btn btn-large" type=submit>update your Veggie selection</button>
-
-    </form>
-</div>
-
-              <!-- <div class="input-field">
-                <i class="small material-icons searchbox hide-on-med-and-down">add</i>
-                <input class="white grey-text autocomplete" placeholder="Add items you want to sell" type="text" id="autocomplete-input">
-              </div> -->
-            </div>
+            </form>
           </div>
         </div>
-    </section>
-      
-      <br></br>
-      
-      <div class="collection with-header"> 
-        <form>
-          <h4 class="center">
-            <span class="green-text">Your </span>Items</h4>
-          <div id="list1" class="dropdown-check-list" tabindex="100">
-            <ul class="items">
-              {% for crop in farm.crops.all %}
-            <li><h4>{{ crop.item }}</h4></li>
-            <p><a href="{% url 'crop_update' crop_pk=crop.pk %}" class="">Edit</a>
-              <a href="{% url 'crop_delete' crop_pk=crop.pk %}" class="">Delete</a></p>
-              {% endfor %}
-            </ul>
-          </form>
-        </div>
       </div>
+    </section>
+<br>      
+  <div class="collection with-header"> 
+    <form>
+      <h4 class="center">
+        <span class="green-text">Your </span>Items</h4>
+      <div id="list1" class="dropdown-check-list" tabindex="100">
+        <ul class="items">
+          {% for crop in farm.crops.all %}
+          <li class="produce-items"></li><h5>{{ crop.item }}
+            <a href="{% url 'crop_update' crop_pk=crop.pk %}" class=""><i class="small material-icons searchbox blue-text">edit</i></a>
+              <a href="{% url 'crop_delete' crop_pk=crop.pk %}" class=""><i class="small material-icons searchbox red-text">delete</i></a>
+            </h5>
+          </li>
+          {% endfor %}
+        </ul>
+      </form>
     </div>
-      
-      
-      <br></br>
-      
-    </div>
+  </div>
+</div>
 
+<br>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
+<script>
+document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#show-card-form').addEventListener('click', event => {
     event.preventDefault()
     document.querySelector('#card-form').classList.remove('hide')
   })
 })  
-    </script>
-
+</script>
 
 </body>
-
-
-
-
 {% endblock %}
-<!--QR code placement-->
-<img src="https://api.qrserver.com/v1/create-qr-code/?data={{ farm.name }}&amp;size=100x100" alt="QR Code" title="{{ farm.name }} QR Code" />
