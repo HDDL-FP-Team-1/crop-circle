@@ -161,7 +161,7 @@ def hour_create(request, farm_pk):
 def hour_update(request, farm_pk):
     farm = get_object_or_404(request.user.farms, pk=farm_pk)
     if request.method == 'POST':
-        form = HourForm(data=request.POST, files=request.FILES, instance=farm)
+        form = HourForm(data=request.POST, files=request.FILES, instance=farm.hours.first())
         if form.is_valid():
             hour = form.save()
                     
