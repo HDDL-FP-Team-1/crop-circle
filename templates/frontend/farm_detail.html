@@ -8,6 +8,10 @@
 
 {% block content %}
 
+
+<!--farm image-->
+<!-- <img src="{{ farm.image.url }}"/> -->
+
 <body>
 
 <!-- <div class="grid-container">
@@ -25,6 +29,7 @@
         <div class="col s12">
           <div class="card-panel map z-depth-4 pad2">
           <div id="map" style='height:280px;'>Map</div>
+
             <script>
             mapboxgl.accessToken = 'pk.eyJ1IjoiaGRkbCIsImEiOiJja2NtMGY1ZDgwcTZ5MnN0OGY3ajJjbW4yIn0.qHA8T449zRKiEj4SS9jnuQ';
             var map = new mapboxgl.Map({
@@ -135,6 +140,33 @@
               });
               </script> 
           </div>
+        </div> 
+      </div>
+    </div>
+  </div>
+</section>
+<br>
+<div class='container center'>
+  <div class="row">
+    <div class="col s12 m6">
+      <h4 class="center">
+        <span class="green-text">{{ farm.name }}</span> Rating</h4>
+        <div class="card-panel grey lighten-2 center">
+        {% ratings farm %}
+        </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+<section id="contact" class="section section-contact scrollspy">
+  <div class="row">
+    <div class="col s12 m6">
+      <div class="card-panel green darken-2 white-text center">
+        <i class="material-icons medium">add_a_photo</i>
+        <h5>Add a photo</h5>
+        <p>Add a photo of your farm </p>
+          <div>
+            <a href="{% url 'farm_image_add' farm_pk=farm.pk %}"><button class="green input-field darken-3 btn " type="submit">Add</button></a>
         </div>
         </div>
 
@@ -154,19 +186,10 @@
         </div>
         </div>
       </div>
-    </div>
-  </section>
 
-<br></br> 
-
-<div class="collection with-header"> 
- <form>
-  <div id="list1" class="dropdown-check-list" tabindex="100">
-    <span class="anchor">Select your fruits</span>
-    <ul class="items">
-      {% for ingredient in CropListView %}
-        <li>
-
+      <ul class="collection with-header">
+        <li class="collection-header">
+          <h5 class="center"><span class="green-text">{{ farm.name }}</span> QR Code</h5>
         </li>
         <li class="center collection-item"><img src="https://api.qrserver.com/v1/create-qr-code/?data={{ farm.name }}&amp;size=100x100" alt="QR Code" title="{{ farm.name }} QR Code" /></li>
       </ul>

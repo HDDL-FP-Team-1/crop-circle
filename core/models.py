@@ -68,7 +68,7 @@ class OffSite(models.Model):
     last_updated = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     def __str__(self):
-        return self.name
+        return self.farm
 
 
 class Crop(models.Model):
@@ -90,9 +90,6 @@ class Customer(models.Model):
     longitude = models.FloatField(null=True, blank=True)
     bio = models.TextField(max_length=200, null=True, blank=True)
     web_link = models.URLField(max_length=200, null=True, blank=True)
-    
-    def __str__(self):
-        return self.name
 
 class Crop(models.Model):
     farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='crops', null=True, blank=True)
