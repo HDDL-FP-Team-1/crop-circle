@@ -151,3 +151,16 @@ color: rgb(36, 143, 26);
 line-height: 1.5;
 text-align: left;
 }
+
+#marker {
+  background-image: url('https://docs.mapbox.com/mapbox-gl-js/assets/washington-monument.jpg');
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  }
+   
+  .mapboxgl-popup {
+  max-width: 200px;
+  }
