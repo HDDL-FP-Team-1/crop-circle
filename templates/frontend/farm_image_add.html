@@ -5,7 +5,7 @@
 
 {% block content %}
 
-<form class="hide" class="input-field" id="card-form" action="{% url 'farm_image_add' farm_pk=farm.pk %}" method="POST">
+<form class="" class="input-field" id="card-form" action="{% url 'farm_image_add' farm_pk=farm.pk %}" method="POST">
     {% csrf_token %}
     {{ image_form.as_p }}
     <div>
