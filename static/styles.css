@@ -90,40 +90,46 @@
 
   /* mapbox styling below! */
 
-  .sidebar {
+  /* .sidebar {
     width: 33.3333%;
     height: 100%;
   }
-  
-  .sideCard {
+   */
+  /* .sideCard {
     right: 23%;
     height: 275px;
     display: block;
-   
+
+  } */
+
+  .farm-list {
+    margin: 0px 10px;
   }
 
   .map {
     border-left: 1px solid #fff;
-    position: absolute;
-    left: 12%;
-    width: 75.6666%;
-    height: 275px;
+    /* position: relative; */
+    left: 0%;
+    right: 2%; */
+    width: 100%; 
+    height:100%;
+    align-items: center;
     top: 0;
-    bottom: 0;
+    bottom: 0; 
   }
-  
-  .pad2 {
+
+  /* .pad2 {
     padding: 20px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-  }
+  } */
   
   .hero {
     position: relative; 
-    height: 32vh;
-    width: 100%;
     display: flex;
+    height: 100%;
+    width: 100%;
     align-items: center;
     justify-content: center;
   }
@@ -131,24 +137,18 @@
   .hero::before {
     content: "";
     background-image: url("https://images.unsplash.com/photo-1464226184884-fa280b87c399?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80");
-    background-repeat: no-repeat;
-    color: black;
+    background-size:cover;
     position: absolute;
-    top: 0%;
-    height: 275px;
-    width: 100%;
-    background-size: cover;
+    top: 0px;
+    right: 20px;
+    bottom: 0px;
+    left: 0px;
     opacity: .25;
 }
 
 .listItems{
-  font-size: 1.5em;
-  font-weight: 500;
-position: relative;
-color: rgb(36, 143, 26);
-line-height: 1.5;
-text-align: center;
-border-bottom: 1px solid green
+border-bottom: 1px solid green;
+font-weight: 500;
 }
 
 .listItems1{
@@ -157,14 +157,14 @@ border-bottom: 1px solid green
 position: relative;
 color: rgb(36, 143, 26);
 line-height: 1.5;
-text-align: left;
+text-align: center;
 }
 
 #marker {
   background-image: url('https://docs.mapbox.com/mapbox-gl-js/assets/washington-monument.jpg');
   background-size: cover;
-  width: 50px;
-  height: 50px;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   cursor: pointer;
   }
@@ -173,9 +173,10 @@ text-align: left;
   max-width: 200px;
   }
 
-#centerMap {
+/* #centerMap {
   display: block;
   margin-left: auto;
   margin-right: auto;
   width: 40%;
-}
+} */
+
