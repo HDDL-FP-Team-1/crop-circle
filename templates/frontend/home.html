@@ -81,19 +81,18 @@
 </section>
 
 <section id="popular" class="section center  section-popular scrollspy">
-  <div class="">
+  <div id='' class="">
     <div class="row">
-      <h4 class="center">
-        <span class="green-text">Nearby</span> Farms</h4>
-      <div class="col s12 m8 center">
-        <div class="card center">
+      <h4 class="center"><span class="green-text">Nearby</span> Farms</h4>
+     <div class=''>   
+      <div class="col s12 m8">
+        <div class="card">
            <div class='row' id='ma'>
-            
             <div class="">
-              <div class='sidebar pad2'>
+              <!-- <div class='sidebar pad2'>
                 
                   
-                <div class='center-align caption hero  z-depth-5'>
+                <div class='center  hero  z-depth-5'>
                   <img src="" alt="">
                   <div class="">
                   <p class='listItems'>Yours Locally</p>
@@ -109,9 +108,7 @@
                 </div>
                 </div>
                 </div>
-                
-                
-              </div>
+              </div> -->
                     
                     <div id="map" class='map pad2' style='height:280px;'>Map</div>
                     <script>
@@ -161,7 +158,7 @@
                       'type': 'Feature',
                       'properties': {
                         'description':
-                            '<strong>{{farm.name}}</strong><p><a href="{% url 'farm_detail' farm_pk=farm.pk %}" target="_blank" title="Opens in a new window">{{farm.name}}</p>',
+                            '<strong><a href="{% url 'farm_detail' farm_pk=farm.pk %}" target="_blank" title="Opens in a new window">{{farm.name}}</a></strong><p> {{farm.street_address}} {{farm.street_address_line_2}}, {{farm.city}}, {{farm.state}}, {{farm.zip_code}}</p><p><b>Click on the farm in the list to learn more!<b></p>',
                         'icon': 'theatre'
                       },
                       'geometry': {
@@ -224,11 +221,34 @@
                   </div> 
                 </div>
               </div>
+            </div>
 
 
-        <!-- <div class="col s12 m4">
-          <div class="card">
-            <div class="card-image">
+        <div class=" col s12 m4">
+          <div class="card sideCard">
+            <div class=''>
+              <div class='hero z-depth-5'>
+                <img src="" alt="">
+                <div class="">
+                <p class='listItems'><b>Yours Locally</b></p>
+                <ul>
+                  {% for farm in farms.all %}
+                  <li class='listItems1'><a href='{% url 'farm_detail' farm_pk=farm.pk %}'>{{ farm.name }}</a></li>
+                  {% endfor %}
+                </ul>
+                </div>
+                <div class='caption center'>
+                <div id='listings' class='listings '>
+                
+              </div>
+              </div>
+              </div>
+              
+              
+            </div>   
+
+
+            <!-- <div class="card-image">
               <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80" alt="">
               <span class="card-title"><a class="waves-effect waves-light green darken-1 btn-large">{{ farm.name }}</a></span>
               <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">favorite</i></a>
@@ -239,15 +259,15 @@
               <p><i class="material-icons">public</i> {{ farm.website }}</p>
             </div>
           </div>
-        </div> -->
-      <!-- </div>
+        </div>
+      </div>
       <div class="row">
         <div class="col s12 center">
           <a href="#contact" class="btn btn-large grey darken-3">
             <i class="material-icons left">send</i> Contact selected farm
           </a>
-        </div>
-      </div> -->
+        </div> -->
+      </div>
     </div>
   </section>
 
