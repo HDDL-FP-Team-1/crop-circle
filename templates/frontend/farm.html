@@ -9,7 +9,7 @@
 
 {% block content %}
 
-<form id='farmAdd' action="{% url 'farm_create' %}" method="POST" enctype="multipart/form-data>"
+<form id='farmAdd' action="{% url 'farm_create' %}" method="POST" enctype="multipart/form-data">
   {% csrf_token %}
   {{ form.as_p }}
     <div>

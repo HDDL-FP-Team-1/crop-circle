@@ -35,7 +35,7 @@
             var map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mapbox/streets-v11',
-            center: [-78.9013, 35.9958],           
+            center: [{{farm.longitude}}, {{farm.latitude}}],           
             zoom: 11
             });
             
@@ -46,7 +46,7 @@
               })
               );
             var marker = new mapboxgl.Marker()
-              .setLngLat([-78.9013, 35.9958])
+              .setLngLat([{{farm.longitude}}, {{farm.latitude}}])
               .addTo(map);
               map.addControl(
             new mapboxgl.GeolocateControl({
