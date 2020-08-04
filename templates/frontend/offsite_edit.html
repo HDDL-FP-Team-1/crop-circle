@@ -2,13 +2,20 @@
 {% load static %}
 
 {% block content %}
-
-<form action="{% url 'offsite_delete' offsite_pk=offsite.pk %}" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <div>
-    <button type="submit" class="">submit</button>
+<br>
+<div class='container'>
+    <div class='center'>
+        <h4 class='green-text'>Update your offsite!</h4>
     </div>
-</form>
-
+    <div class='card-panel grey lighten-2 z-depth-5'>
+        <form action="{% url 'offsite_delete' offsite_pk=offsite.pk %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class='center'>
+                <button type="submit" class="waves-effect waves-light btn-small green"><i class="material-icons left">insert_emoticon</i>Update</button>
+            </div>
+        </form>
+    </div>
+</div>
+<br>
 {% endblock %}

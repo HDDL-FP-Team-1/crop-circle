@@ -62,28 +62,67 @@
           <a href="/" class="brand-logo">Crop Circle</a>
           <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
-            <li>
-              <a href="/"><i class="material-icons">home</i></a>
-            </li>
-            <li>
-              <a href="#search"><i class="material-icons">search</i></a>
-            </li>
-            <li>
-              <a href="#popular"><i class="material-icons">location_on</i></a>
-            </li>
-            {% if user.is_authenticated %}
-            <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Profile<i class="material-icons right">arrow_drop_down</i></a></li>
-            {% endif %}
-          </li>
+
+             <li>
+               <a href="/"><i class="material-icons">home</i></a>
+             </li>
+             <li>
+               <a href="{% url 'search' %}"><i class="material-icons">search</i></a>
+             </li>
+             <li>
+               <a href="#nearby_farms"><i class="material-icons">location_on</i></a>
+             </li>
+             {% if user.is_authenticated %}
+             <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Profile<i class="material-icons right">arrow_drop_down</i></a></li>
+             {% endif %}
+              </li>
               {% if user.is_authenticated %}
               <li><a href="{% url 'auth_logout' %}">Logout</a></li>
               {% else %}
               <li><a href="{% url 'auth_login' %}">Login</a></li>
               {% endif %}
-          </ul>
-        </div>
-      </div>
-    </nav>
+            </ul>
+         </div>
+       </div>
+     </nav>
+   </div>
+   <ul class="sidenav" id="mobile-demo">
+     <li>
+       <a href="/">Home</a>
+     </li>
+     <li>
+       <a href="{% url 'search' %}">Search</a>
+     </li>
+     <li>
+       <a href="#nearby_farms">Nearby Farms</a>
+     </li>
+     <li>
+       <a href="#gallery">Gallery</a>
+     </li>
+     <li>
+       <a href="#contact">Contact</a>
+     </li>
+       {% if user.is_authenticated %}
+       <li><a class="dropdown-trigger" href="#!" data-target="dropdown2">Profile<i class="material-icons right">arrow_drop_down</i></a>
+       {% endif %}
+     </li>
+     {% if user.is_authenticated %}
+       <li><a href="{% url 'auth_logout' %}">Logout</a></li>
+       {% else %}
+       <li><a href="{% url 'auth_login' %}">Login</a></li>
+       {% endif %}
+   </ul>
+  </header>
+ <body>
+   <div class="content">
+   {% block content %}
+
+   {% endblock %}
+  </div>
+  <div class="footer">
+   <footer class="section green darken-2 white-text center">
+     <p class="">© 2020 Crop Circle HDDL LLC <br> All rights reserved</p>
+   </footer>
   </div>
   <ul class="sidenav" id="mobile-demo">
     <li>
