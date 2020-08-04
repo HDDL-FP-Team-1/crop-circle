@@ -45,27 +45,25 @@
 </head>
 
 <body>
+<ul id="dropdown1" class="dropdown-content">
+  {% for farm in farms %}
+  <li>
+    <a href="{% url 'farm_detail' farm_pk=farm.pk %}">{{farm.name}}</a>
+  </li>
+  {% endfor %} 
+  <li class="divider"></li>
+  <li><a href="{% url 'farm_create' %}">Add a new farm</a></li>
+</ul>
 
-  <ul id="dropdown1" class="dropdown-content">
-    {% for farm in farms %}
-    <li>
-      <a href="{% url 'farm_detail' farm_pk=farm.pk %}">{{farm.name}}</a>
-    </li>
-    {% endfor %} 
-    <li class="divider"></li>
-    <li><a href="{% url 'farm_create' %}">Add a new farm</a></li>
-  </ul>
-
-  <ul id="dropdown2" class="dropdown-content">
-    {% for farm in farms %}
-    <li>
-      <a href="{% url 'farm_detail' farm_pk=farm.pk %}">{{farm.name}}</a>
-    </li>
-    {% endfor %} 
-    <li class="divider"></li>
-    <li><a href="{% url 'farm_create' %}">Add a new farm</a></li>
-  </ul>
-          
+<ul id="dropdown2" class="dropdown-content">
+  {% for farm in farms %}
+  <li>
+    <a href="{% url 'farm_detail' farm_pk=farm.pk %}">{{farm.name}}</a>
+  </li>
+  {% endfor %} 
+  <li class="divider"></li>
+  <li><a href="{% url 'farm_create' %}">Add a new farm</a></li>
+</ul>   
 <header>
   <div class="navbar-fixed">
     <nav class="green darken-2">
