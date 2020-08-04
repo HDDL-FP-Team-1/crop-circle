@@ -92,6 +92,7 @@ class Customer(models.Model):
 
 class Crop(models.Model):
     farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='crops', null=True, blank=True)
+    offsite = models.ForeignKey(to=OffSite, on_delete=models.CASCADE, related_name='offsite_crops', null=True, blank=True)
     item = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):

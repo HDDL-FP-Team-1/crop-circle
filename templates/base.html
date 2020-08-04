@@ -113,43 +113,6 @@
        {% endif %}
    </ul>
   </header>
- <body>
-   <div class="content">
-   {% block content %}
-
-   {% endblock %}
-  </div>
-  <div class="footer">
-   <footer class="section green darken-2 white-text center">
-     <p class="">© 2020 Crop Circle HDDL LLC <br> All rights reserved</p>
-   </footer>
-  </div>
-  <ul class="sidenav" id="mobile-demo">
-    <li>
-      <a href="/">Home</a>
-    </li>
-    <li>
-      <a href="#search">Search</a>
-    </li>
-    <li>
-      <a href="#popular">Nearby Farms</a>
-    </li>
-    <li>
-      <a href="#gallery">Gallery</a>
-    </li>
-    <li>
-      <a href="#contact">Contact</a>
-    </li>
-    {% if user.is_authenticated %}
-      <li><a class="dropdown-trigger" href="#!" data-target="dropdown2">Profile<i class="material-icons right">arrow_drop_down</i></a></li>
-    {% endif %}
-    {% if user.is_authenticated %}
-      <li><a href="{% url 'auth_logout' %}">Logout</a></li>
-      {% else %}
-      <li><a href="{% url 'auth_login' %}">Login</a></li>
-    {% endif %}
-  </ul>
-</header>
 {% block content %}
 {% endblock %}
 <div class="footer">
