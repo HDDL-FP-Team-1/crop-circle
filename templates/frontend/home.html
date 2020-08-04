@@ -203,7 +203,7 @@
             <h5 class="green-text listItems">Your Local Farms</h5>
             <ul>
               {% for farm in farms.all %}
-              <li class='listItems1'><a href='{% url 'farm_detail' farm_pk=farm.pk %}'>{{ farm.name }}</a></li>
+              <li class='listItems1'><a href="{% url 'farm_detail' farm_pk=farm.pk %}">{{ farm.name }}</a></li>
               {% endfor %}
             </ul>
           </a>
