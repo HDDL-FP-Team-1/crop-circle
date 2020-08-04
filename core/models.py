@@ -57,6 +57,7 @@ class OpenHours(models.Model):
 
 class OffSite(models.Model):
     farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='offsites', null=True, blank=True)
+    name = models.CharField(verbose_name='Offsite Type', max_length=255, null=True, blank=True)
     street_address = models.CharField(verbose_name='Street Address', max_length=255, null=True, blank=True)
     street_address_line_2 = models.CharField(verbose_name='Street Address Line 2', max_length=255, null=True, blank=True)
     city = models.CharField(verbose_name='City', max_length=255, null=True, blank=True)
@@ -66,13 +67,11 @@ class OffSite(models.Model):
     longitude = models.FloatField(null=True, blank=True)
     offsite_hour = models.ManyToManyField(to=OpenHours, related_name="offsite_hours")
     last_updated = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-
-    def __str__(self):
-        return self.farm
-
+    about_us = models.TextField(max_length=1500, null=True, blank=True)
 
 class Crop(models.Model):
     farm = models.ForeignKey(to=Farm, on_delete=models.CASCADE, related_name='crops', null=True, blank=True)
+    offsite = models.ForeignKey(to=OffSite, on_delete=models.CASCADE, related_name='offsite_crops', null=True, blank=True)
     item = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):

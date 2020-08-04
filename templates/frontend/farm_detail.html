@@ -7,9 +7,18 @@
 {% endblock %}
 
 {% block content %}
+
+<section id="search" class="section section-search green darken-3 white-text center scrollspy">
+  <div class="container">
+    <div class="row">
+      <div class="col s12">
+        <h3 class="search-text">{{ farm.name }}</h3>
+      </div>
+    </div>
+  </div>
+</section>
 <section class="section section-icons green lighten-5 center">
     <div class="container">
-      <h4 class="center"><span class="green-text">{{ farm.name }}</span> Farms</h4> 
       <br>
       <div class="row">
         <div class="col s12">
@@ -129,12 +138,13 @@
     </div>
   </div>
 </section>
+<div>
 <div class="container col s12 m6">
   <div class="card-panel grey lighten-3">
     <div class="collection with-header"> 
       <h4 class="center">
-        <span class="green-text">{{ farm.name }} </span> - About Us</h4>
-        <p>{{ farm.about_us }}</p>
+        <span class="green-text">About</span> Us</h4>
+        <p class="flow-text">{{ farm.about_us }}</p>
     </div>
   </div>
 </div>
@@ -157,9 +167,9 @@
         <li class="center collection-item"><img src="https://api.qrserver.com/v1/create-qr-code/?data={{ farm.name }}&amp;size=100x100" alt="QR Code" title="{{ farm.name }} QR Code" /></li>
       </ul>
     </div>
-    <div class="col s6 m6">
+    <div class="col s6 m6 center">
       <div class="card-panel grey lighten-3">
-        <h5><span class="green-text">{{ farm.name }} </span> Hours</h5>
+        <h5><span class="green-text">Our </span> Hours</h5>
           <ul>
             <li>Mon: {{farm.hours.first.mon_start}} - {{farm.hours.first.mon_end}}</li>
             <li>Tue: {{farm.hours.first.tue_start}} - {{farm.hours.first.tue_end}}</li>
@@ -169,29 +179,35 @@
             <li>Sat: {{farm.hours.first.sat_start}} - {{farm.hours.first.sat_end}}</li>
             <li>Sun: {{farm.hours.first.sun_start}} - {{farm.hours.first.sun_end}}</li>
           </ul>
+          <div>
           {% if user.is_authenticated %}
-          <a href="{% url 'hour_update' farm_pk=farm.pk %}"><input type="submit" value="Update Hours" class="btn green darken-1"></a>
+          <a href="{% url 'hour_update' farm_pk=farm.pk %}"><input type="submit" value="Update Hours" class="btn input-field green darken-1 btn-small"></a>
           {% endif %}
+        </div>
       </div>
     </div>
-    <div class='container center'>
+     <div class=''>
       <div class="col s6 m6">
         <h6 class="center"><span class="green-text">{{ farm.name }} </span>Rating</h6>
           <div class="card-panel grey lighten-2 center">
           {% ratings farm %}
           </div>
       </div>
-    </div>
+     </div>
   </div>
 </section>
 <div class="col s12 m4 l4 farm-list">
   <div class="card-panel z-depth-4">
-    <h5 class="listItems"><span class="green-text">{{ farm.name }} </span> Offsite Locations</h5>
+    <h5 class="listItems card-title"><span class="green-text">{{ farm.name }} </span> Offsite Locations
+    <a href="{% url 'offsite_create' farm_pk=farm.pk %}" class="btn-floating btn-small waves-effect waves-light green right"><i class="material-icons">add</i></a></h5>
     <ul>
-      {% for farm in farms.all %}
-      <li class='listItems1'><a href="{% url 'farm_detail' farm_pk=farm.pk %}">{{ farm.name }}</a></li>
+      {% for offsite in farm.offsites.all %}
+      <li class='listItems1'><a href="{% url 'offsite_detail' offsite_pk=offsite.pk %}">{{ offsite.name }}</a></li>
       {% endfor %}
     </ul>
+    <!-- <a href="{% url 'offsite_create' farm_pk=farm.pk %}"><input type="submit" value="Add" class="btn input-field green darken-1 btn-small"></a> -->
+    <div>
+    </div>
   </div>
 </div>
 <div class="col s12 m6">
@@ -234,6 +250,8 @@
 </div>
 
 <br>
+</div>
+
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {

@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<form id='offsiteAdd' action="{% url 'offsite_create' %}" method="POST" enctype="multipart/form-data">
+<form id='offsiteAdd' action="{% url 'offsite_create' farm_pk=farm.pk %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <div>
