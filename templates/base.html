@@ -79,10 +79,10 @@
                <a href="/"><i class="material-icons">home</i></a>
              </li>
              <li>
-               <a href="#search"><i class="material-icons">search</i></a>
+               <a href="{% url 'search' %}"><i class="material-icons">search</i></a>
              </li>
              <li>
-               <a href="#popular"><i class="material-icons">location_on</i></a>
+               <a href="#nearby_farms"><i class="material-icons">location_on</i></a>
              </li>
              {% if user.is_authenticated %}
              <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Profile<i class="material-icons right">arrow_drop_down</i></a></li>
@@ -103,10 +103,10 @@
        <a href="/">Home</a>
      </li>
      <li>
-       <a href="#search">Search</a>
+       <a href="{% url 'search' %}">Search</a>
      </li>
      <li>
-       <a href="#popular">Nearby Farms</a>
+       <a href="#nearby_farms">Nearby Farms</a>
      </li>
      <li>
        <a href="#gallery">Gallery</a>

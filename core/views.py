@@ -30,10 +30,6 @@ def farm_create(request):
 def farm_detail(request, farm_pk):
     farm = get_object_or_404(Farm.objects.all(), pk=farm_pk)
 
-    user_favorite_farm = False
-    if request.user.is_authenticated:
-        user_favorite_farm = request.user.is_favorite_farm(farm)
-
     if request.method == 'POST':
         form = CropForm(data=request.POST, files=request.FILES)
         if form.is_valid():
