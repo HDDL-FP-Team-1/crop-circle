@@ -45,7 +45,6 @@
   </div>
 </section> -->
 
-
 <section class="section section-icons grey lighten-4 center">
   <div class="container">
     <div class="row">
@@ -119,7 +118,7 @@
             // });
             map.on('load', function() {
     // Add an image to use as a custom marker
-               map.loadImage(
+              map.loadImage(
               'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
               function(error, image) {
               if (error) throw error;
@@ -271,7 +270,6 @@
 </section>
 
 
-
       <section class="section section-follow green darken-2 white-text center">
         <div class="container">
           <div class="row">
@@ -298,40 +296,7 @@
       </section>
 
    
-     <!-- <script>
-    function buildLocationList(data) {
-      data.features.forEach(function(store, i){
-        /**
-         * Create a shortcut for `store.properties`,
-         * which will be used several times below.
-        **/
-        var prop = store.properties;
-    
-        /* Add a new listing section to the sidebar. */
-        var listings = document.getElementById('listings');
-        var listing = listings.appendChild(document.createElement('div'));
-        /* Assign a unique `id` to the listing. */
-        listing.id = "listing-" + prop.id;
-        /* Assign the `item` class to each listing for styling. */
-        listing.className = 'item';
-    
-        /* Add the link to the individual listing created above. */
-        var link = listing.appendChild(document.createElement('a'));
-        link.href = '#';
-        link.className = 'title';
-        link.id = "link-" + prop.id;
-        link.innerHTML = prop.address;
-    
-        /* Add details to the individual listing. */
-        var details = listing.appendChild(document.createElement('div'));
-        details.innerHTML = prop.city;
-        if (prop.phone) {
-          details.innerHTML += ' · ' + prop.phoneFormatted;
-        }
-      });
-    }
-</script> -->
-   </body>
+  </body>
 
 </div>
 {% endblock %}

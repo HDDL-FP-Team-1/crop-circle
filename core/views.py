@@ -21,7 +21,8 @@ def farm_create(request):
             farm = form.save(commit=False)
             farm.user = request.user
             form.save()
-            return redirect(to='home')
+            farm_pk = farm.pk
+            return redirect(to='hour_create', farm_pk=farm_pk)
     else:
         form = FarmAddressForm()
 
@@ -29,6 +30,7 @@ def farm_create(request):
 
 def farm_detail(request, farm_pk):
     farm = get_object_or_404(Farm.objects.all(), pk=farm_pk)
+
 
     if request.method == 'POST':
         form = CropForm(data=request.POST, files=request.FILES)
@@ -137,7 +139,7 @@ def hour_create(request, farm_pk):
     farm = get_object_or_404(request.user.farms, pk=farm_pk)
     hour = farm.hours.filter().first()
     if request.method == 'POST':
-        form = HourForm(data=request.POST, files=request.FILES, instance=hour)
+        form = HourForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             hour = form.save(commit=False)
             hour.farm = farm
@@ -158,7 +160,7 @@ def hour_update(request, farm_pk):
                     
             return redirect(to='farm_detail', farm_pk=farm.pk)
     else:
-        form = HourForm()
+        form = HourForm(instance=hour)
     return render(request, 'frontend/hour_update.html', {'form': form, 'farm': farm})
 
 def customer_create(request):
@@ -200,22 +202,37 @@ def customer_delete(request, customer_pk):
 
     return render(request, 'frontend/customer_delete.html', {'customer': customer})
 
-def offsite_create(request):
+def offsite_create(request, farm_pk):
+    farm = get_object_or_404(request.user.farms, pk=farm_pk)
+    
     if request.method == "POST":
         form = OffSiteForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             offsite = form.save(commit=False)
-            offsite.user = request.user
-            form.save()
-            return redirect(to='offsite_detail', offsite_pk=offsite.pk)
+            offsite.farm = farm
+            offsite.save()
+            # offsite_pk = offsite.pk
+            return redirect(to='farm_detail', farm_pk=farm.pk) 
     else:
         form = OffSiteForm()
 
-    return render(request, 'frontend/offsite_create.html', {'form': form})
+    return render(request, 'frontend/offsite_create.html', {'form': form, 'farm': farm})
 
 def offsite_detail(request, offsite_pk):
     offsite = get_object_or_404(OffSite.objects.all(), pk=offsite_pk)
-    return render(request, 'frontend/offsite_detail.html', {'offsite': offsite})
+
+    if request.method == 'POST':
+        form = CropForm(data=request.POST, files=request.FILES)
+        if form.is_valid():
+            crop = form.save(commit=False)
+            crop.offsite = offsite
+            crop.save()
+        
+            return redirect(to='offsite_detail', offsite_pk=offsite.pk)
+    else:
+        form = CropForm()
+    
+    return render(request, 'frontend/offsite_detail.html', {'form': form, 'offsite': offsite})
 
 def offsite_edit(request, offsite_pk):
     offsite = get_object_or_404(OffSite.objects.all(), pk=offsite_pk)
@@ -241,6 +258,22 @@ def offsite_delete(request, offsite_pk):
     
 def registration_transfer(request):
     return render(request, "frontend/registration_transfer.html")
+
+def offsite_crop_create(request, offsite_pk):
+    offsite = get_object_or_404(OffSite.objects.all(), pk=offsite_pk)
+    
+    if request.method == 'POST':
+        form = CropForm(data=request.POST, files=request.FILES)
+        if form.is_valid():
+            crop = form.save(commit=False)
+            crop.offsite = offsite
+            crop.save()
+        
+            return redirect(to='offsite_detail', offsite_pk=offsite.pk)
+    else:
+        form = CropForm()
+    
+    return render(request, 'frontend/offsite_crop_create.html', {'form': form, 'offsite': offsite})
 
 def search_farms(request):
     query = request.GET.get("q")

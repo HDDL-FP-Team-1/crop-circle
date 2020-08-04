@@ -100,6 +100,7 @@ class OffSiteForm(forms.ModelForm):
     class Meta:
         model = OffSite
         fields = [
+            'name',
             'street_address',
             'street_address_line_2',
             'city',
@@ -108,6 +109,7 @@ class OffSiteForm(forms.ModelForm):
             'latitude',
             'longitude',
         ]
+        widgets = {'latitude': forms.HiddenInput(), 'longitude': forms.HiddenInput()}
 
 class FarmRegistrationForm(UserCreationForm):
 
