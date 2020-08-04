@@ -30,9 +30,9 @@ def farm_create(request):
 def farm_detail(request, farm_pk):
     farm = get_object_or_404(Farm.objects.all(), pk=farm_pk)
 
-    user_favorite_farm = False
-    if request.user.is_authenticated:
-        user_favorite_farm = request.user.is_favorite_farm(farm)
+    # user_favorite_farm = False
+    # if request.user.is_authenticated:
+    #     user_favorite_farm = request.user.is_favorite_farm(farm)
 
     if request.method == 'POST':
         form = CropForm(data=request.POST, files=request.FILES)
@@ -141,7 +141,7 @@ def hour_create(request, farm_pk):
     farm = get_object_or_404(request.user.farms, pk=farm_pk)
     hour = farm.hours.filter().first()
     if request.method == 'POST':
-        form = HourForm(data=request.POST, files=request.FILES, instance=hour)
+        form = HourForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             hour = form.save(commit=False)
             hour.farm = farm
@@ -162,7 +162,7 @@ def hour_update(request, farm_pk):
                     
             return redirect(to='farm_detail', farm_pk=farm.pk)
     else:
-        form = HourForm()
+        form = HourForm(instance=hour)
     return render(request, 'frontend/hour_update.html', {'form': form, 'farm': farm})
 
 def customer_create(request):
