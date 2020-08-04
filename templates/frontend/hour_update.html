@@ -1,22 +1,29 @@
 {% extends "base.html" %}
 {% load static %}
 
-
-
 {% block content %}
 
-<form action="{% url 'hour_update' farm_pk=farm.pk %}" method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <div>
-    <button type="submit" class="">submit</button>
+<br>
+<div class="container">
+  <div class='card-panel grey lighten-2 z-depth-5'>
+    <div class='center'>
+      <h4 class='green-text'>Update your farm hours!</h4>
     </div>
-  </form>
+    <form action="{% url 'hour_update' farm_pk=farm.pk %}" method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class='center'>
+      <button type="submit" class="waves-effect waves-light btn-large green"><i class='material-icons left'>edit</i>update</button>
+      </div>
+    </form>
+  </div>
+</div>
+
   <script>
     let selectFields = document.querySelectorAll("select");
     for (field of selectFields) {
       field.classList.add("browser-default");
     }
   </script>
-
+<br>
 {% endblock %}

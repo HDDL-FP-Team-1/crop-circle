@@ -5,13 +5,21 @@
 
 {% block content %}
 
-<form id="farmUpdate" action="{% url 'farm_update' farm_pk=farm.pk %}" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <div>
-    <button type="submit" class="">submit</button>
-    </div>
-  </form>
+<div class="container lignten-12">
+  <div class='center'>
+    <h4 class='green-text'>Update your farm!</h4>
+  </div>
+  <form id="farmUpdate" class="blue-grey lighten-5 col s4 z-depth-5" action="{% url 'farm_update' farm_pk=farm.pk %}" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class='center'>
+      <button type="submit" class="waves-effect waves-light btn-large green"><i class="material-icons left">insert_emoticon</i>Update</button>
+      </div>
+      <br>
+    </form>
+</div>
+<br>
+
   <script>
     document.addEventListener("submit", function (event) {
    console.log('test')

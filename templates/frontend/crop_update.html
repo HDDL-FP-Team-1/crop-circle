@@ -4,14 +4,20 @@
 {% load render_bundle from webpack_loader %}
 
 {% block content %}
-
+<br>
+<div class='container'>
+  <div class='card-panel grey lighten-2 z-depth-5'>
+  <div class='center'>
+    <h5 class='green-text'>Edit your crop item!</h5>
+  </div>
 <form action="{% url 'crop_update' crop_pk=crop.pk %}" method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-    <div>
-    <button type="submit" class="">submit</button>
+    <div class='center'>
+    <button type="submit" class="waves-effect waves-light btn-small green"><i class='material-icons left'>edit</i>edit</button>
     </div>
   </form>
-
+  </div>
+</div>
 
 {% endblock %}
