@@ -79,138 +79,145 @@
     </div>
   </div>
 </section>
+  
+<section class="section section-icons green lighten-5 center">
+    <div class="container">
+      <h4 class="center"><span class="green-text">Nearby</span> Farms</h4> 
+      <br>
+      <div class="row">
+        <div class="col s12">
+          <div class="card-panel map z-depth-4 pad2">
+          <div id="map" style='height:280px;'>Map</div>
+            <script>
+            mapboxgl.accessToken = 'pk.eyJ1IjoiaGRkbCIsImEiOiJja2NtMGY1ZDgwcTZ5MnN0OGY3ajJjbW4yIn0.qHA8T449zRKiEj4SS9jnuQ';
+            var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [-78.9013, 35.9958],           
+            zoom: 11
+            });
+            
+            map.addControl(
+              new MapboxGeocoder({
+              accessToken: mapboxgl.accessToken,
+              mapboxgl: mapboxgl
+              })
+              );
+            var marker = new mapboxgl.Marker()
+              .setLngLat([-78.9013, 35.9958])
+              .addTo(map);
+              map.addControl(
+            new mapboxgl.GeolocateControl({
+              positionOptions: {
+              enableHighAccuracy: true
+              },
+              trackUserLocation: true
+              })
+              );
+            //   stores.features.forEach(function(store, i){
+            //   store.properties.id = i;
+            // });
+            map.on('load', function() {
+    // Add an image to use as a custom marker
+               map.loadImage(
+              'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
+              function(error, image) {
+              if (error) throw error;
+              map.addImage('custom-marker', image);
+              // Add a GeoJSON source with 3 points.
+              map.addSource('points', {
+              'type': 'geojson',
+              'data': {
+              'type': 'FeatureCollection',
+              'features': [
+              {% for farm in farms.all %}
+              {
+              'type': 'Feature',
+              'properties': {
+                'description':
+                    '<strong><a href="{% url 'farm_detail' farm_pk=farm.pk %}" target="_blank" title="Opens in a new window">{{farm.name}}</a></strong><p> {{farm.street_address}} {{farm.street_address_line_2}}, {{farm.city}}, {{farm.state}}, {{farm.zip_code}}</p><p><b>Click on the farm in the list to learn more!<b></p>',
+                'icon': 'theatre'
+              },
+              'geometry': {
+              'type': 'Point',
+              'coordinates': [
+              {{farm.longitude}},
+              {{farm.latitude}}
+              ]
+              }
+              },{% endfor %}
+              ]
+              }
+              });
+              // Add a symbol layer
+              map.addLayer({
+              'id': 'symbols',
+              'type': 'symbol',
+              'source': 'points',
+              'layout': {
+                'icon-image': 'custom-marker',
+                'icon-allow-overlap': true
+              }
+              });
+              
+              map.on('mouseenter', 'symbols', function(e) {
+                // Change the cursor style as a UI indicator.
+                map.getCanvas().style.cursor = 'pointer';
+                
+                var coordinates = e.features[0].geometry.coordinates.slice();
+                var description = e.features[0].properties.description;
+                
+                // Ensure that if the map is zoomed out such that multiple
+                // copies of the feature are visible, the popup appears
+                // over the copy being pointed to.
+                while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                }
+                
+                // Populate the popup and set its coordinates
+                // based on the feature found.
+                popup
+                .setLngLat(coordinates)
+                .setHTML(description)
+                .addTo(map);
+                });
+                map.on('mouseleave', 'symbols', function() {
+                  map.getCanvas().style.cursor = '';
+                  popup.remove();
+                  });
 
-<section id="popular" class="section section-popular scrollspy">
-  <div class="container">
-    <div class="row">
-      <h4 class="center">
-        <span class="green-text">Nearby</span> Farms</h4>
-      <div class="col s12 m8">
-        <div class="card">
-           <div class='row' id='ma'>
-            <div class="">
-                    <div id='map' class='' style='width: 480px; height: 280px;'>Map</div>
-                    <script>
-                    mapboxgl.accessToken = 'pk.eyJ1IjoiaGRkbCIsImEiOiJja2NtMGY1ZDgwcTZ5MnN0OGY3ajJjbW4yIn0.qHA8T449zRKiEj4SS9jnuQ';
-                    var map = new mapboxgl.Map({
-                    container: 'map',
-                    style: 'mapbox://styles/mapbox/streets-v11',
-                    center: [-78.9013, 35.9958],           
-                    zoom: 11
-                    });
-                    map.addControl(
-                      new MapboxGeocoder({
-                      accessToken: mapboxgl.accessToken,
-                      mapboxgl: mapboxgl
-                      })
-                      );
-                    var marker = new mapboxgl.Marker()
-                      .setLngLat([-78.9013, 35.9958])
-                      .addTo(map);
-                      map.addControl(
-                    new mapboxgl.GeolocateControl({
-                      positionOptions: {
-                      enableHighAccuracy: true
-                      },
-                      trackUserLocation: true
-                      })
-                      );
-                    //   stores.features.forEach(function(store, i){
-                    //   store.properties.id = i;
-                    // });
-                    map.on('load', function() {
-            // Add an image to use as a custom marker
-                       map.loadImage(
-                      'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
-                      function(error, image) {
-                      if (error) throw error;
-                      map.addImage('custom-marker', image);
-                      // Add a GeoJSON source with 3 points.
-                      map.addSource('points', {
-                      'type': 'geojson',
-                      'data': {
-                      'type': 'FeatureCollection',
-                      'features': [
-                      {% for farm in farms.all %}
-                      {
-                      'type': 'Feature',
-                      'properties': {},
-                      'geometry': {
-                      'type': 'Point',
-                      'coordinates': [
-                      {{farm.longitude}},
-                      {{farm.latitude}}
-                      ]
-                      }
-                      },{% endfor %}
-                      ]
-                      }
-                      });
-                      // Add a symbol layer
-                      map.addLayer({
-                      'id': 'symbols',
-                      'type': 'symbol',
-                      'source': 'points',
-                      'layout': {
-                      'icon-image': 'custom-marker'
-                      }
-                      });
-                      }
-                      );
-                      
-                      // Center the map on the coordinates of any clicked symbol from the 'symbols' layer.
-                      map.on('click', 'symbols', function(e) {
-                      map.flyTo({
-                      center: e.features[0].geometry.coordinates
-                      });
-                      });
-                      
-                      // Change the cursor to a pointer when the it enters a feature in the 'symbols' layer.
-                      map.on('mouseenter', 'symbols', function() {
-                      map.getCanvas().style.cursor = 'pointer';
-                      });
-                      
-                      // Change it back to a pointer when it leaves.
-                      map.on('mouseleave', 'symbols', function() {
-                      map.getCanvas().style.cursor = '';
-                      });
-                      });
-                      </script> 
-                      
-                    </div>
-                  </div> 
-                </div>
-              </div>
 
-
-        <div class="col s12 m4">
-          <div class="card">
-            <div class="card-image">
-              <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80" alt="">
-              <span class="card-title"><a class="waves-effect waves-light green darken-1 btn-large">{{ user.farm.name }}</a></span>
-              <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">favorite</i></a>
-            </div>
-            <div class="card-content">
-              <p><i class="material-icons">location_on</i>{{ farm.location }}</p>
-              <p><i class="material-icons">access_time</i> {{ farm.hours }}</p>
-              <p><i class="material-icons">public</i> {{ farm.website }}</p>
-            </div>
+              }
+              );
+              var popup = new mapboxgl.Popup({
+                closeButton: false,
+                closeOnClick: false
+              });
+              });
+              </script> 
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col s12 center">
-          <a href="#contact" class="btn btn-large grey darken-3">
-            <i class="material-icons left">send</i> Contact selected farm
+        </div>
+
+        <div class="col s12 m4 l4 farm-list">
+          <div class="card-panel z-depth-4">
+            <h5 class="green-text listItems">Your Local Farms</h5>
+            <ul>
+              {% for farm in farms.all %}
+              <li class='listItems1'><a href='{% url 'farm_detail' farm_pk=farm.pk %}'>{{ farm.name }}</a></li>
+              {% endfor %}
+            </ul>
           </a>
+          </div>
+        </div>
+
+
+        </div>
         </div>
       </div>
     </div>
   </section>
-
-
-  
-
+ 
 <section id="gallery" class="section section-gallery scrollspy">
   <div class="container">
     <h4 class="center">

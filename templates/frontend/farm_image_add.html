@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% load render_bundle from webpack_loader %}
+
+{% block content %}
+
+<form class="" class="input-field" id="card-form" action="{% url 'farm_image_add' farm_pk=farm.pk %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ image_form.as_p }}
+    <div>
+        <button class="green input-field darken-3 btn " type="submit">Add</button>
+    </div>
+</form>
+
+{% endblock %}

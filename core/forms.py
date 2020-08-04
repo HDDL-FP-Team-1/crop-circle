@@ -6,6 +6,13 @@ from users.models import User
 from django.db import models
 import datetime as dt
 
+class FarmImageForm(forms.ModelForm):
+    class Meta:
+        model = Farm
+        fields = [
+            'image',
+        ]
+
 class FarmAddressForm(forms.ModelForm):
     class Meta:
         model = Farm
@@ -18,12 +25,13 @@ class FarmAddressForm(forms.ModelForm):
             'city',
             'state',
             'zip_code',
-            'image',
             'latitude',
             'longitude',
         ]
         widgets = {'latitude': forms.HiddenInput(), 'longitude': forms.HiddenInput()}
-        
+
+
+
 
 class CropForm(forms.ModelForm):
     class Meta:
@@ -70,6 +78,7 @@ class HourForm(forms.ModelForm):
             'sun_start': forms.Select(choices=HOUR_CHOICES),
             'sun_end': forms.Select(choices=HOUR_CHOICES),
             }
+
 
 class CustomerForm(forms.ModelForm):
     class Meta:
