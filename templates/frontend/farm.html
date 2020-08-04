@@ -9,13 +9,21 @@
 
 {% block content %}
 
-<form id='farmAdd' action="{% url 'farm_create' %}" method="POST" enctype="multipart/form-data>"
+
+<div class="container lighten-2">
+  <div class='center'>
+  <h3>Create your farm!</h3>
+  </div>
+<form id='farmAdd' class="blue-grey lighten-5 col s4 z-depth-5" action="{% url 'farm_create' %}" method="POST" enctype="multipart/form-data">
   {% csrf_token %}
   {{ form.as_p }}
-    <div>
-      <button id='geoforward' type="submit" class="">submit</button>
+    <div class='center'>
+      <button id='geoforward' type='submit' class="btn-floating btn-large waves-effect waves-light green"><i class="material-icons">add</i></button>
     </div>
+    <br>
 </form>
+<br>
+</div>
 
 
   <script>

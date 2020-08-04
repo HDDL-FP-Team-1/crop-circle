@@ -3,13 +3,20 @@
 
 {% load render_bundle from webpack_loader %}
 {% block content %}
+
+<br>
+<div class='container center'>
+  <div class='card-panel grey lighten-2 z-depth-5'>
 <form action="{% url 'crop_delete' crop_pk=crop.pk %}" method="POST">
   {% csrf_token %}
-  <p>Are you sure you want to delete this crop?</p>
+  <h5 class='green-text'>Are you sure you want to delete this crop?</h5>
 
   <div>
-    <button type="submit">Delete</button>
-    <a href="{% url 'crop_detail' crop_pk=crop.pk %}">Cancel</a>
+    <button class='waves-effect waves-light btn-small green' type="submit"><i class='material-icons left'>delete</i>delete</button>
+    <button class='waves-effect waves-light btn-small green'><a  href="{% url 'crop_detail' crop_pk=crop.pk %}" class='white-text'><i class='material-icons left'>do_not_disturb_alt</i>Cancel</a></button>
+  
   </div>
 </form>
+  </div>
+</div>
 {% endblock %}

@@ -4,13 +4,20 @@
 {% load render_bundle from webpack_loader %}
 
 {% block content %}
-
-<form class="" class="input-field" id="card-form" action="{% url 'farm_image_add' farm_pk=farm.pk %}" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ image_form.as_p }}
-    <div>
-        <button class="green input-field darken-3 btn " type="submit">Add</button>
+<br>
+<div class='container center'>
+    <div class=''>
+        <h4 class='green-text'>Add a photo!</h4>
     </div>
-</form>
-
+    <div class='card-panel grey lighten-2 z-depth-5'>
+        <form class="" class="input-field" id="card-form" action="{% url 'farm_image_add' farm_pk=farm.pk %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ image_form.as_p }}
+            <div>
+                <button class="green input-field darken-3 btn-large " type="submit"><i class='material-icons left'>add_to_photos</i>Add Photo</button>
+            </div>
+        </form>
+    </div>
+</div>
+<br>
 {% endblock %}
