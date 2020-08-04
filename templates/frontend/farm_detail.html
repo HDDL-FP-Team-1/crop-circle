@@ -30,65 +30,73 @@
 <!--farm image-->
 <!-- <img src="{{ farm.image.url }}"/> -->
 
-<section class="section section-icons grey lighten-4 center">
+<section class="section section-icons grey lighten-5 center">
+  <h4 class="center"><span class="green-text">{{ farm.name }}</span> Location</h4><br>
   <div class="container">
   <br class="row">
-  <h4 class="center"><span class="green-text">{{ farm.name }}</span> Location</h4><br>
     <div class="col s12 m8">
-      <div class="card">
+      <div class="card-panel map z-depth-4 pad2"></div>
         <div class='row' id='ma'>
           <div class="col s12 m6">
-          <div id='map' class='map' style='width: 700px; height: 280px;'>Map</div>
+            <div id="map" style='height:280px;'>Map</div>
             <script>
-              mapboxgl.accessToken = 'pk.eyJ1IjoiaGRkbCIsImEiOiJja2NtMGY1ZDgwcTZ5MnN0OGY3ajJjbW4yIn0.qHA8T449zRKiEj4SS9jnuQ';
-              var map = new mapboxgl.Map({
-              container: 'map',
-              style: 'mapbox://styles/mapbox/streets-v11',
-              center: [{{ farm.longitude }}, {{ farm.latitude }}],           
-              zoom: 11
-              });
+
+mapboxgl.accessToken = 'pk.eyJ1IjoiaGRkbCIsImEiOiJja2NtMGY1ZDgwcTZ5MnN0OGY3ajJjbW4yIn0.qHA8T449zRKiEj4SS9jnuQ';
+            var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [-78.9013, 35.9958],           
+            zoom: 11
+            });
+            
+            map.addControl(
+              new MapboxGeocoder({
+              accessToken: mapboxgl.accessToken,
+              mapboxgl: mapboxgl
+              })
+              );
+            var marker = new mapboxgl.Marker()
+              .setLngLat([-78.9013, 35.9958])
+              .addTo(map);
               map.addControl(
-                new MapboxGeocoder({
-                accessToken: mapboxgl.accessToken,
-                mapboxgl: mapboxgl
-                })
-                );
-              var marker = new mapboxgl.Marker()
-                .setLngLat([{{ farm.longitude}}, {{ farm.latitude }}])
-                .addTo(map);
-                map.addControl(
-              new mapboxgl.GeolocateControl({
-                positionOptions: {
-                enableHighAccuracy: true
-                },
-                trackUserLocation: true
-                })
-                );
-              //   stores.features.forEach(function(store, i){
-              //   store.properties.id = i;
-              // });
-              map.on('load', function() {
-              // Add an image to use as a custom marker
-                map.loadImage(
-                'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-64.png',
-                function(error, image) {
-                if (error) throw error;
-                map.addImage('custom-marker', image);
-                // Add a GeoJSON source with 3 points.
-                map.addSource('points', {
+            new mapboxgl.GeolocateControl({
+              positionOptions: {
+              enableHighAccuracy: true
+              },
+              trackUserLocation: true
+              })
+              );
+            //   stores.features.forEach(function(store, i){
+            //   store.properties.id = i;
+            // });
+            map.on('load', function() {
+    // Add an image to use as a custom marker
+               map.loadImage(
+              'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
+              function(error, image) {
+              if (error) throw error;
+              map.addImage('custom-marker', image);
+              // Add a GeoJSON source with 3 points.
+              map.addSource('points', {
+
               'type': 'geojson',
               'data': {
               'type': 'FeatureCollection',
               'features': [
-              {% for offsite in farms.offsites.all %}
+
+              {% for farm in farms.all %}
               {
               'type': 'Feature',
-              'properties': {},
+              'properties': {
+                'description':
+                    '<strong><a href="{% url 'farm_detail' farm_pk=farm.pk %}" target="_blank" title="Opens in a new window">{{farm.name}}</a></strong><p> {{farm.street_address}} {{farm.street_address_line_2}}, {{farm.city}}, {{farm.state}}, {{farm.zip_code}}</p><p><b>Click on the farm in the list to learn more!<b></p>',
+                'icon': 'theatre'
+              },
               'geometry': {
               'type': 'Point',
               'coordinates': [
-              {{offsite.longitude}},
-              {{offsite.latitude}}
+              {{farm.longitude}},
+              {{farm.latitude}}
               ]
               }
               },{% endfor %}
@@ -101,58 +109,45 @@
               'type': 'symbol',
               'source': 'points',
               'layout': {
-              'icon-image': 'custom-marker'
+
+                'icon-image': 'custom-marker',
+                'icon-allow-overlap': true
               }
               });
-              }
-              );
+              
+              map.on('mouseenter', 'symbols', function(e) {
+                // Change the cursor style as a UI indicator.
+                map.getCanvas().style.cursor = 'pointer';
                 
-              // Add a symbol layer
-              map.addLayer({
-              'id': 'symbols',
-              'type': 'symbol',
-              'source': 'points',
-              'layout': {
-              'icon-image': 'custom-marker'
-              }
-              });
+                var coordinates = e.features[0].geometry.coordinates.slice();
+                var description = e.features[0].properties.description;
+                
+                // Ensure that if the map is zoomed out such that multiple
+                // copies of the feature are visible, the popup appears
+                // over the copy being pointed to.
+                while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                }
+                
+                // Populate the popup and set its coordinates
+                // based on the feature found.
+                popup
+                .setLngLat(coordinates)
+                .setHTML(description)
+                .addTo(map);
+                });
+                map.on('mouseleave', 'symbols', function() {
+                  map.getCanvas().style.cursor = '';
+                  popup.remove();
+                  });
+
               }
               );
-              
-              // Center the map on the coordinates of any clicked symbol from the 'symbols' layer.
-              map.on('click', 'symbols', function(e) {
-              map.flyTo({
-              center: e.features[0].geometry.coordinates
+              var popup = new mapboxgl.Popup({
+                closeButton: false,
+                closeOnClick: false
               });
               });
-              
-              // Change the cursor to a pointer when the it enters a feature in the 'symbols' layer.
-              map.on('mouseenter', 'symbols', function() {
-              map.getCanvas().style.cursor = 'pointer';
-              });
-              
-              // Change it back to a pointer when it leaves.
-              map.on('mouseleave', 'symbols', function() {
-              map.getCanvas().style.cursor = '';
-              });
-              
-              const favoriteFarmLink = document.querySelector("#favorited")
-              favoriteFarmLink.addEventListener("click", event => {
-                  event.preventDefault()
-                  const farmId = favoriteFarmLink.dataset['farmId']
-                  fetch(`/farm/${farmId}/favorite/`, {
-                      method: 'POST',
-                      credentials: 'include'
-                  })
-                  .then(res => res.json())
-                  .then(data => {
-                      if (data.isFavorite) {
-                          favoriteFarmLink.innerHTML = '&#9734'
-                      } else {
-                          favoriteFarmLink.innerHTML = '&#11088;'
-                      }
-                  })
-              })
             </script> 
           </div>
         </div> 
