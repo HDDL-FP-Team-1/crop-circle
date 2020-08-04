@@ -129,7 +129,7 @@
     </div>
   </div>
 </section>
-<div class="col s12 m6">
+<div class="container col s12 m6">
   <div class="card-panel grey lighten-3">
     <div class="collection with-header"> 
       <h4 class="center">
@@ -141,7 +141,7 @@
 <div class="container">
 <section id="contact" class="section section-contact scrollspy">
   <div class="row">
-    <div class="col s12 m6">
+    <div class="col s6 m6">
       <div class="card-panel green darken-2 white-text center">
         <i class="material-icons medium">add_a_photo</i>
         <h5>Add a photo</h5>
@@ -157,17 +157,7 @@
         <li class="center collection-item"><img src="https://api.qrserver.com/v1/create-qr-code/?data={{ farm.name }}&amp;size=100x100" alt="QR Code" title="{{ farm.name }} QR Code" /></li>
       </ul>
     </div>
-    <div class='container center'>
-      <div class="row">
-        <div class="col s12 m6">
-          <h6 class="center"><span class="green-text">{{ farm.name }} </span>Rating</h6>
-            <div class="card-panel grey lighten-2 center">
-            {% ratings farm %}
-            </div>
-        </div>
-      </div>
-    </div>
-    <div class="col s12 m6">
+    <div class="col s6 m6">
       <div class="card-panel grey lighten-3">
         <h5><span class="green-text">{{ farm.name }} </span> Hours</h5>
           <ul>
@@ -182,6 +172,14 @@
           {% if user.is_authenticated %}
           <a href="{% url 'hour_update' farm_pk=farm.pk %}"><input type="submit" value="Update Hours" class="btn green darken-1"></a>
           {% endif %}
+      </div>
+    </div>
+    <div class='container center'>
+      <div class="col s6 m6">
+        <h6 class="center"><span class="green-text">{{ farm.name }} </span>Rating</h6>
+          <div class="card-panel grey lighten-2 center">
+          {% ratings farm %}
+          </div>
       </div>
     </div>
   </div>
