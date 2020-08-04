@@ -3,50 +3,49 @@
 <!DOCTYPE html>
 <html>
 <head>
-   {% block scripts %}
-   {% endblock %}
-   <meta charset="UTF-8">
-   <title>Crop Circle</title>
-   <script src='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js'></script>
-   <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css' rel='stylesheet' />
-   <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
-   <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700' rel='stylesheet'>
-   <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  {% block scripts %}
+  {% endblock %}
+  <meta charset="UTF-8">
+  <title>Crop Circle</title>
+  <script src='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css' rel='stylesheet' />
+  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
+  <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700' rel='stylesheet'>
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
 
+  <link
+  rel="stylesheet"
+  href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css"
+  type="text/css"
+  />
 
-   <link
-   rel="stylesheet"
-   href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css"
-   type="text/css"
-   />
- 
-   <!--Import Google Icon Font-->
-   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-   <!--Import materialize.css-->
-   <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
- 
-   <!--Let browser know website is optimized for mobile-->
-   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
- 
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!--Import materialize.css-->
+  <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     
- 
-   <!-- import Material Icons from Google Fonts -->
-   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-   <link href="https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:900i" rel="stylesheet">
-   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
-   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-   <link rel="stylesheet" href="{% static 'styles.css' %}" type="text/css" media="screen">
-   <!-- import the Material stylesheet -->
+
+  <!-- import Material Icons from Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:900i" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="{% static 'styles.css' %}" type="text/css" media="screen">
+  <!-- import the Material stylesheet -->
 
   <!--star rating info-->
   <link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
   <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
- </head>
- 
- <body>
-   
+</head>
+
+<body>
+
   <ul id="dropdown1" class="dropdown-content">
     {% for farm in farms %}
     <li>
@@ -67,86 +66,85 @@
     <li><a href="{% url 'farm_create' %}">Add a new farm</a></li>
   </ul>
           
- <header>
-   <div class="navbar-fixed">
-     <nav class="green darken-2">
-       <div class="container">
-         <div class="nav-wrapper">
-           <a href="/" class="brand-logo">Crop Circle</a>
-           <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+<header>
+  <div class="navbar-fixed">
+    <nav class="green darken-2">
+      <div class="container">
+        <div class="nav-wrapper">
+          <a href="/" class="brand-logo">Crop Circle</a>
+          <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
-             <li>
-               <a href="/"><i class="material-icons">home</i></a>
-             </li>
-             <li>
-               <a href="#search"><i class="material-icons">search</i></a>
-             </li>
-             <li>
-               <a href="#popular"><i class="material-icons">location_on</i></a>
-             </li>
-             {% if user.is_authenticated %}
-             <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Profile<i class="material-icons right">arrow_drop_down</i></a></li>
-             {% endif %}
-           </li>
+            <li>
+              <a href="/"><i class="material-icons">home</i></a>
+            </li>
+            <li>
+              <a href="#search"><i class="material-icons">search</i></a>
+            </li>
+            <li>
+              <a href="#popular"><i class="material-icons">location_on</i></a>
+            </li>
+            {% if user.is_authenticated %}
+            <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Profile<i class="material-icons right">arrow_drop_down</i></a></li>
+            {% endif %}
+          </li>
               {% if user.is_authenticated %}
               <li><a href="{% url 'auth_logout' %}">Logout</a></li>
               {% else %}
               <li><a href="{% url 'auth_login' %}">Login</a></li>
               {% endif %}
-           </ul>
-         </div>
-       </div>
-     </nav>
-   </div>
-   <ul class="sidenav" id="mobile-demo">
-     <li>
-       <a href="/">Home</a>
-     </li>
-     <li>
-       <a href="#search">Search</a>
-     </li>
-     <li>
-       <a href="#popular">Nearby Farms</a>
-     </li>
-     <li>
-       <a href="#gallery">Gallery</a>
-     </li>
-     <li>
-       <a href="#contact">Contact</a>
-     </li>
-       {% if user.is_authenticated %}
-       <li><a class="dropdown-trigger" href="#!" data-target="dropdown2">Profile<i class="material-icons right">arrow_drop_down</i></a>
-       {% endif %}
-     </li>
-     {% if user.is_authenticated %}
-       <li><a href="{% url 'auth_logout' %}">Logout</a></li>
-       {% else %}
-       <li><a href="{% url 'auth_login' %}">Login</a></li>
-       {% endif %}
-   </ul>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+  <ul class="sidenav" id="mobile-demo">
+    <li>
+      <a href="/">Home</a>
+    </li>
+    <li>
+      <a href="#search">Search</a>
+    </li>
+    <li>
+      <a href="#popular">Nearby Farms</a>
+    </li>
+    <li>
+      <a href="#gallery">Gallery</a>
+    </li>
+    <li>
+      <a href="#contact">Contact</a>
+    </li>
+      {% if user.is_authenticated %}
+      <li><a class="dropdown-trigger" href="#!" data-target="dropdown2">Profile<i class="material-icons right">arrow_drop_down</i></a>
+      {% endif %}
+    </li>
+    {% if user.is_authenticated %}
+      <li><a href="{% url 'auth_logout' %}">Logout</a></li>
+      {% else %}
+      <li><a href="{% url 'auth_login' %}">Login</a></li>
+      {% endif %}
+  </ul>
   </header>
- <body>
-   <div class="content">
-   {% block content %}
+<body>
+  <div class="content">
+  {% block content %}
 
-   {% endblock %}
+  {% endblock %}
   </div>
   <div class="footer">
-   <footer class="section green darken-2 white-text center">
-     <p class="">© 2020 Crop Circle HDDL LLC <br> All rights reserved</p>
-   </footer>
+  <footer class="section green darken-2 white-text center">
+    <p class="">© 2020 Crop Circle HDDL LLC <br> All rights reserved</p>
+  </footer>
   </div>
   </body>
- 
- 
+
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
-   <!--JavaScript at end of body for optimized loading-->
-   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-   <script type="text/javascript" src="js/materialize.min.js"></script>
-   <!-- <script src="./frontend/app.js"></script> -->
-   <script>
+  <!--JavaScript at end of body for optimized loading-->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="js/materialize.min.js"></script>
+  <!-- <script src="./frontend/app.js"></script> -->
+  <script>
   //  const { base } = require('material-components-web');
 
   document.addEventListener('DOMContentLoaded', function() {
@@ -189,8 +187,4 @@
       }
     });
   </script>
-   
- </body>
- 
- 
- 
+</body>
