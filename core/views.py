@@ -10,13 +10,10 @@ from registration.backends.simple.views import RegistrationView
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-def base(request):
-    image = get_object_or_404(Image.objects.all())
-    return render(request, 'base.html', {'image': image})
-
 def home_page(request):
     farms = Farm.objects.all()
     return render(request, "frontend/home.html", {'farms': farms})
+
 
 def farm_create(request):
     if request.method == "POST":
@@ -93,6 +90,7 @@ def farm_image_add(request, farm_pk):
     
     return render(request, 'frontend/farm_image_add.html', {'image_form': image_form, 'farm': farm})
 
+
 def crop_create(request, farm_pk):
     farm = get_object_or_404(request.user.farms, pk=farm_pk)
     
@@ -109,15 +107,16 @@ def crop_create(request, farm_pk):
     
     return render(request, 'frontend/crop_create.html', {'form': form, 'farm': farm})
 
-    
+
 def crop_detail(request, crop_pk):
     crop = get_object_or_404(Crop.objects.all(), pk=crop_pk)
     return render(request, 'frontend/crop_detail.html', {'crop': crop})
-    
+
 
 def crop_list(request):
     crops = Crop.objects.all()
     return render(request, 'frontend/crop_list.html', {'crops': crops})
+
 
 def crop_update(request, crop_pk):
     crop = get_object_or_404(Crop.objects.all(), pk=crop_pk)
@@ -131,6 +130,7 @@ def crop_update(request, crop_pk):
 
     return render(request, 'frontend/crop_update.html', {'form': form, 'crop': crop})
 
+
 def crop_delete(request, crop_pk):
     crop = get_object_or_404(Crop.objects.all(), pk=crop_pk)
     farm = crop.farm
@@ -138,6 +138,7 @@ def crop_delete(request, crop_pk):
         crop.delete()
         return redirect(to='farm_detail', farm_pk=farm.pk)
     return render(request, 'frontend/crop_delete.html', {'crop': crop})
+
 
 def hour_create(request, farm_pk):
     farm = get_object_or_404(request.user.farms, pk=farm_pk)
@@ -154,6 +155,7 @@ def hour_create(request, farm_pk):
         form = HourForm()
     return render(request, 'frontend/hour_create.html', {'form': form, 'farm': farm})
 
+
 def hour_update(request, farm_pk):
     farm = get_object_or_404(request.user.farms, pk=farm_pk)
     hour = farm.hours.filter().first()
@@ -166,6 +168,7 @@ def hour_update(request, farm_pk):
     else:
         form = HourForm(instance=hour)
     return render(request, 'frontend/hour_update.html', {'form': form, 'farm': farm})
+
 
 def customer_create(request):
     if request.method == "POST":
@@ -180,9 +183,11 @@ def customer_create(request):
 
     return render(request, 'frontend/customer_create.html', {'form': form})
 
+
 def customer_detail(request, customer_pk):
     profile = get_object_or_404(Customer.objects.all(), pk=customer_pk)
     return render(request, 'frontend/customer_detail.html', {'profile': profile})
+
 
 def customer_edit(request, customer_pk):
     customer = get_object_or_404(Customer.objects.all(), pk=customer_pk)
@@ -197,6 +202,7 @@ def customer_edit(request, customer_pk):
 
     return render(request, 'frontend/customer_edit.html', {'form': form, 'customer':customer})
 
+
 def customer_delete(request, customer_pk):
     customer = get_object_or_404(Customer.objects.all(), pk=customer_pk)
 
@@ -205,6 +211,7 @@ def customer_delete(request, customer_pk):
         return redirect(to='home')
 
     return render(request, 'frontend/customer_delete.html', {'customer': customer})
+
 
 def offsite_create(request, farm_pk):
     farm = get_object_or_404(request.user.farms, pk=farm_pk)
@@ -222,6 +229,7 @@ def offsite_create(request, farm_pk):
 
     return render(request, 'frontend/offsite_create.html', {'form': form, 'farm': farm})
 
+
 def offsite_detail(request, offsite_pk):
     offsite = get_object_or_404(OffSite.objects.all(), pk=offsite_pk)
 
@@ -238,6 +246,7 @@ def offsite_detail(request, offsite_pk):
     
     return render(request, 'frontend/offsite_detail.html', {'form': form, 'offsite': offsite})
 
+
 def offsite_edit(request, offsite_pk):
     offsite = get_object_or_404(OffSite.objects.all(), pk=offsite_pk)
     
@@ -251,6 +260,7 @@ def offsite_edit(request, offsite_pk):
 
     return render(request, 'frontend/offsite_edit.html', {'form': form, 'offsite':offsite})
 
+
 def offsite_delete(request, offsite_pk):
     offsite = get_object_or_404(OffSite.objects.all(), pk=offsite_pk)
 
@@ -259,9 +269,11 @@ def offsite_delete(request, offsite_pk):
         return redirect(to='home')
 
     return render(request, 'frontend/offsite_delete.html', {'offsite': offsite})
-    
+
+
 def registration_transfer(request):
     return render(request, "frontend/registration_transfer.html")
+
 
 def offsite_crop_create(request, offsite_pk):
     offsite = get_object_or_404(OffSite.objects.all(), pk=offsite_pk)
@@ -279,6 +291,7 @@ def offsite_crop_create(request, offsite_pk):
     
     return render(request, 'frontend/offsite_crop_create.html', {'form': form, 'offsite': offsite})
 
+
 def search_farms(request):
     query = request.GET.get("q")
 
@@ -291,6 +304,7 @@ def search_farms(request):
         request, "frontend/search.html", {"farms": farms, "query": query or ""}
     )
 
+
 @csrf_exempt
 def toggle_favorite_farm(request, farm_pk):
     farm = get_object_or_404(Farm.objects.all(), pk=farm_pk)
@@ -301,6 +315,7 @@ def toggle_favorite_farm(request, farm_pk):
     else:
         request.user.favorite_farms.add(farm)
         return JsonResponse({"isFavorite": True})
+
 
 class MyRegistrationView(RegistrationView):
     success_url = reverse_lazy('farm_create')

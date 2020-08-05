@@ -1,38 +1,9 @@
-/* 
-
-  .my-card-content {
-      padding: 16px;
-  }
-  .my-card {
-    height: 350px;
-    width: 350px;
-  }
-
-
-.header {
-    left: 40%;
-    position: absolute;
+.morecontent span {
+  display: none;
 }
-
-.grid-container {
-    display: grid;
-    grid-template-columns: auto auto auto auto;
+.morelink {
+  display: block;
 }
-
-
-
- .farm-title {
-     text-decoration: none;
-     color: antiquewhite;
- }
-
- body {
-   background-color: green;
- } */
-
- /* #map {
-  object-fit: cover;
- } */
 
  .slider .btn {
     margin-top: 20px;
@@ -191,3 +162,15 @@ text-align: center;
   width: 40%;
 } */
 
+.hogwarts {
+  display: inline-block;
+  width: 100%;
+  height: auto;
+}
+
+.imgborder {
+  padding:1px;
+  border: 20px solid rgb(227, 227, 227);
+  height: auto;
+  width: 100%;
+}
