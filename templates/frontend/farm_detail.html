@@ -7,12 +7,19 @@
 {% endblock %}
 
 {% block content %}
-
+<div>
+<div>
 <section id="search" class="section section-search green darken-3 white-text center scrollspy">
   <div class="container">
     <div class="row">
       <div class="col s12">
         <h3 class="search-text">{{ farm.name }}</h3>
+        <p>{{farm.street_address}}</p>
+        <p>{{farm.city}}, {{farm.state}} {{farm.zip_code}}</p>
+        {% if farm.website is not None %}
+        <p><a href='{{ farm.website }}'>{{farm.name}}</a></p>
+        {% endif %}
+        <a href="{% url 'farm_update' farm_pk=farm.pk %}">Update Your Farm</a>
       </div>
     </div>
   </div>
@@ -143,19 +150,21 @@
     </div>
   </div>
 </section>
-<div>
+<div></div>
 <div class="container col s12 m6">
-  <div class="card-panel grey lighten-3">
-    <div class="collection with-header"> 
-      <h4 class="center">
-        <span class="green-text">About</span> Us</h4>
-        <p class="flow-text">{{ farm.about_us }}</p>
-    </div>
-  </div>
+  <ul class="collapsible">
+      <li>
+        <div class="collapsible-header">
+          <h4><span class="green-text">About</span> Us<i class="material-icons green-text">expand_more</i></h4></div>
+        <div class="collapsible-body"><span><p class="flow-text">{{ farm.about_us }}</p></span></div>
+      </li>
+    </ul>
 </div>
+<br>
 <div class="container">
 <section id="contact" class="section section-contact scrollspy">
   <div class="row">
+    {% if user.is_authenticated %}
     <div class="col s6 m6">
       <div class="card-panel green darken-2 white-text center">
         <i class="material-icons medium">add_a_photo</i>
@@ -169,20 +178,42 @@
         <li class="collection-header">
           <h5 class="center"><span class="green-text">{{ farm.name }} </span> QR Code</h5>
         </li>
-        <li class="center collection-item"><img src="https://api.qrserver.com/v1/create-qr-code/?data={{ farm.name }}&amp;size=100x100" alt="QR Code" title="{{ farm.name }} QR Code" /></li>
+        <li class="center collection-item"><img src="https://api.qrserver.com/v1/create-qr-code/?data=https://hddl-crop-circle.herokuapp.com/farm/{{farm.pk}}&amp;size=100x100" alt="QR Code" title="{{ farm.name }} QR Code" /></li>
       </ul>
     </div>
+    {% else %}
+      <div class='z-depth-4 imgborder'>
+        <div class='-align'>
+          <img class='materialboxed hogwarts' src='{{ farm.image.url }}'/>
+        </div>
+      </div>
+      <br>
+    {% endif %}
     <div class="col s6 m6 center">
       <div class="card-panel grey lighten-3">
         <h5><span class="green-text">Our </span> Hours</h5>
           <ul>
+            {% if farm.hours.first.mon_start is not None and farm.hours.first.mon_end is not None %}
             <li>Mon: {{farm.hours.first.mon_start}} - {{farm.hours.first.mon_end}}</li>
+            {% endif %}
+            {% if farm.hours.first.tue_start is not None and farm.hours.first.tue_end is not None %}
             <li>Tue: {{farm.hours.first.tue_start}} - {{farm.hours.first.tue_end}}</li>
+            {% endif %}
+            {% if farm.hours.first.wed_start is not None and farm.hours.first.wed_end is not None %}
             <li>Wed: {{farm.hours.first.wed_start}} - {{farm.hours.first.wed_end}}</li> 
+            {% endif %}
+            {% if farm.hours.first.thu_start is not None and farm.hours.first.thu_end is not None %}
             <li>Thu: {{farm.hours.first.thu_start}} - {{farm.hours.first.thu_end}}</li>
+            {% endif %}
+            {% if farm.hours.first.fri_start is not None and farm.hours.first.fri_end is not None %}
             <li>Fri: {{farm.hours.first.fri_start}} - {{farm.hours.first.fri_end}}</li>
+            {% endif %}
+            {% if farm.hours.first.sat_start is not None and farm.hours.first.sat_end is not None %}
             <li>Sat: {{farm.hours.first.sat_start}} - {{farm.hours.first.sat_end}}</li>
+            {% endif %}
+            {% if farm.hours.first.sun_start is not None and farm.hours.first.sun_end is not None %}
             <li>Sun: {{farm.hours.first.sun_start}} - {{farm.hours.first.sun_end}}</li>
+            {% endif %}
           </ul>
           <div>
           {% if user.is_authenticated %}
@@ -191,30 +222,31 @@
         </div>
       </div>
     </div>
-     <div class=''>
+    <div class=''>
       <div class="col s6 m6">
-        <h6 class="center"><span class="green-text">{{ farm.name }} </span>Rating</h6>
-          <div class="card-panel grey lighten-2 center">
+        <div class="card-panel grey lighten-2 center">
+          <h6 class="center"><span class="green-text">{{ farm.name }} </span>Rating</h6>
           {% ratings farm %}
-          </div>
+        </div>
       </div>
-     </div>
+    </div>
   </div>
 </section>
 <div class="col s12 m4 l4 farm-list">
   <div class="card-panel z-depth-4">
     <h5 class="listItems card-title"><span class="green-text">{{ farm.name }} </span> Offsite Locations
-    <a href="{% url 'offsite_create' farm_pk=farm.pk %}" class="btn-floating btn-small waves-effect waves-light green right"><i class="material-icons">add</i></a></h5>
+      {% if user.is_authenticated %}
+    <a href="{% url 'offsite_create' farm_pk=farm.pk %}" class="btn-floating btn-small waves-effect waves-light green right"><i class="material-icons">add</i></a>
+      {% endif %}
+  </h5>
     <ul>
       {% for offsite in farm.offsites.all %}
       <li class='listItems1'><a href="{% url 'offsite_detail' offsite_pk=offsite.pk %}">{{ offsite.name }}</a></li>
       {% endfor %}
     </ul>
-    <!-- <a href="{% url 'offsite_create' farm_pk=farm.pk %}"><input type="submit" value="Add" class="btn input-field green darken-1 btn-small"></a> -->
-    <div>
-    </div>
   </div>
 </div>
+<br>
 <div class="col s12 m6">
   <div class="card-panel grey lighten-3">
     {% if user.is_authenticated %}
@@ -253,7 +285,6 @@
     </div>
   </div>
 </div>
-
 <br>
 </div>
 
@@ -264,6 +295,17 @@ document.addEventListener('DOMContentLoaded', () => {
     event.preventDefault()
     document.querySelector('#card-form').classList.remove('hide')
   })
-})  
+})
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.collapsible');
+    var options = {
+
+    }
+    var instances = M.Collapsible.init(elems, options);
+  });
+
 </script>
+</div>
 {% endblock %}

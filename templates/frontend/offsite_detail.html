@@ -5,7 +5,10 @@
 {% block content %}
 <section class="section section-icons green lighten-5 center">
 <div class="container">
-    <h4 class="center"><span class="green-text">{{ offsite.name }}</span> Farms</h4> 
+    <h4 class="center"><span class="green-text">{{ offsite.farm.name }}</span> Farms</h4>
+    <h5>{{offsite.name}}</h5>
+    <p>{{offsite.street_address}}</p>
+    <p>{{offsite.city}}, {{offsite.state}} {{offsite.zip_code}}</p> 
     <br>
     <div class="row">
         <div class="col s12">
@@ -126,51 +129,54 @@
 </div>
 </section>
 <div class="col s12 m6">
-    <div class="card-panel grey lighten-3">
-      {% if user.is_authenticated %}
-      <section id="search" class="input-field section section-search grey darken-1 white-text center scrollspy">
-        <div class="container">
-          <div class="row">
-            <div class="col s12">
-              <h3 class="search-text">Add Produce</h3>
-              <p><a class="white-text" id="show-card-form" href="{% url 'offsite_crop_create' offsite_pk=offsite.pk %}"><i class="small material-icons searchbox">add</i></a></p>
-              <form class="hide" class="input-field" id="card-form" action="{% url 'offsite_crop_create' offsite_pk=offsite.pk %}" method="POST">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <div><button class="green input-field darken-3 btn " type="submit">Add</button></div>
-              </form>
-            </div>
+  <div class="card-panel grey lighten-3">
+    {% if user.is_authenticated %}
+    <section id="search" class="input-field section section-search grey darken-1 white-text center scrollspy">
+      <div class="container">
+        <div class="row">
+          <div class="col s12">
+            <h3 class="search-text">Add Produce</h3>
+            <p><a class="white-text" id="show-card-form" href="{% url 'offsite_crop_create' offsite_pk=offsite.pk %}"><i class="small material-icons searchbox">add</i></a></p>
+            <form class="hide" class="input-field" id="card-form" action="{% url 'offsite_crop_create' offsite_pk=offsite.pk %}" method="POST">
+              {% csrf_token %}
+              {{ form.as_p }}
+              <div><button class="green input-field darken-3 btn " type="submit">Add</button></div>
+            </form>
           </div>
         </div>
-      </section>
-      {% endif %}
-  <br>      
-    <div class="collection with-header"> 
-      <form>
-        <h4 class="center">
-          <span class="green-text">Items</span> for Sale</h4>
-        <div id="list1" class="dropdown-check-list" tabindex="100">
-          <ul class="items">
-            {% for crop in offsite.offsite_crops.all %}
-            <li class="produce-items"></li><h5>{{ crop.item }}
-              <a href="{% url 'offsite_crop_create' offsite_pk=offsite.pk %}" class=""><i class="small material-icons searchbox blue-text">edit</i></a>
-                <a href="{% url 'offsite_crop_create' offsite_pk=offsite.pk %}" class=""><i class="small material-icons searchbox red-text">delete</i></a>
-              </h5>
-            </li>
-            {% endfor %}
-          </ul>
-        </form>
       </div>
+    </section>
+    {% endif %}
+  <br>      
+  <div class="collection with-header"> 
+    <form>
+      <h4 class="center">
+        <span class="green-text">Items</span> for Sale</h4>
+      <div id="list1" class="dropdown-check-list" tabindex="100">
+        <ul class="items">
+          {% for crop in offsite.offsite_crops.all %}
+          <li class="produce-items"></li><h5>{{ crop.item }}
+            {% if user.is_authenticated %}
+            <a href="{% url 'offsite_crop_create' offsite_pk=offsite.pk %}" class=""><i class="small material-icons searchbox blue-text">edit</i></a>
+              <a href="{% url 'offsite_crop_create' offsite_pk=offsite.pk %}" class=""><i class="small material-icons searchbox red-text">delete</i></a>
+            {% endif %}
+          
+            </h5>
+          </li>
+          {% endfor %}
+        </ul>
+      </form>
     </div>
+  </div>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelector('#show-card-form').addEventListener('click', event => {
-        event.preventDefault()
-        document.querySelector('#card-form').classList.remove('hide')
-      })
-    })  
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelector('#show-card-form').addEventListener('click', event => {
+      event.preventDefault()
+      document.querySelector('#card-form').classList.remove('hide')
+    })
+  })  
 </script>
 
 {% endblock %}

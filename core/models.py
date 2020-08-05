@@ -6,13 +6,11 @@ from mapbox_location_field.models import LocationField, AddressAutoHiddenField
 from users.models import User
 import datetime as dt
 
-
 class Tag(models.Model):
     tag = models.CharField(max_length=150, unique=True)
 
     def __str__(self):
         return self.tag
-
 
 
 class Farm(models.Model):
@@ -105,7 +103,6 @@ class Recipe(models.Model):
     cook_time = models.PositiveIntegerField(null=True, blank=True)
     tags = models.ManyToManyField(to=Tag, related_name='recipes')
 
-
 class Ingredient(models.Model):
     recipe = models.ForeignKey(to=Recipe, on_delete=models.CASCADE, related_name='ingredient', null=True)
     amount = models.CharField(max_length=20, null=True)
@@ -113,7 +110,7 @@ class Ingredient(models.Model):
     
     def __str__(self):
         return f"{self.amount} {self.item}"
-        
+
 class RecipeStep(models.Model):
     recipe = models.ForeignKey(to=Recipe, on_delete=models.CASCADE, related_name='steps', null=True)
     text = models.TextField(null=True)
@@ -126,7 +123,7 @@ class FarmQuerySet(models.QuerySet):
 def search(search_term):
     farms = Farm.objects.all()
     return farms \
-        .annotate(search=SearchVector("name", "crops__item")) \
+        .annotate(search=SearchVector("name", "city", "state", "zip_code", "crops__item")) \
         .filter(search=search_term) \
         .distinct('pk')
 
