@@ -126,7 +126,7 @@ class FarmQuerySet(models.QuerySet):
 def search(search_term):
     farms = Farm.objects.all()
     return farms \
-        .annotate(search=SearchVector("name", "crops__item")) \
+        .annotate(search=SearchVector("name", "city", "state", "zip_code", "crops__item")) \
         .filter(search=search_term) \
         .distinct('pk')
 

@@ -3,12 +3,16 @@ from django.utils import timezone
 from django.urls import reverse_lazy
 from .models import Tag, Farm, Crop, OffSite, Customer, Recipe, Ingredient, RecipeStep, FarmQuerySet, search, get_farms_for_user
 from .forms import FarmAddressForm, CropForm, CustomerForm, FarmRegistrationForm, HourForm, OffSiteForm, FarmImageForm
-
+from users.models import Image
 
 from django.views.generic.edit import FormView
 from registration.backends.simple.views import RegistrationView
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+
+def base(request):
+    image = get_object_or_404(Image.objects.all())
+    return render(request, 'base.html', {'image': image})
 
 def home_page(request):
     farms = Farm.objects.all()

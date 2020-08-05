@@ -177,6 +177,13 @@ text-align: center;
   max-width: 200px;
   }
 
+  .star-ratings-rating-average{
+    display: none;
+  }
+
+  .star-ratings-rating-user{
+    display: none;
+  }
 /* #centerMap {
   display: block;
   margin-left: auto;
