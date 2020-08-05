@@ -16,10 +16,14 @@
         <h3 class="search-text">{{ farm.name }}</h3>
         <p>{{farm.street_address}}</p>
         <p>{{farm.city}}, {{farm.state}} {{farm.zip_code}}</p>
-        {% if farm.website is not None %}
-        <p><a href='{{ farm.website }}'>{{farm.name}}</a></p>
+        {% if farm.website is not None %} 
+        {% if user.is_anonymous %}
+        <p><a class="yellow-text" href='{{ farm.website }}'>{{farm.name}} Website</a></p>
         {% endif %}
-        <a href="{% url 'farm_update' farm_pk=farm.pk %}">Update Your Farm</a>
+        {% endif %}
+        {% if user.is_authenticated %}
+        <a  class="grey input-field lighten-1 btn" href="{% url 'farm_update' farm_pk=farm.pk %}">Update Your Farm</a>
+        {% endif %}
       </div>
     </div>
   </div>
@@ -194,25 +198,25 @@
         <h5><span class="green-text">Our </span> Hours</h5>
           <ul>
             {% if farm.hours.first.mon_start is not None and farm.hours.first.mon_end is not None %}
-            <li>Mon: {{farm.hours.first.mon_start}} - {{farm.hours.first.mon_end}}</li>
+            <li class="flow-text">Mon: {{farm.hours.first.mon_start}} - {{farm.hours.first.mon_end}}</li>
             {% endif %}
             {% if farm.hours.first.tue_start is not None and farm.hours.first.tue_end is not None %}
-            <li>Tue: {{farm.hours.first.tue_start}} - {{farm.hours.first.tue_end}}</li>
+            <li class="flow-text">Tue: {{farm.hours.first.tue_start}} - {{farm.hours.first.tue_end}}</li>
             {% endif %}
             {% if farm.hours.first.wed_start is not None and farm.hours.first.wed_end is not None %}
-            <li>Wed: {{farm.hours.first.wed_start}} - {{farm.hours.first.wed_end}}</li> 
+            <li class="flow-text">Wed: {{farm.hours.first.wed_start}} - {{farm.hours.first.wed_end}}</li> 
             {% endif %}
             {% if farm.hours.first.thu_start is not None and farm.hours.first.thu_end is not None %}
-            <li>Thu: {{farm.hours.first.thu_start}} - {{farm.hours.first.thu_end}}</li>
+            <li class="flow-text">Thu: {{farm.hours.first.thu_start}} - {{farm.hours.first.thu_end}}</li>
             {% endif %}
             {% if farm.hours.first.fri_start is not None and farm.hours.first.fri_end is not None %}
-            <li>Fri: {{farm.hours.first.fri_start}} - {{farm.hours.first.fri_end}}</li>
+            <li class="flow-text">Fri: {{farm.hours.first.fri_start}} - {{farm.hours.first.fri_end}}</li>
             {% endif %}
             {% if farm.hours.first.sat_start is not None and farm.hours.first.sat_end is not None %}
-            <li>Sat: {{farm.hours.first.sat_start}} - {{farm.hours.first.sat_end}}</li>
+            <li class="flow-text">Sat: {{farm.hours.first.sat_start}} - {{farm.hours.first.sat_end}}</li>
             {% endif %}
             {% if farm.hours.first.sun_start is not None and farm.hours.first.sun_end is not None %}
-            <li>Sun: {{farm.hours.first.sun_start}} - {{farm.hours.first.sun_end}}</li>
+            <li class="flow-text">Sun: {{farm.hours.first.sun_start}} - {{farm.hours.first.sun_end}}</li>
             {% endif %}
           </ul>
           <div>
@@ -275,8 +279,10 @@
         <ul class="items">
           {% for crop in farm.crops.all %}
           <li class="produce-items"></li><h5>{{ crop.item }}
+            {% if user.is_authenticated %}
             <a href="{% url 'crop_update' crop_pk=crop.pk %}" class=""><i class="small material-icons searchbox blue-text">edit</i></a>
               <a href="{% url 'crop_delete' crop_pk=crop.pk %}" class=""><i class="small material-icons searchbox red-text">delete</i></a>
+              {% endif %}
             </h5>
           </li>
           {% endfor %}
