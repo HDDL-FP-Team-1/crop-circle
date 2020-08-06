@@ -18,7 +18,9 @@
     <form class="container" method="post" action="">
         {% csrf_token %}
         {{ form.as_p }}
-        <input class="input-field green darken-3 btn btn-large" type="submit" value="{% trans 'Submit' %}" />
+    <div class="center">
+        <input class="input-field green darken-3 btn btn-large" type="submit" value="{% trans 'Register' %}" />
+    </div>
     </form>
     </div>
 </div>
