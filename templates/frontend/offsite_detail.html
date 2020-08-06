@@ -154,7 +154,7 @@
         <h4 class="center">
           <span class="green-text">Items</span> for Sale</h4>
         <div id="list1" class="dropdown-check-list" tabindex="100">
-          <ul class="items">
+          <ul class="items center">
             {% for crop in offsite.offsite_crops.all %}
             <li class="produce-items"></li><h5>{{ crop.item }}
               {% if user.is_authenticated %}
