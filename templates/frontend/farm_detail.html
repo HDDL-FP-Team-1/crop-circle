@@ -198,25 +198,25 @@
         <h5><span class="green-text">Our </span> Hours</h5>
           <ul>
             {% if farm.hours.first.mon_start is not None and farm.hours.first.mon_end is not None %}
-            <li class="flow-text">Mon: {{farm.hours.first.mon_start}} - {{farm.hours.first.mon_end}}</li>
+            <li class="flow-text">Mon: <br> {{farm.hours.first.mon_start}} - {{farm.hours.first.mon_end}}</li>
             {% endif %}
             {% if farm.hours.first.tue_start is not None and farm.hours.first.tue_end is not None %}
-            <li class="flow-text">Tue: {{farm.hours.first.tue_start}} - {{farm.hours.first.tue_end}}</li>
+            <li class="flow-text">Tue: <br> {{farm.hours.first.tue_start}} - {{farm.hours.first.tue_end}}</li>
             {% endif %}
             {% if farm.hours.first.wed_start is not None and farm.hours.first.wed_end is not None %}
-            <li class="flow-text">Wed: {{farm.hours.first.wed_start}} - {{farm.hours.first.wed_end}}</li> 
+            <li class="flow-text">Wed: <br> {{farm.hours.first.wed_start}} - {{farm.hours.first.wed_end}}</li> 
             {% endif %}
             {% if farm.hours.first.thu_start is not None and farm.hours.first.thu_end is not None %}
-            <li class="flow-text">Thu: {{farm.hours.first.thu_start}} - {{farm.hours.first.thu_end}}</li>
+            <li class="flow-text">Thu: <br> {{farm.hours.first.thu_start}} - {{farm.hours.first.thu_end}}</li>
             {% endif %}
             {% if farm.hours.first.fri_start is not None and farm.hours.first.fri_end is not None %}
-            <li class="flow-text">Fri: {{farm.hours.first.fri_start}} - {{farm.hours.first.fri_end}}</li>
+            <li class="flow-text">Fri: <br> {{farm.hours.first.fri_start}} - {{farm.hours.first.fri_end}}</li>
             {% endif %}
             {% if farm.hours.first.sat_start is not None and farm.hours.first.sat_end is not None %}
-            <li class="flow-text">Sat: {{farm.hours.first.sat_start}} - {{farm.hours.first.sat_end}}</li>
+            <li class="flow-text">Sat: <br> {{farm.hours.first.sat_start}} - {{farm.hours.first.sat_end}}</li>
             {% endif %}
             {% if farm.hours.first.sun_start is not None and farm.hours.first.sun_end is not None %}
-            <li class="flow-text">Sun: {{farm.hours.first.sun_start}} - {{farm.hours.first.sun_end}}</li>
+            <li class="flow-text">Sun: <br> {{farm.hours.first.sun_start}} - {{farm.hours.first.sun_end}}</li>
             {% endif %}
           </ul>
           <div>
@@ -230,7 +230,7 @@
       <div class="col s6 m6">
         <div class="card-panel grey lighten-2 center">
           <h6 class="center"><span class="green-text">{{ farm.name }} </span>Rating</h6>
-          {% ratings farm %}
+          <div class="flow-text">{% ratings farm %}</div>
         </div>
       </div>
     </div>
