@@ -1,9 +1,9 @@
 # Crop Circle
 
-We are an app that will allow local consumers to locate fresh local produce from their local framers. It gives the ability for farmers to advertise their current merchandise as well as multiple locations that they are using to distribute from.  The goal of Crop Circle is to allow local farmers to reach the consumer market without spending too much time at a computer.
+We are an app that will allow local consumers to locate fresh local produce from their local farmers. It gives the ability for farmers to advertise their current merchandise as well as multiple locations that they are using to distribute from.  The goal of Crop Circle is to allow local farmers to reach the consumer market without spending too much time at a computer.
 
 ## User Experience
-- Farmer:
+- Farmer: 
 
 - Consumer:
 
@@ -29,16 +29,20 @@ Crop Circle was built using:
 
 ## ToDos
 
-Incorporating additional users into the app, allowing consumers to: 
-    - Be able to register accounts 
-    - Interaction with farm web pages
-        - Rating farms
-        - Favoriting farms
-        - Sharing pictures of produce or farm
-    - Social Aspects
-        - Sharing pictures
-        - List of favorited farms
+### Incorporating additional users into the app, allowing consumers to: 
+..- Register accounts 
+...* Interact with farm web pages including,
+...* Rating farms
+...* Favoriting farms
+...* Sharing pictures of produce or farm
+..- Social Aspects
+...* Sharing pictures
+...* List of favorited farms
+
+## Demo
+
+![Crop Circle Demo]()
 
 ## License
 
-[HDDL]
+[HDDL]()
