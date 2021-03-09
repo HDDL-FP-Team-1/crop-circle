@@ -41,7 +41,7 @@ Crop Circle was built using:
 
 ## Demo
 
-![Crop Circle Demo](https://hddl-crop-circle.herokuapp.com/)
+[Crop Circle Demo](https://hddl-crop-circle.herokuapp.com/)
 
 ## License
 
